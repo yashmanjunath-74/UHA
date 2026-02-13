@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../widgets/role_card.dart';
 
 class RoleSelectionGatewayScreen extends StatelessWidget {
   const RoleSelectionGatewayScreen({super.key});
@@ -51,7 +50,6 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Spacer(flex: 1),
                     // Header
                     Column(
                       children: [
@@ -62,9 +60,7 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                             color: isDark
                                 ? AppColors.surfaceDark
                                 : Colors.white,
-                            shape: BoxShape
-                                .circle, // Rounded-xl in one mockup, but circle in another. "Unified Role Selection" has rounded-xl. "Role Selection Gateway" has rounded-full.
-                            // Implementing "Role Selection Gateway" (second mockup) which has circle icon bg.
+                            shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
                                 color: AppColors.primary.withOpacity(0.1),
@@ -77,7 +73,7 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                             ),
                           ),
                           child: const Icon(
-                            Icons.add_box_rounded,
+                            Icons.health_and_safety_rounded,
                             color: AppColors.primary,
                             size: 40,
                           ),
@@ -91,7 +87,7 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                                   ? Colors.white
                                   : AppColors.neutral900,
                               fontWeight: FontWeight.bold,
-                              fontSize: 28, // Matches text-[28px]
+                              fontSize: 28,
                             ),
                             children: const [
                               TextSpan(text: 'Welcome to '),
@@ -104,53 +100,76 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Who are you?',
+                          'Select your role to continue',
                           style: AppTextStyles.bodyLarge.copyWith(
                             color: isDark
                                 ? AppColors.neutral400
                                 : AppColors.neutral500,
                             fontWeight: FontWeight.w500,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                       ],
                     ),
 
-                    const Spacer(flex: 1),
+                    const SizedBox(height: 48),
 
-                    // Cards
-                    Column(
-                      children: [
-                        RoleCard(
-                          title: 'Patient',
-                          subtitle: 'I am seeking care',
-                          icon: Icons.person_outline_rounded,
-                          onTap: () => Navigator.pushNamed(context, '/login'),
-                        ),
-                        RoleCard(
-                          title: 'Doctor',
-                          subtitle: 'I am a provider',
-                          icon: Icons
-                              .monitor_heart_outlined, // medical_services/stethoscope
-                          onTap: () => Navigator.pushNamed(context, '/login'),
-                        ),
-                        RoleCard(
-                          title: 'Partner',
-                          subtitle: 'Hospital / Lab Admin',
-                          icon: Icons.domain_rounded,
-                          onTap: () => Navigator.pushNamed(context, '/login'),
-                        ),
-                      ],
+                    // Grid
+                    Expanded(
+                      child: GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        childAspectRatio: 0.85,
+                        children: [
+                          _buildGridCard(
+                            context,
+                            'Patient',
+                            'Seeking Care',
+                            Icons.person_outline_rounded,
+                            () => Navigator.pushNamed(context, '/login'),
+                          ),
+                          _buildGridCard(
+                            context,
+                            'Doctor',
+                            'Providing Care',
+                            Icons.medical_services_outlined,
+                            () => Navigator.pushNamed(
+                              context,
+                              '/registration/doctor_profile',
+                            ),
+                          ),
+                          _buildGridCard(
+                            context,
+                            'Hospital',
+                            'Admin & Lab',
+                            Icons.domain_rounded,
+                            () => Navigator.pushNamed(
+                              context,
+                              '/registration/hospital_profile',
+                            ),
+                          ),
+                          _buildGridCard(
+                            context,
+                            'Pharmacy',
+                            'Fulfillment',
+                            Icons.local_pharmacy_outlined,
+                            () => Navigator.pushNamed(
+                              context,
+                              '/registration/pharmacy_upload',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-
-                    const Spacer(flex: 2),
 
                     // Footer
                     Column(
                       children: [
                         Text.rich(
                           TextSpan(
-                            text: 'New here? ',
+                            text: 'New organization? ',
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: isDark
                                   ? AppColors.neutral400
@@ -159,7 +178,7 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: 'Register Organization',
+                                text: 'Register here',
                                 style: const TextStyle(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.bold,
@@ -170,38 +189,30 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        // Progress Indicator dots
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                              ),
+                            Icon(
+                              Icons.help_outline_rounded,
+                              size: 16,
+                              color: isDark
+                                  ? AppColors.neutral500
+                                  : AppColors.neutral400,
                             ),
                             const SizedBox(width: 8),
-                            Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.2),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Container(
-                              width: 24,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: AppColors.primary,
-                                borderRadius: BorderRadius.circular(5),
+                            Text(
+                              'NEED HELP? CONTACT SUPPORT',
+                              style: AppTextStyles.labelMedium.copyWith(
+                                color: isDark
+                                    ? AppColors.neutral500
+                                    : AppColors.neutral400,
+                                letterSpacing: 1.2,
                               ),
                             ),
                           ],
                         ),
+                        // iOS Home Indicator Spacer
+                        const SizedBox(height: 8),
                       ],
                     ),
                   ],
@@ -209,6 +220,82 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGridCard(
+    BuildContext context,
+    String title,
+    String subtitle,
+    IconData icon,
+    VoidCallback onTap,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Material(
+      color: isDark ? const Color(0xFF0F231D) : Colors.white,
+      elevation: 0,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: isDark ? AppColors.neutral800 : Colors.transparent,
+        ),
+      ),
+      child: InkWell(
+        onTap: onTap,
+        splashColor: AppColors.primary.withOpacity(0.1),
+        highlightColor: AppColors.primary.withOpacity(0.05),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            // Shadow for light mode
+            boxShadow: isDark
+                ? null
+                : [
+                    BoxShadow(
+                      color: AppColors.primary.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(isDark ? 0.1 : 0.05),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: AppColors.primary, size: 28),
+              ),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.headlineMedium.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white : AppColors.neutral900,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: isDark ? AppColors.neutral400 : AppColors.neutral500,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
