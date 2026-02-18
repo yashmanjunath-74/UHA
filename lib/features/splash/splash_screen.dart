@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate after delay
     Future.delayed(const Duration(seconds: 4), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/role_selection');
+        Navigator.pushReplacementNamed(context, '/login');
       }
     });
   }
@@ -311,9 +311,9 @@ class _SplashScreenState extends State<SplashScreen>
                 Navigator.pushNamed(context, '/design_viewer');
               },
               backgroundColor: AppColors.primary,
-              child: const Icon(Icons.design_services, color: Colors.white),
               mini: true,
               tooltip: 'Open Design Viewer',
+              child: const Icon(Icons.design_services, color: Colors.white),
             ),
           ),
         ],

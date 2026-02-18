@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/theme/app_theme.dart';
 import 'features/splash/splash_screen.dart';
 import 'features/role_selection/role_selection_gateway.dart';
 import 'features/role_selection/role_selection_grid.dart';
-import 'features/auth/login_screen.dart';
+import 'features/auth/login/universal_login_screen.dart';
 import 'features/registration/basic_info_screen.dart';
 import 'features/registration/verification_screen.dart';
+import 'features/auth/registration/patient_registration_screen.dart';
 
 import 'features/registration/doctor/doctor_profile_screen.dart';
 import 'features/registration/doctor/doctor_credentials_screen.dart';
@@ -48,8 +50,31 @@ import 'features/common/payment/booking_payment_confirm.dart';
 import 'features/common/success/registration_success_screen.dart';
 import 'features/common/debug/design_viewer_screen.dart';
 
-void main() {
-  runApp(const UnifiedHealthAllianceApp());
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'core/config/supabase_config.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+
+  // Initialize Supabase
+  await Supabase.initialize(
+    url: SupabaseConfig.url,
+    anonKey: SupabaseConfig.anonKey,
+  );
+
+  // Initialize Google Sign-In
+  final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+  // We don't await this as per user snippet example (unawaited), or we can await it.
+  // Using await to be safe against race conditions on startup.
+  await googleSignIn.initialize(
+    clientId: SupabaseConfig.googleClientId,
+    serverClientId: SupabaseConfig.googleServerClientId,
+  );
+
+  runApp(const ProviderScope(child: UnifiedHealthAllianceApp()));
 }
 
 class UnifiedHealthAllianceApp extends StatelessWidget {
@@ -73,6 +98,7 @@ class UnifiedHealthAllianceApp extends StatelessWidget {
         '/dashboard': (context) => const PremiumHealthDashboard(),
         '/registration/basic': (context) => const BasicInfoScreen(),
         '/registration/verification': (context) => const VerificationScreen(),
+        '/registration/patient': (context) => const PatientRegistrationScreen(),
         // New Registration Flows
         '/registration/doctor_profile': (context) =>
             const DoctorProfileScreen(),

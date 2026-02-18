@@ -38,7 +38,7 @@ class CustomDropdown<T> extends StatelessWidget {
           ),
         ),
         DropdownButtonFormField<T>(
-          value: value,
+          initialValue: value,
           items: items,
           onChanged: onChanged,
           style: AppTextStyles.bodyLarge.copyWith(

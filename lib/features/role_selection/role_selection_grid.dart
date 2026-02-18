@@ -65,24 +65,28 @@ class RoleSelectionGridScreen extends StatelessWidget {
                         'Patient',
                         'Seeking Care',
                         Icons.person_rounded,
+                        '/registration/patient',
                       ),
                       _buildGridCard(
                         context,
                         'Doctor',
                         'Providing Care',
                         Icons.medical_services_rounded,
+                        '/registration/doctor_profile',
                       ),
                       _buildGridCard(
                         context,
                         'Hospital',
                         'Admin & Lab',
                         Icons.domain_rounded,
+                        '/registration/hospital_admin',
                       ),
                       _buildGridCard(
                         context,
                         'Pharmacy',
                         'Fulfillment',
                         Icons.medication_rounded,
+                        '/registration/pharmacy_business',
                       ),
                     ],
                   ),
@@ -151,6 +155,7 @@ class RoleSelectionGridScreen extends StatelessWidget {
     String title,
     String subtitle,
     IconData icon,
+    String route,
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -168,7 +173,7 @@ class RoleSelectionGridScreen extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/login');
+          Navigator.pushNamed(context, route);
         },
         borderRadius: BorderRadius.circular(16),
         hoverColor: AppColors.primary.withOpacity(0.05),
