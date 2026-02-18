@@ -301,6 +301,21 @@ class _SplashScreenState extends State<SplashScreen>
           ),
 
           // SVG Wave shape approximation if ClipPath isn't perfect, but Clipper is better for exact shape
+
+          // Debug / Design Viewer Button
+          Positioned(
+            bottom: 40,
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/design_viewer');
+              },
+              backgroundColor: AppColors.primary,
+              child: const Icon(Icons.design_services, color: Colors.white),
+              mini: true,
+              tooltip: 'Open Design Viewer',
+            ),
+          ),
         ],
       ),
     );

@@ -17,7 +17,36 @@ import 'features/registration/hospital/hospital_admin_screen.dart';
 import 'features/registration/lab/lab_profile_screen.dart';
 import 'features/registration/lab/lab_certifications_screen.dart';
 import 'features/registration/lab/lab_admin_screen.dart';
+import 'features/registration/lab/lab_facility_details_screen.dart';
+import 'features/registration/lab/lab_admin_bank_screen.dart';
 import 'features/registration/pharmacy/pharmacy_upload_screen.dart';
+import 'features/registration/pharmacy/pharmacy_business_details_screen.dart';
+import 'features/registration/pharmacy/pharmacy_payout_setup_screen.dart';
+import 'features/premium_dashboard/screens/premium_health_dashboard.dart';
+
+// Patient Features
+import 'features/patient/home/patient_home_hub.dart';
+import 'features/patient/medical_records/patient_digital_file_view.dart';
+import 'features/patient/medical_records/medical_health_timeline.dart';
+import 'features/patient/triage/ai_symptom_triage_chat.dart';
+
+// Doctor Features
+import 'features/doctor/dashboard/doctor_schedule_dashboard.dart';
+import 'features/doctor/roster/doctor_roster_management.dart';
+import 'features/doctor/prescription/e_prescription_pad_view.dart';
+
+// Pharmacy Features
+import 'features/pharmacy/dashboard/pharmacy_order_queue.dart';
+import 'features/pharmacy/fulfillment/pharmacy_order_fulfillment.dart';
+import 'features/pharmacy/inventory/inventory_management_dashboard.dart';
+import 'features/pharmacy/finance/pharmacy_earnings.dart';
+
+// Hospital & Common Features
+import 'features/hospital/dashboard/hospital_admin_overview.dart';
+import 'features/common/search/doctor_search_results.dart';
+import 'features/common/payment/booking_payment_confirm.dart';
+import 'features/common/success/registration_success_screen.dart';
+import 'features/common/debug/design_viewer_screen.dart';
 
 void main() {
   runApp(const UnifiedHealthAllianceApp());
@@ -37,9 +66,11 @@ class UnifiedHealthAllianceApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
+        '/design_viewer': (context) => const DesignViewerScreen(),
         '/role_selection': (context) => const RoleSelectionGatewayScreen(),
         '/role_selection_grid': (context) => const RoleSelectionGridScreen(),
         '/login': (context) => const UniversalLoginScreen(),
+        '/dashboard': (context) => const PremiumHealthDashboard(),
         '/registration/basic': (context) => const BasicInfoScreen(),
         '/registration/verification': (context) => const VerificationScreen(),
         // New Registration Flows
@@ -61,8 +92,39 @@ class UnifiedHealthAllianceApp extends StatelessWidget {
         '/registration/lab_certifications': (context) =>
             const LabCertificationsScreen(),
         '/registration/lab_admin': (context) => const LabAdminScreen(),
+        '/registration/lab_facility': (context) =>
+            const LabFacilityDetailsScreen(),
+        '/registration/lab_bank': (context) => const LabAdminBankScreen(),
         '/registration/pharmacy_upload': (context) =>
             const PharmacyUploadScreen(),
+        '/registration/pharmacy_business': (context) =>
+            const PharmacyBusinessDetailsScreen(),
+        '/registration/pharmacy_payout': (context) =>
+            const PharmacyPayoutSetupScreen(),
+
+        // Patient Routes
+        '/patient/home': (context) => const PatientHomeHub(),
+        '/patient/digital_file': (context) => const PatientDigitalFileView(),
+        '/patient/timeline': (context) => const MedicalHealthTimeline(),
+        '/patient/triage': (context) => const AISymptomTriageChat(),
+
+        // Doctor Routes
+        '/doctor/dashboard': (context) => const DoctorScheduleDashboard(),
+        '/doctor/roster': (context) => const DoctorRosterManagement(),
+        '/doctor/prescription': (context) => const EPrescriptionPadView(),
+
+        // Pharmacy Routes
+        '/pharmacy/orders': (context) => const PharmacyOrderQueue(),
+        '/pharmacy/fulfillment': (context) => const PharmacyOrderFulfillment(),
+        '/pharmacy/inventory': (context) =>
+            const InventoryManagementDashboard(),
+        '/pharmacy/earnings': (context) => const PharmacyEarnings(),
+
+        // Hospital & Common Routes
+        '/hospital/dashboard': (context) => const HospitalAdminOverview(),
+        '/search/doctors': (context) => const DoctorSearchResults(),
+        '/booking/payment': (context) => const BookingPaymentConfirm(),
+        '/success': (context) => const RegistrationSuccessScreen(),
       },
     );
   }
