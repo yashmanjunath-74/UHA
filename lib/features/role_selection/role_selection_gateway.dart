@@ -128,7 +128,10 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                             'Patient',
                             'Seeking Care',
                             Icons.person_outline_rounded,
-                            () => Navigator.pushNamed(context, '/login'),
+                            () => Navigator.pushNamed(
+                              context,
+                              '/registration/patient',
+                            ),
                           ),
                           _buildGridCard(
                             context,
@@ -143,7 +146,7 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                           _buildGridCard(
                             context,
                             'Hospital',
-                            'Admin & Lab',
+                            'Healthcare Admin',
                             Icons.domain_rounded,
                             () => Navigator.pushNamed(
                               context,
@@ -158,6 +161,16 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                             () => Navigator.pushNamed(
                               context,
                               '/registration/pharmacy_upload',
+                            ),
+                          ),
+                          _buildGridCard(
+                            context,
+                            'Lab',
+                            'Diagnostics',
+                            Icons.science_outlined,
+                            () => Navigator.pushNamed(
+                              context,
+                              '/registration/lab_profile',
                             ),
                           ),
                         ],
