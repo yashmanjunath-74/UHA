@@ -12,14 +12,21 @@ class AuthState {
   final bool isLoading;
   final String? error;
   final Session? session;
+  final String? userRole;
 
-  AuthState({this.isLoading = false, this.error, this.session});
+  AuthState({this.isLoading = false, this.error, this.session, this.userRole});
 
-  AuthState copyWith({bool? isLoading, String? error, Session? session}) {
+  AuthState copyWith({
+    bool? isLoading,
+    String? error,
+    Session? session,
+    String? userRole,
+  }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
       error: error, // Reset error if not provided
       session: session ?? this.session,
+      userRole: userRole ?? this.userRole,
     );
   }
 }
@@ -45,7 +52,17 @@ class AuthController extends Notifier<AuthState> {
         email: email,
         password: password,
       );
-      state = state.copyWith(isLoading: false, session: response.session);
+
+      String? role;
+      if (response.user != null) {
+        role = await _repository.getUserRole(response.user!.id);
+      }
+
+      state = state.copyWith(
+        isLoading: false,
+        session: response.session,
+        userRole: role,
+      );
     } on AuthException catch (e) {
       state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
@@ -60,7 +77,17 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(isLoading: true, error: null);
     try {
       final response = await _repository.signInWithGoogle();
-      state = state.copyWith(isLoading: false, session: response.session);
+
+      String? role;
+      if (response.user != null) {
+        role = await _repository.getUserRole(response.user!.id);
+      }
+
+      state = state.copyWith(
+        isLoading: false,
+        session: response.session,
+        userRole: role,
+      );
     } on AuthException catch (e) {
       state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
@@ -74,6 +101,6 @@ class AuthController extends Notifier<AuthState> {
   Future<void> signOut() async {
     state = state.copyWith(isLoading: true);
     await _repository.signOut();
-    state = state.copyWith(isLoading: false, session: null);
+    state = state.copyWith(isLoading: false, session: null, userRole: null);
   }
 }

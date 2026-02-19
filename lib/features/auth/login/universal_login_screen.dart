@@ -48,7 +48,11 @@ class _UniversalLoginScreenState extends ConsumerState<UniversalLoginScreen> {
       }
 
       if (next.session != null) {
-        Navigator.pushReplacementNamed(context, '/dashboard');
+        if (next.userRole == 'hospital') {
+          Navigator.pushReplacementNamed(context, '/hospital/dashboard');
+        } else {
+          Navigator.pushReplacementNamed(context, '/dashboard');
+        }
       }
     });
 
