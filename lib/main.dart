@@ -25,6 +25,9 @@ import 'features/registration/pharmacy/pharmacy_upload_screen.dart';
 import 'features/registration/pharmacy/pharmacy_business_details_screen.dart';
 import 'features/registration/pharmacy/pharmacy_payout_setup_screen.dart';
 import 'features/premium_dashboard/screens/premium_health_dashboard.dart';
+import 'features/registration/lab/lab_verification_status_screen.dart';
+import 'features/lab/dashboard/lab_dashboard_screen.dart';
+import 'features/lab/dashboard/lab_result_upload_screen.dart';
 
 // Patient Features
 import 'features/patient/home/patient_home_hub.dart';
@@ -127,6 +130,12 @@ class UnifiedHealthAllianceApp extends StatelessWidget {
             const PharmacyBusinessDetailsScreen(),
         '/registration/pharmacy_payout': (context) =>
             const PharmacyPayoutSetupScreen(),
+        '/registration/lab_verification': (context) =>
+            const LabVerificationStatusScreen(),
+
+        // Lab Routes
+        '/lab/dashboard': (context) => const LabDashboardScreen(),
+        '/lab/upload_result': (context) => const LabResultUploadScreen(),
 
         // Patient Routes
         '/patient/home': (context) => const PatientHomeHub(),

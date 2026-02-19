@@ -113,4 +113,18 @@ class AuthRepository {
 
     await _supabase.from('profiles').upsert(updates);
   }
+
+  // Get User Role
+  Future<String?> getUserRole(String uid) async {
+    try {
+      final response = await _supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', uid)
+          .single();
+      return response['role'] as String?;
+    } catch (e) {
+      return null;
+    }
+  }
 }

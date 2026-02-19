@@ -170,7 +170,7 @@ class RoleSelectionGatewayScreen extends StatelessWidget {
                             Icons.science_outlined,
                             () => Navigator.pushNamed(
                               context,
-                              '/registration/lab_profile',
+                              '/registration/lab_facility',
                             ),
                           ),
                         ],
