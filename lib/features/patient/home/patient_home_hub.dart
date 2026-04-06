@@ -1,58 +1,144 @@
 import 'package:flutter/material.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
+import '../profile/patient_profile_screen.dart';
+import '../appointments/book_appointments_screen.dart';
+import '../medical_records/medical_health_timeline.dart';
+import '../triage/ai_symptom_triage_chat.dart';
 
-class PatientHomeHub extends StatelessWidget {
+class PatientHomeHub extends StatefulWidget {
   const PatientHomeHub({super.key});
+
+  @override
+  State<PatientHomeHub> createState() => _PatientHomeHubState();
+}
+
+class _PatientHomeHubState extends State<PatientHomeHub> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    const DashboardContent(),
+    const MedicalHealthTimeline(),
+    const AISymptomTriageChat(),
+    const PatientProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundLight,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Status Bar & Header
-            _buildHeader(),
-
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    _buildSearchBar(),
-                    const SizedBox(height: 32),
-                    _buildQuickActions(),
-                    const SizedBox(height: 32),
-                    _buildUpcomingAppointment(),
-                    const SizedBox(height: 32),
-                    _buildHealthTips(),
-                    const SizedBox(height: 100), // Bottom padding for FAB
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: _screens[_currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        margin: const EdgeInsets.only(top: 40),
         height: 64,
         width: 64,
+        margin: const EdgeInsets.only(top: 10),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            // Trigger New Booking Flow directly from FAB
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BookAppointmentsScreen()),
+            );
+          },
           backgroundColor: const Color(0xFF10B981),
-          elevation: 4,
+          elevation: 8,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Icon(Icons.add, size: 32, color: Colors.white),
+          child: const Icon(Icons.add_rounded, size: 36, color: Colors.white),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: _buildFloatingBottomNav(),
+    );
+  }
+
+  Widget _buildFloatingBottomNav() {
+    return Container(
+      height: 80,
+      margin: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildNavItem(Icons.home_rounded, 'Home', 0),
+          _buildNavItem(Icons.analytics_outlined, 'Scores', 1),
+          const SizedBox(width: 40), // Space for FAB
+          _buildNavItem(Icons.auto_awesome_rounded, 'AI Chat', 2),
+          _buildNavItem(Icons.person_outline_rounded, 'Profile', 3),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    final isActive = _currentIndex == index;
+    return GestureDetector(
+      onTap: () => setState(() => _currentIndex = index),
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: isActive ? const Color(0xFF10B981) : const Color(0xFF94A3B8),
+            size: 26,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+              color: isActive ? const Color(0xFF10B981) : const Color(0xFF94A3B8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DashboardContent extends StatelessWidget {
+  const DashboardContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          _buildHeader(),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  _buildSearchBar(),
+                  const SizedBox(height: 32),
+                  _buildQuickActions(),
+                  const SizedBox(height: 32),
+                  _buildUpcomingAppointment(),
+                  const SizedBox(height: 32),
+                  _buildHealthTips(),
+                  const SizedBox(height: 120), // Extra space for floating nav
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -583,54 +669,4 @@ class PatientHomeHub extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildBottomNav() {
-    return Container(
-      height: 90,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.95),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(Icons.home_rounded, 'Home', isActive: true),
-          _buildNavItem(Icons.calendar_today_rounded, 'Book'),
-          const SizedBox(width: 40), // Space for FAB
-          _buildNavItem(Icons.chat_bubble_rounded, 'Chats'),
-          _buildNavItem(Icons.person_rounded, 'Profile'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, String label, {bool isActive = false}) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          color: isActive ? const Color(0xFF10B981) : const Color(0xFF94A3B8),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-            color: isActive ? const Color(0xFF10B981) : const Color(0xFF94A3B8),
-          ),
-        ),
-      ],
-    );
-  }
 }
-
-mixin CrossFit {}

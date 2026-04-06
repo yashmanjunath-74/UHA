@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/registration_provider.dart';
-import '../../providers/auth_provider.dart';
+import '../../controller/auth_controller.dart';
 
 class Step3Security extends ConsumerStatefulWidget {
   const Step3Security({super.key});

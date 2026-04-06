@@ -263,6 +263,44 @@ class _Step1BasicInfoState extends ConsumerState<Step1BasicInfo> {
             ),
           ],
         ),
+        const SizedBox(height: 24),
+
+        // Blood Group
+        const Text(
+          'Blood Group',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF374151),
+          ),
+        ),
+        const SizedBox(height: 8),
+        DropdownButtonFormField<String>(
+          value: state.bloodGroup,
+          items: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+              .map((type) => DropdownMenuItem(
+                    value: type,
+                    child: Text(type),
+                  ))
+              .toList(),
+          onChanged: (value) {
+            if (value != null) {
+              notifier.updateBasicInfo(bloodGroup: value);
+            }
+          },
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.water_drop_outlined, color: Color(0xFF9CA3AF)),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+            ),
+          ),
+        ),
         const SizedBox(height: 32),
       ],
     );

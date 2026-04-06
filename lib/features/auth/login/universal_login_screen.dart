@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unified_health_alliance/features/auth/providers/auth_provider.dart';
+import 'package:routemaster/routemaster.dart';
+import 'package:unified_health_alliance/features/auth/controller/auth_controller.dart';
+import 'package:unified_health_alliance/core/constants/constants.dart';
 
 class UniversalLoginScreen extends ConsumerStatefulWidget {
   const UniversalLoginScreen({super.key});
@@ -48,11 +50,7 @@ class _UniversalLoginScreenState extends ConsumerState<UniversalLoginScreen> {
       }
 
       if (next.session != null) {
-        if (next.userRole == 'hospital') {
-          Navigator.pushReplacementNamed(context, '/hospital/dashboard');
-        } else {
-          Navigator.pushReplacementNamed(context, '/dashboard');
-        }
+        Routemaster.of(context).replace(AppConstants.routeDashboard);
       }
     });
 
@@ -401,7 +399,7 @@ class _UniversalLoginScreenState extends ConsumerState<UniversalLoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () =>
-                        Navigator.pushNamed(context, '/role_selection'),
+                        Routemaster.of(context).push(AppConstants.routeRoleSelection),
                     child: const Text(
                       'Register',
                       style: TextStyle(

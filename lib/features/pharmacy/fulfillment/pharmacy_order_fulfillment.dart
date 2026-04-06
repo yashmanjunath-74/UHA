@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unified_health_alliance/core/theme/app_colors.dart';
-import 'package:unified_health_alliance/core/theme/app_text_styles.dart';
 
+/// Premium Pharmacy Order Fulfillment screen — matches the UI screenshot.
 class PharmacyOrderFulfillment extends ConsumerStatefulWidget {
   const PharmacyOrderFulfillment({super.key});
 
@@ -13,418 +12,246 @@ class PharmacyOrderFulfillment extends ConsumerStatefulWidget {
 
 class _PharmacyOrderFulfillmentState
     extends ConsumerState<PharmacyOrderFulfillment> {
-  final List<bool> _stepsCompleted = [false, false, false];
+  final List<bool> _steps = [false, false, false]; // Verify, Expiry, Pack
+
+  bool get _allDone => _steps.every((s) => s);
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
-      appBar: AppBar(
-        title: Text(
-          'Order Fulfillment',
-          style: TextStyle(color: isDark ? Colors.white : AppColors.neutral900),
-        ),
-        backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: isDark ? Colors.white : AppColors.neutral900,
-        ),
-        actions: [
-          TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.help_outline, size: 18),
-            label: const Text('Help'),
+      backgroundColor: const Color(0xFFF4F6F9),
+      body: SafeArea(
+        child: Column(children: [
+          // ── App Bar ─────────────────────────────────────────────
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.fromLTRB(8, 8, 16, 14),
+            child: Row(children: [
+              IconButton(icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: Color(0xFF1E293B)), onPressed: () => Navigator.pop(context)),
+              const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('ORDER #10234', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8), letterSpacing: 0.5, fontWeight: FontWeight.w600)),
+                Text('Fulfillment', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+              ])),
+              Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), decoration: BoxDecoration(color: const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(8)),
+                child: const Text('Pending', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFFF59E0B)))),
+              const SizedBox(width: 8),
+              const Icon(Icons.more_vert, color: Color(0xFF64748B)),
+            ]),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPatientProfile(isDark),
-            const SizedBox(height: 24),
-            Text(
-              'Digital Prescription',
-              style: AppTextStyles.titleMedium.copyWith(
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : AppColors.neutral900,
-              ),
+
+          // ── Scrollable Body ──────────────────────────────────────
+          Expanded(child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              // Patient card
+              _buildPatientCard(),
+              const SizedBox(height: 14),
+
+              // Prescription card
+              _buildPrescriptionCard(),
+              const SizedBox(height: 20),
+
+              // Fulfillment Steps
+              const Text('FULFILLMENT STEPS', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF94A3B8), letterSpacing: 1.0)),
+              const SizedBox(height: 12),
+              _buildStepCard(0, 'Verify Medication', 'Confirm NDC match', buttonLabel: 'Scan Bottle Barcode', buttonIcon: Icons.qr_code_scanner_rounded),
+              const SizedBox(height: 10),
+              _buildStepCard(1, 'Check Expiry', 'Must be > 06/2025'),
+              const SizedBox(height: 10),
+              _buildStepCard(2, 'Pack Order', 'Seal and label the package'),
+              const SizedBox(height: 80), // bottom spacing for buttons
+            ]),
+          )),
+
+          // ── Bottom Actions ───────────────────────────────────────
+          Container(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Color(0xFFF1F5F9))),
             ),
-            const SizedBox(height: 12),
-            _buildPrescriptionCard(isDark),
-            const SizedBox(height: 24),
-            Text(
-              'Fulfillment Checklist',
-              style: AppTextStyles.titleMedium.copyWith(
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : AppColors.neutral900,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _buildFulfillmentSteps(isDark),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.surfaceDark : Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
+            child: Column(children: [
+              Row(children: [
+                Expanded(child: OutlinedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.chat_bubble_outline, size: 16, color: Color(0xFF475569)),
+                  label: const Text('Query Doctor', style: TextStyle(color: Color(0xFF475569), fontSize: 13)),
+                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12), side: const BorderSide(color: Color(0xFFE2E8F0)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                )),
+                const SizedBox(width: 12),
+                Expanded(child: OutlinedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.person_outline, size: 16, color: Color(0xFF475569)),
+                  label: const Text('Contact Patient', style: TextStyle(color: Color(0xFF475569), fontSize: 13)),
+                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12), side: const BorderSide(color: Color(0xFFE2E8F0)), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                )),
+              ]),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _allDone ? () {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Order marked as Ready for Pickup!'), backgroundColor: Color(0xFF10B981)));
                     Navigator.pop(context);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: BorderSide(
-                      color: isDark
-                          ? AppColors.neutral700
-                          : AppColors.neutral300,
-                    ),
-                  ),
-                  child: Text(
-                    'Hold Order',
-                    style: TextStyle(
-                      color: isDark ? Colors.white : AppColors.neutral900,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                flex: 2,
-                child: ElevatedButton(
-                  onPressed: _stepsCompleted.every((step) => step)
-                      ? () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Order marked as Ready for Pickup'),
-                              backgroundColor: AppColors.success,
-                            ),
-                          );
-                          Navigator.pop(context);
-                        }
-                      : null,
+                  } : null,
+                  icon: const Icon(Icons.check_circle_outline_rounded, size: 20),
+                  label: const Text('Mark as Ready', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    disabledBackgroundColor: AppColors.neutral300,
+                    backgroundColor: const Color(0xFF10B981),
+                    disabledBackgroundColor: const Color(0xFFCBD5E1),
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: const Text(
-                    'Mark as Ready',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    elevation: _allDone ? 4 : 0,
+                    shadowColor: const Color(0xFF10B981).withOpacity(0.4),
                   ),
                 ),
               ),
-            ],
+            ]),
           ),
-        ),
+        ]),
       ),
     );
   }
 
-  Widget _buildPatientProfile(bool isDark) {
+  Widget _buildPatientCard() {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border(left: const BorderSide(color: Color(0xFF10B981), width: 4)),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10)],
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          CircleAvatar(radius: 22, backgroundColor: const Color(0xFFE8F5F1), child: const Text('SJ', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF10B981), fontSize: 14))),
+          const SizedBox(width: 12),
+          const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Sarah Jenkins', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1E293B))),
+            Text('ID: P-9982  •  45 Y/O  •  Female', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+          ])),
+          Container(width: 10, height: 10, decoration: const BoxDecoration(color: Color(0xFF10B981), shape: BoxShape.circle)),
+        ]),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(color: const Color(0xFFFFF1F1), borderRadius: BorderRadius.circular(10)),
+          child: const Row(children: [
+            Icon(Icons.warning_amber_rounded, color: Color(0xFFEF4444), size: 16),
+            SizedBox(width: 8),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('CRITICAL ALERT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFEF4444), letterSpacing: 0.5)),
+              Text('Allergy: Penicillin (Severe)', style: TextStyle(fontSize: 12, color: Color(0xFFEF4444), fontWeight: FontWeight.w500)),
+            ]),
+          ]),
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildPrescriptionCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10)]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(children: [
+            Container(padding: const EdgeInsets.all(6), decoration: BoxDecoration(color: const Color(0xFF10B981).withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+              child: const Icon(Icons.description_outlined, color: Color(0xFF10B981), size: 18)),
+            const SizedBox(width: 8),
+            const Text('Prescription', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1E293B))),
+          ]),
+          const Text('Issued: Today, 9:00 AM', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
+        ]),
+        const Divider(height: 20, color: Color(0xFFF1F5F9)),
+
+        // Drug
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Amoxicillin', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+            Text('500mg Capsules', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Color(0xFF10B981))),
+          ]),
+          const Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Text('30', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+            Text('QUANTITY', style: TextStyle(fontSize: 10, color: Color(0xFF94A3B8), fontWeight: FontWeight.w600, letterSpacing: 0.5)),
+          ]),
+        ]),
+        const SizedBox(height: 12),
+
+        // Instructions
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(10)),
+          child: const Text('"Take 1 capsule by mouth three times daily for 10 days."', style: TextStyle(fontSize: 13, color: Color(0xFF475569), fontStyle: FontStyle.italic)),
+        ),
+        const SizedBox(height: 12),
+
+        // Doctor
+        Row(children: [
+          CircleAvatar(radius: 16, backgroundColor: const Color(0xFFE8F5F1), child: const Icon(Icons.person, size: 18, color: Color(0xFF10B981))),
+          const SizedBox(width: 10),
+          const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Dr. Emily Chen', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF1E293B))),
+            Text('Cardiologist  •  LIC #88392', style: TextStyle(fontSize: 11, color: Color(0xFF64748B))),
+          ]),
+          const Spacer(),
+          Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
+            child: const Icon(Icons.qr_code_2_rounded, size: 20, color: Color(0xFF475569))),
+        ]),
+      ]),
+    );
+  }
+
+  Widget _buildStepCard(int index, String title, String subtitle, {String? buttonLabel, IconData? buttonIcon}) {
+    final done = _steps[index];
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.neutral800 : AppColors.neutral200,
-        ),
+        border: Border(left: BorderSide(color: done ? const Color(0xFF10B981) : const Color(0xFFE2E8F0), width: 4)),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: AppColors.primary.withOpacity(0.1),
-            child: Text(
-              'SJ',
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          // Step number circle
+          Container(width: 32, height: 32, decoration: BoxDecoration(
+            color: done ? const Color(0xFF10B981) : const Color(0xFFF1F5F9),
+            shape: BoxShape.circle,
+          ), alignment: Alignment.center,
+            child: done
+                ? const Icon(Icons.check, color: Colors.white, size: 16)
+                : Text('${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF64748B))),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Sarah Jenkins',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : AppColors.neutral900,
-                  ),
-                ),
-                Text(
-                  'ID: P-9982 • 45 Y • Female',
-                  style: TextStyle(
-                    color: isDark ? AppColors.neutral400 : AppColors.neutral500,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.error.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.warning_amber_rounded,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Allergic to Penicillin',
-                        style: TextStyle(
-                          color: AppColors.error,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          const SizedBox(width: 12),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: done ? const Color(0xFF64748B) : const Color(0xFF1E293B),
+              decoration: done ? TextDecoration.lineThrough : TextDecoration.none)),
+            Text(subtitle, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+          ])),
+          Switch.adaptive(
+            value: done,
+            onChanged: (v) => setState(() => _steps[index] = v),
+            activeColor: const Color(0xFF10B981),
+          ),
+        ]),
+        if (buttonLabel != null && !done) ...[
+          const SizedBox(height: 12),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              width: double.infinity, padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(border: Border.all(color: const Color(0xFFE2E8F0)), borderRadius: BorderRadius.circular(10)),
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(buttonIcon ?? Icons.qr_code_scanner_rounded, size: 18, color: const Color(0xFF475569)),
+                const SizedBox(width: 8),
+                Text(buttonLabel, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Color(0xFF475569))),
+              ]),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPrescriptionCard(bool isDark) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.neutral800 : AppColors.neutral200,
-        ),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                const Icon(Icons.description, color: AppColors.primary),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Dr. Emily Chen',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: isDark ? Colors.white : AppColors.neutral900,
-                      ),
-                    ),
-                    Text(
-                      'Cardiologist • #DOC-8822',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isDark
-                            ? AppColors.neutral400
-                            : AppColors.neutral500,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const Divider(height: 1),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 2,
-            separatorBuilder: (context, index) => const Divider(height: 1),
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.neutral100,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        '${index + 1}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.neutral700,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            index == 0
-                                ? 'Amoxicillin 500mg'
-                                : 'Paracetamol 500mg',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: isDark
-                                  ? Colors.white
-                                  : AppColors.neutral900,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Qty: 30 • Take 1 tablet every 8 hours',
-                            style: TextStyle(
-                              color: isDark
-                                  ? AppColors.neutral400
-                                  : AppColors.neutral600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? AppColors.backgroundDark
-                  : AppColors.neutral50.withOpacity(0.5),
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(16),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Digital Signature Validated',
-                  style: TextStyle(
-                    color: AppColors.success,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                  ),
-                ),
-                Icon(Icons.verified, size: 16, color: AppColors.success),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFulfillmentSteps(bool isDark) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.neutral800 : AppColors.neutral200,
-        ),
-      ),
-      child: Column(
-        children: [
-          _buildCheckboxStep(
-            0,
-            'Verify Prescription',
-            'Check doctor signature and patient details match.',
-            isDark,
-          ),
-          const Divider(height: 1),
-          _buildCheckboxStep(
-            1,
-            'Check Expiry & Stock',
-            'Ensure medicines are in stock and not expired.',
-            isDark,
-          ),
-          const Divider(height: 1),
-          _buildCheckboxStep(
-            2,
-            'Pack & Label',
-            'Pack medicines and attach usage instructions.',
-            isDark,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCheckboxStep(
-    int index,
-    String title,
-    String subtitle,
-    bool isDark,
-  ) {
-    return CheckboxListTile(
-      value: _stepsCompleted[index],
-      onChanged: (value) {
-        setState(() {
-          _stepsCompleted[index] = value ?? false;
-        });
-      },
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: isDark ? Colors.white : AppColors.neutral900,
-          decoration: _stepsCompleted[index]
-              ? TextDecoration.lineThrough
-              : TextDecoration.none,
-        ),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: TextStyle(
-          color: isDark ? AppColors.neutral400 : AppColors.neutral500,
-          fontSize: 12,
-        ),
-      ),
-      activeColor: AppColors.primary,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      ]),
     );
   }
 }

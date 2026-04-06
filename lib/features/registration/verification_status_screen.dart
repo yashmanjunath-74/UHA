@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../widgets/primary_button.dart';
+import 'package:unified_health_alliance/core/common/primary_button.dart';
 
 class VerificationStatusScreen extends StatelessWidget {
   const VerificationStatusScreen({super.key});

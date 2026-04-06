@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
+import '../../features/auth/controller/auth_controller.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
+import '../../core/constants/constants.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _floatAnimation;
@@ -31,7 +35,14 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate after delay
     Future.delayed(const Duration(seconds: 4), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/login');
+        final authState = ref.read(authProvider);
+        if (authState.session != null) {
+          // Already logged in - redirect to home hub
+          Routemaster.of(context).replace(AppConstants.routeDashboard);
+        } else {
+          // Not logged in
+          Routemaster.of(context).replace(AppConstants.routeLogin);
+        }
       }
     });
   }

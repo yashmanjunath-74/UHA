@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
 import 'package:unified_health_alliance/core/theme/app_text_styles.dart';
-import 'package:unified_health_alliance/widgets/primary_button.dart';
+import 'package:unified_health_alliance/core/common/primary_button.dart';
 
 class LabVerificationStatusScreen extends StatelessWidget {
   const LabVerificationStatusScreen({super.key});

@@ -20,28 +20,12 @@ class MedicalHealthTimeline extends StatelessWidget {
                     _buildHealthScoreCard(),
                     const SizedBox(height: 32),
                     _buildTimeline(),
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 120),
                   ],
                 ),
               ),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: _buildBottomNav(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        margin: const EdgeInsets.only(top: 40),
-        height: 64,
-        width: 64,
-        child: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: const Color(0xFF10B981),
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: const Icon(Icons.add, size: 32, color: Colors.white),
         ),
       ),
     );
@@ -464,37 +448,6 @@ class MedicalHealthTimeline extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNav() {
-    return Container(
-      height: 90,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.95),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(Icons.home_outlined),
-          _buildNavItem(Icons.insights_outlined, isActive: true),
-          const SizedBox(width: 40),
-          _buildNavItem(Icons.chat_bubble_outline),
-          _buildNavItem(Icons.person_outline),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildNavItem(IconData icon, {bool isActive = false}) {
-    return Icon(
-      icon,
-      color: isActive ? const Color(0xFF10B981) : const Color(0xFF94A3B8),
-    );
-  }
+
 }

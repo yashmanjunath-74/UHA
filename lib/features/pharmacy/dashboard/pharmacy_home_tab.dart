@@ -1,0 +1,179 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../fulfillment/pharmacy_order_fulfillment.dart';
+import 'pharmacy_profile_screen.dart';
+
+class PharmacyHomeTab extends ConsumerWidget {
+  const PharmacyHomeTab({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 120),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ── Header ─────────────────────────────────────────────
+            Row(children: [
+              const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Monday, Oct 24', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                SizedBox(height: 4),
+                Text('MedPlus Pharmacy #42', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+                Text('Universal Health App', style: TextStyle(fontSize: 13, color: Color(0xFF10B981), fontWeight: FontWeight.w500)),
+              ])),
+              GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PharmacyProfileScreen())),
+                child: Container(
+                  width: 44, height: 44,
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 10)]),
+                  child: const Icon(Icons.person_rounded, color: Color(0xFF10B981)),
+                ),
+              ),
+            ]),
+            const SizedBox(height: 20),
+
+            // ── Stats Row ───────────────────────────────────────────
+            Row(children: [
+              _stat('12', 'New Orders', const Color(0xFF10B981)),
+              const SizedBox(width: 10),
+              _stat('5', 'Processing', const Color(0xFFF59E0B)),
+              const SizedBox(width: 10),
+              _stat('3', 'Ready', const Color(0xFF6366F1)),
+            ]),
+            const SizedBox(height: 20),
+
+            // ── Request Instant Payout Banner ───────────────────────
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(colors: [Color(0xFF10B981), Color(0xFF059669)], begin: Alignment.centerLeft, end: Alignment.centerRight),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [BoxShadow(color: const Color(0xFF10B981).withOpacity(0.3), blurRadius: 12, offset: const Offset(0,4))],
+              ),
+              child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(Icons.account_balance_wallet_outlined, color: Colors.white, size: 20),
+                SizedBox(width: 10),
+                Text('Request Instant Payout', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+              ]),
+            ),
+            const SizedBox(height: 20),
+
+            // ── Quick Actions ───────────────────────────────────────
+            const Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+            const SizedBox(height: 12),
+            Row(children: [
+              _quickAction(Icons.qr_code_scanner_rounded, 'Scan Rx', const Color(0xFF2C6BFF)),
+              const SizedBox(width: 12),
+              _quickAction(Icons.inventory_2_outlined, 'Inventory', const Color(0xFF10B981)),
+              const SizedBox(width: 12),
+              _quickAction(Icons.delivery_dining_rounded, 'Deliveries', const Color(0xFFF59E0B)),
+              const SizedBox(width: 12),
+              _quickAction(Icons.bar_chart_rounded, 'Reports', const Color(0xFF8B5CF6)),
+            ]),
+            const SizedBox(height: 20),
+
+            // ── Pending Orders ──────────────────────────────────────
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              const Text('Pending Orders', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+              TextButton(onPressed: () {}, child: const Text('See All', style: TextStyle(color: Color(0xFF10B981), fontSize: 13, fontWeight: FontWeight.w600))),
+            ]),
+            const SizedBox(height: 10),
+            _orderCard(context, '#10234', 'Sarah Jenkins', 'Amoxicillin 500mg  •  Qty 30', '9:00 AM', 'Pending', const Color(0xFFF59E0B)),
+            const SizedBox(height: 10),
+            _orderCard(context, '#10235', 'Raj Kumar', 'Metformin 1g  •  Qty 60', '9:45 AM', 'New', const Color(0xFF10B981)),
+            const SizedBox(height: 10),
+            _orderCard(context, '#10236', 'Priya Sharma', 'Atorvastatin 20mg  •  Qty 30', '10:15 AM', 'New', const Color(0xFF10B981)),
+            const SizedBox(height: 10),
+
+            // ── Inventory Alerts ────────────────────────────────────
+            const Text('Inventory Alerts', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+            const SizedBox(height: 10),
+            _inventoryAlert('Amoxicillin 500mg', 'Only 12 strips left', const Color(0xFFEF4444)),
+            const SizedBox(height: 8),
+            _inventoryAlert('Paracetamol 650mg', 'Expires in 15 days', const Color(0xFFF59E0B)),
+            const SizedBox(height: 8),
+            _inventoryAlert('Insulin Glargine', 'Reorder needed — 3 vials', const Color(0xFFEF4444)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _stat(String value, String label, Color color) => Expanded(
+    child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10)]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color)),
+        const SizedBox(height: 3),
+        Text(label, style: const TextStyle(fontSize: 11, color: Color(0xFF64748B))),
+      ]),
+    ),
+  );
+
+  Widget _quickAction(IconData icon, String label, Color color) => Expanded(
+    child: GestureDetector(
+      onTap: () {},
+      child: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(14)),
+          child: Icon(icon, color: color, size: 24),
+        ),
+        const SizedBox(height: 6),
+        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF475569)), textAlign: TextAlign.center),
+      ]),
+    ),
+  );
+
+  Widget _orderCard(BuildContext context, String orderId, String patientName, String meds, String time, String status, Color statusColor) {
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PharmacyOrderFulfillment())),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border(left: BorderSide(color: statusColor, width: 4)),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0,2))],
+        ),
+        child: Row(children: [
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              Text(orderId, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8), fontFamily: 'monospace')),
+              const SizedBox(width: 8),
+              Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3), decoration: BoxDecoration(color: statusColor.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
+                child: Text(status, style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: statusColor))),
+            ]),
+            const SizedBox(height: 6),
+            Text(patientName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Color(0xFF1E293B))),
+            const SizedBox(height: 3),
+            Text(meds, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+          ])),
+          Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Text(time, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+            const SizedBox(height: 8),
+            Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), decoration: BoxDecoration(color: const Color(0xFF10B981), borderRadius: BorderRadius.circular(8)),
+              child: const Text('Fulfill', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600))),
+          ]),
+        ]),
+      ),
+    );
+  }
+
+  Widget _inventoryAlert(String name, String detail, Color color) => Container(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(color: color.withOpacity(0.06), borderRadius: BorderRadius.circular(12), border: Border.all(color: color.withOpacity(0.2))),
+    child: Row(children: [
+      Icon(Icons.warning_amber_rounded, color: color, size: 20),
+      const SizedBox(width: 10),
+      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF1E293B))),
+        Text(detail, style: TextStyle(fontSize: 11, color: color, fontWeight: FontWeight.w500)),
+      ])),
+      const Icon(Icons.chevron_right, color: Color(0xFFCBD5E1), size: 18),
+    ]),
+  );
+}

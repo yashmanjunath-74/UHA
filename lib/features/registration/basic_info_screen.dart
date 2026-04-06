@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/primary_button.dart';
-import '../../widgets/custom_dropdown.dart';
+import 'package:unified_health_alliance/core/common/custom_text_field.dart';
+import 'package:unified_health_alliance/core/common/primary_button.dart';
+import 'package:unified_health_alliance/core/common/custom_dropdown.dart';
 
 class BasicInfoScreen extends StatefulWidget {
   const BasicInfoScreen({super.key});
@@ -292,15 +292,15 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                             items: const [
                               DropdownMenuItem(
                                 value: '+1',
-                                child: Text('🇺🇸 +1'),
+                                child: Text('ðŸ‡ºðŸ‡¸ +1'),
                               ),
                               DropdownMenuItem(
                                 value: '+44',
-                                child: Text('🇬🇧 +44'),
+                                child: Text('ðŸ‡¬ðŸ‡§ +44'),
                               ),
                               DropdownMenuItem(
                                 value: '+91',
-                                child: Text('🇮🇳 +91'),
+                                child: Text('ðŸ‡®ðŸ‡³ +91'),
                               ),
                             ],
                             value: '+1',

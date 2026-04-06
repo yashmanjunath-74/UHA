@@ -4,6 +4,7 @@ import 'providers/registration_provider.dart';
 import 'steps/step_1_basic_info.dart';
 import 'steps/step_2_verification.dart';
 import 'steps/step_3_security.dart';
+import '../../../core/constants/constants.dart';
 
 class PatientRegistrationScreen extends ConsumerWidget {
   const PatientRegistrationScreen({super.key});
@@ -16,9 +17,7 @@ class PatientRegistrationScreen extends ConsumerWidget {
     ref.listen(registrationProvider, (previous, next) {
       if (next.isSuccess && !(previous?.isSuccess ?? false)) {
         // Navigate to Success Screen
-        Navigator.of(context).pushNamed(
-          '/success',
-        ); // Or pushReplacement if we want to clear stack partially
+        Navigator.of(context).pushNamed(AppConstants.routeRegSuccess);
       }
       if (next.error != null && next.error != previous?.error) {
         ScaffoldMessenger.of(context).showSnackBar(

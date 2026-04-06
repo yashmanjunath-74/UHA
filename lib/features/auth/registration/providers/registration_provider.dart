@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../providers/auth_provider.dart';
-import '../../data/auth_repository.dart';
+import '../../controller/auth_controller.dart';
+import '../../repository/auth_repository.dart';
+import '../../../../features/patient/controller/patient_controller.dart';
 
 class RegistrationState {
   final int currentStep;
@@ -14,6 +15,7 @@ class RegistrationState {
   final String lastName;
   final DateTime? dateOfBirth;
   final String gender; // 'Male', 'Female', 'Other'
+  final String bloodGroup;
   final XFile? profilePhoto;
 
   // Step 2: Verification
@@ -34,6 +36,7 @@ class RegistrationState {
     this.lastName = '',
     this.dateOfBirth,
     this.gender = 'Male',
+    this.bloodGroup = 'O+',
     this.profilePhoto,
     this.nationalId = '',
     this.idProofImage,
@@ -51,6 +54,7 @@ class RegistrationState {
     String? lastName,
     DateTime? dateOfBirth,
     String? gender,
+    String? bloodGroup,
     XFile? profilePhoto,
     String? nationalId,
     XFile? idProofImage,
@@ -67,6 +71,7 @@ class RegistrationState {
       lastName: lastName ?? this.lastName,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       gender: gender ?? this.gender,
+      bloodGroup: bloodGroup ?? this.bloodGroup,
       profilePhoto: profilePhoto ?? this.profilePhoto,
       nationalId: nationalId ?? this.nationalId,
       idProofImage: idProofImage ?? this.idProofImage,
@@ -108,6 +113,7 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
     String? lastName,
     DateTime? dob,
     String? gender,
+    String? bloodGroup,
     XFile? photo,
   }) {
     state = state.copyWith(
@@ -115,6 +121,7 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
       lastName: lastName,
       dateOfBirth: dob,
       gender: gender,
+      bloodGroup: bloodGroup,
       profilePhoto: photo,
     );
   }
@@ -162,7 +169,6 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
         userId = response.user!.id;
       }
 
-      // Update Profile with additional details
       await _authRepository.updateProfile(
         uid: userId,
         firstName: state.firstName,
@@ -172,6 +178,24 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
         gender: state.gender,
         dob: state.dateOfBirth,
       );
+
+      // Create Patient entry in 'patients' table
+      await ref.read(patientRegistrationProvider.notifier).registerPatient(
+        userId: userId,
+        dateOfBirth: state.dateOfBirth?.toIso8601String().split(' ')[0] ?? '',
+        gender: state.gender,
+        bloodGroup: state.bloodGroup,
+        allergies: [],
+        chronicConditions: [],
+        emergencyContactName: '',
+        emergencyContactPhone: '',
+      );
+
+      // Check if the patient insertion failed
+      final patientState = ref.read(patientRegistrationProvider);
+      if (patientState.hasError) {
+        throw Exception(patientState.error.toString());
+      }
 
       state = state.copyWith(isLoading: false, isSuccess: true);
     } catch (e) {

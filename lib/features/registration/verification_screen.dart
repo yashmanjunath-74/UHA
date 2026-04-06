@@ -1,9 +1,9 @@
-import 'dart:ui';
+﻿import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
-import '../../widgets/custom_text_field.dart';
-import '../../widgets/primary_button.dart';
+import 'package:unified_health_alliance/core/common/custom_text_field.dart';
+import 'package:unified_health_alliance/core/common/primary_button.dart';
 
 class VerificationScreen extends StatelessWidget {
   const VerificationScreen({super.key});

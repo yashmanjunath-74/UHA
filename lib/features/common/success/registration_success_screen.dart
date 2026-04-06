@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
+import 'package:unified_health_alliance/core/constants/constants.dart';
+import 'package:unified_health_alliance/features/auth/controller/auth_controller.dart';
 
-class RegistrationSuccessScreen extends StatelessWidget {
+class RegistrationSuccessScreen extends ConsumerWidget {
   const RegistrationSuccessScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration Success'),
@@ -25,11 +29,14 @@ class RegistrationSuccessScreen extends StatelessWidget {
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(
-                  context,
-                ).pushNamedAndRemoveUntil('/login', (route) => false);
+                final authState = ref.read(authProvider);
+                if (authState.session != null) {
+                  Routemaster.of(context).replace(AppConstants.routeDashboard);
+                } else {
+                  Routemaster.of(context).replace(AppConstants.routeLogin);
+                }
               },
-              child: const Text('Continue to Login'),
+              child: const Text('Get Started'),
             ),
           ],
         ),
