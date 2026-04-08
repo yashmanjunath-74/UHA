@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../doctor/controller/doctor_controller.dart';
+import '../../../models/doctor_model.dart';
 import 'doctor_detail_screen.dart';
 
-class BookAppointmentsScreen extends StatelessWidget {
+class BookAppointmentsScreen extends ConsumerWidget {
   const BookAppointmentsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       body: SafeArea(
@@ -24,7 +27,7 @@ class BookAppointmentsScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     _buildCategoriesSection(),
                     const SizedBox(height: 32),
-                    _buildTopDoctorsSection(context),
+                    _buildTopDoctorsSection(context, ref),
                     const SizedBox(height: 120), // Spacer for bottom nav
                   ],
                 ),
@@ -191,7 +194,9 @@ class BookAppointmentsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTopDoctorsSection(BuildContext context) {
+  Widget _buildTopDoctorsSection(BuildContext context, WidgetRef ref) {
+    final topDoctorsAsync = ref.watch(topDoctorsProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,20 +232,29 @@ class BookAppointmentsScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 4,
-          separatorBuilder: (_, __) => const SizedBox(height: 16),
-          itemBuilder: (context, i) {
-            return _buildDoctorCard(context);
+        topDoctorsAsync.when(
+          data: (doctors) {
+            if (doctors.isEmpty) {
+              return const Center(child: Text('No doctors found.'));
+            }
+            return ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: doctors.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 16),
+              itemBuilder: (context, i) {
+                return _buildDoctorCard(context, doctors[i]);
+              },
+            );
           },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('Error: ${err.toString()}')),
         ),
       ],
     );
   }
 
-  Widget _buildDoctorCard(BuildContext context) {
+  Widget _buildDoctorCard(BuildContext context, DoctorModel doctor) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -265,7 +279,7 @@ class BookAppointmentsScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      'https://lh3.googleusercontent.com/aida-public/AB6AXuC9s6caATreQl8lsqAZ4Sjxbij1sV7DWXDvUl-UjBxweezGFPEvyMVvBKwE1Yh7X7mtGHm55kZg8MlRA_8oA27IaqAyDiA3amZbofK4jS4fw3GWCkcEfJfohcKRDYN4-E9_7WnbrQtDiD9OrPnWj1L1kvF9xLV9ACsmoS0ncXpF_YThCZK29KVSV8JcqYpVr-wtt7RP1LJtL92RQHKuCjcC_jiPyzkyHM2YwHdOMKFX1AzzA3tHzwBOJJDfE9QX2ibUYewYFI3dvNUR',
+                      doctor.avatarUrl ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuC9s6caATreQl8lsqAZ4Sjxbij1sV7DWXDvUl-UjBxweezGFPEvyMVvBKwE1Yh7X7mtGHm55kZg8MlRA_8oA27IaqAyDiA3amZbofK4jS4fw3GWCkcEfJfohcKRDYN4-E9_7WnbrQtDiD9OrPnWj1L1kvF9xLV9ACsmoS0ncXpF_YThCZK29KVSV8JcqYpVr-wtt7RP1LJtL92RQHKuCjcC_jiPyzkyHM2YwHdOMKFX1AzzA3tHzwBOJJDfE9QX2ibUYewYFI3dvNUR',
                       width: 80,
                       height: 80,
                       fit: BoxFit.cover,
@@ -289,15 +303,15 @@ class BookAppointmentsScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          'Dr. Tasim Jara',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                        Text(
+                          doctor.fullName,
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
                         ),
                         const SizedBox(width: 4),
                         const Icon(Icons.verified, color: Color(0xFF10B981), size: 18),
                       ],
                     ),
-                    const Text('City Heart Hospital', style: TextStyle(fontSize: 13, color: Color(0xFF64748B))),
+                    Text(doctor.clinicAddress ?? 'City Heart Hospital', style: const TextStyle(fontSize: 13, color: Color(0xFF64748B))),
                     const SizedBox(height: 8),
                     Row(
                       children: [
@@ -321,7 +335,7 @@ class BookAppointmentsScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildSimpleStat('EXPERIENCE', '12 Years'),
+              _buildSimpleStat('EXPERIENCE', '${doctor.yearsOfExperience} Years'),
               _buildSimpleStat('PATIENTS', '2.5k+'),
               _buildSimpleStat('REVIEWS', '1.8k'),
             ],
@@ -334,10 +348,8 @@ class BookAppointmentsScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DoctorDetailScreen(
-                      name: 'Dr. Tasim Jara',
-                      specialty: 'Cardiologist • Apollo Hospital',
-                      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC9s6caATreQl8lsqAZ4Sjxbij1sV7DWXDvUl-UjBxweezGFPEvyMVvBKwE1Yh7X7mtGHm55kZg8MlRA_8oA27IaqAyDiA3amZbofK4jS4fw3GWCkcEfJfohcKRDYN4-E9_7WnbrQtDiD9OrPnWj1L1kvF9xLV9ACsmoS0ncXpF_YThCZK29KVSV8JcqYpVr-wtt7RP1LJtL92RQHKuCjcC_jiPyzkyHM2YwHdOMKFX1AzzA3tHzwBOJJDfE9QX2ibUYewYFI3dvNUR',
+                    builder: (context) => DoctorDetailScreen(
+                      doctor: doctor,
                     ),
                   ),
                 );
@@ -368,12 +380,12 @@ class BookAppointmentsScreen extends StatelessWidget {
   }
 }
 
-class DoctorSearchListScreen extends StatelessWidget {
+class DoctorSearchListScreen extends ConsumerWidget {
   final String title;
   const DoctorSearchListScreen({super.key, required this.title});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -405,11 +417,35 @@ class DoctorSearchListScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const BookAppointmentsScreen()._buildDoctorCard(context),
-          const SizedBox(height: 16),
-          const BookAppointmentsScreen()._buildDoctorCard(context),
+          _buildDoctorList(context, ref),
         ],
       ),
+    );
+  }
+
+  Widget _buildDoctorList(BuildContext context, WidgetRef ref) {
+    final searchAsync = ref.watch(patientDoctorSearchProvider((specialty: title, query: '')));
+
+    return searchAsync.when(
+      data: (doctors) {
+        if (doctors.isEmpty) {
+          return const Center(child: Padding(
+            padding: EdgeInsets.only(top: 40),
+            child: Text('No doctors found in this category.'),
+          ));
+        }
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: doctors.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 16),
+          itemBuilder: (context, i) {
+            return const BookAppointmentsScreen()._buildDoctorCard(context, doctors[i]);
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: ${err.toString()}')),
     );
   }
 

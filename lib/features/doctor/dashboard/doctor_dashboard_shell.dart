@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'doctor_home_tab.dart';
 import 'doctor_patients_tab.dart';
 import '../roster/doctor_roster_management.dart';
-import '../prescription/e_rx_pad_screen.dart';
 import 'doctor_profile_tab.dart';
 
 class DoctorDashboardShell extends ConsumerStatefulWidget {
@@ -21,7 +20,6 @@ class _DoctorDashboardShellState extends ConsumerState<DoctorDashboardShell>
     DoctorHomeTab(),
     DoctorPatientsTab(),
     DoctorRosterManagement(),
-    ERxPadScreen(),
     DoctorProfileTab(),
   ];
 
@@ -43,53 +41,31 @@ class _DoctorDashboardShellState extends ConsumerState<DoctorDashboardShell>
           ),
         ],
       ),
-
-      // FAB add button (centre)
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _onFabTap(),
-        backgroundColor: const Color(0xFF10B981),
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-
-  void _onFabTap() {
-    // Depending on current tab, FAB does different things
-    if (_currentIndex == 0) {
-      // Add new appointment
-    } else if (_currentIndex == 3) {
-      // Add medication
-    }
-    setState(() => _currentIndex = 3); // open rx pad
   }
 
   Widget _buildFloatingNav() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.12),
-            blurRadius: 24,
-            offset: const Offset(0, 8),
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _navItem(0, Icons.grid_view_rounded, Icons.grid_view_outlined, 'Home'),
           _navItem(1, Icons.people_alt_rounded, Icons.people_alt_outlined, 'Patients'),
-          // Gap for FAB
-          const SizedBox(width: 56),
           _navItem(2, Icons.calendar_month_rounded, Icons.calendar_month_outlined, 'Roster'),
-          _navItem(4, Icons.person_rounded, Icons.person_outline_rounded, 'Profile'),
+          _navItem(3, Icons.person_rounded, Icons.person_outline_rounded, 'Profile'),
         ],
       ),
     );
@@ -116,7 +92,7 @@ class _DoctorDashboardShellState extends ConsumerState<DoctorDashboardShell>
             ),
             if (isActive) ...[
               const SizedBox(width: 6),
-              Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
+              Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
             ],
           ],
         ),

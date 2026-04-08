@@ -1,36 +1,70 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../core/providers/supabase_provider.dart';
 import '../../../models/patient_model.dart';
+import '../../../models/appointment_model.dart';
+import '../../../models/medical_record_model.dart';
 import '../repository/patient_repository.dart';
+import '../repository/appointment_repository.dart';
+import '../repository/medical_record_repository.dart';
 
-// Supabase Client Provider
-final supabaseClientProvider = Provider((ref) {
-  return Supabase.instance.client;
-});
-
-// Patient Repository Provider
+// Patient Repository Providers
 final patientRepositoryProvider = Provider((ref) {
   final supabaseClient = ref.watch(supabaseClientProvider);
   return PatientRepository(supabaseClient: supabaseClient);
 });
 
-// Patient Profile Provider (FutureProvider for async data fetching)
-final patientProfileProvider = FutureProvider.family<PatientModel, String>((
-  ref,
-  userId,
-) async {
+final appointmentRepositoryProvider = Provider((ref) {
+  final supabaseClient = ref.watch(supabaseClientProvider);
+  return AppointmentRepository(supabaseClient: supabaseClient);
+});
+
+final medicalRecordRepositoryProvider = Provider((ref) {
+  final supabaseClient = ref.watch(supabaseClientProvider);
+  return MedicalRecordRepository(supabaseClient: supabaseClient);
+});
+
+// Patient Profile Provider
+final patientProfileProvider = FutureProvider.family<PatientModel, String>((ref, userId) async {
   final repository = ref.watch(patientRepositoryProvider);
   final result = await repository.fetchPatientProfile(userId);
-
   return result.fold(
     (failure) => throw Exception(failure.message),
     (patient) => patient,
   );
 });
 
+// Patient Appointments Provider
+final patientAppointmentsProvider = FutureProvider.family<List<AppointmentModel>, String>((ref, patientId) async {
+  final repository = ref.watch(appointmentRepositoryProvider);
+  final result = await repository.fetchPatientAppointments(patientId);
+  return result.fold(
+    (failure) => throw Exception(failure.message),
+    (appointments) => appointments,
+  );
+});
+
+// Patient Medical Records Provider
+final patientMedicalRecordsProvider = FutureProvider.family<List<MedicalRecordModel>, String>((ref, patientId) async {
+  final repository = ref.watch(medicalRecordRepositoryProvider);
+  final result = await repository.fetchMedicalRecords(patientId);
+  return result.fold(
+    (failure) => throw Exception(failure.message),
+    (records) => records,
+  );
+});
+
+// Patient Health Score Provider
+final patientHealthScoreProvider = FutureProvider.family<int, String>((ref, patientId) async {
+  final repository = ref.watch(medicalRecordRepositoryProvider);
+  final result = await repository.fetchHealthScore(patientId);
+  return result.fold(
+    (failure) => throw Exception(failure.message),
+    (score) => score,
+  );
+});
+
 // Patient Registration Notifier
-class PatientRegistrationNotifier
-    extends Notifier<AsyncValue<PatientModel>> {
+class PatientRegistrationNotifier extends Notifier<AsyncValue<PatientModel>> {
   late final PatientRepository _repository;
 
   @override
@@ -46,7 +80,6 @@ class PatientRegistrationNotifier
     );
   }
 
-  /// Register a new patient
   Future<void> registerPatient({
     required String userId,
     required String dateOfBirth,
@@ -58,7 +91,6 @@ class PatientRegistrationNotifier
     required String emergencyContactPhone,
   }) async {
     state = const AsyncValue.loading();
-
     final result = await _repository.registerPatient(
       userId: userId,
       dateOfBirth: dateOfBirth,
@@ -69,15 +101,12 @@ class PatientRegistrationNotifier
       emergencyContactName: emergencyContactName,
       emergencyContactPhone: emergencyContactPhone,
     );
-
     state = result.fold(
-      (failure) =>
-          AsyncValue.error(Exception(failure.message), StackTrace.current),
+      (failure) => AsyncValue.error(Exception(failure.message), StackTrace.current),
       (patient) => AsyncValue.data(patient),
     );
   }
 
-  /// Update patient profile
   Future<void> updatePatient({
     required String userId,
     String? dateOfBirth,
@@ -89,7 +118,6 @@ class PatientRegistrationNotifier
     String? emergencyContactPhone,
   }) async {
     state = const AsyncValue.loading();
-
     final result = await _repository.updatePatient(
       userId: userId,
       dateOfBirth: dateOfBirth,
@@ -100,21 +128,14 @@ class PatientRegistrationNotifier
       emergencyContactName: emergencyContactName,
       emergencyContactPhone: emergencyContactPhone,
     );
-
     state = result.fold(
-      (failure) =>
-          AsyncValue.error(Exception(failure.message), StackTrace.current),
+      (failure) => AsyncValue.error(Exception(failure.message), StackTrace.current),
       (patient) => AsyncValue.data(patient),
     );
   }
 }
 
-// Patient Registration State Notifier Provider
-final patientRegistrationProvider =
-    NotifierProvider<
-      PatientRegistrationNotifier,
-      AsyncValue<PatientModel>
-    >(() {
-      return PatientRegistrationNotifier();
-    });
+final patientRegistrationProvider = NotifierProvider<PatientRegistrationNotifier, AsyncValue<PatientModel>>(() {
+  return PatientRegistrationNotifier();
+});
 

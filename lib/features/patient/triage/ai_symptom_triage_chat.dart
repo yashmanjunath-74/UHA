@@ -1,14 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../repository/ai_repository.dart';
+import 'package:intl/intl.dart';
+import '../../../core/constants/constants.dart';
+import 'package:routemaster/routemaster.dart';
 
-class AISymptomTriageChat extends StatefulWidget {
+final aiRepositoryProvider = Provider((ref) => AIRepository());
+
+class ChatMessage {
+  final String text;
+  final bool isAi;
+  final DateTime time;
+  final Map<String, dynamic>? report;
+
+  ChatMessage({required this.text, required this.isAi, required this.time, this.report});
+}
+
+class AISymptomTriageChat extends ConsumerStatefulWidget {
   const AISymptomTriageChat({super.key});
 
   @override
-  State<AISymptomTriageChat> createState() => _AISymptomTriageChatState();
+  ConsumerState<AISymptomTriageChat> createState() => _AISymptomTriageChatState();
 }
 
-class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
+class _AISymptomTriageChatState extends ConsumerState<AISymptomTriageChat> {
   final TextEditingController _messageController = TextEditingController();
+  final List<ChatMessage> _messages = [
+    ChatMessage(
+      text: 'Hello! Describe your symptoms. I can help you understand what might be going on and guide you to the right care.',
+      isAi: true,
+      time: DateTime.now(),
+    ),
+  ];
+  bool _isLoading = false;
+
+  void _sendMessage() async {
+    final text = _messageController.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      _messages.add(ChatMessage(text: text, isAi: false, time: DateTime.now()));
+      _messageController.clear();
+      _isLoading = true;
+    });
+
+    final aiRepo = ref.read(aiRepositoryProvider);
+    final result = await aiRepo.getTriageAnalysis(text);
+
+    result.fold(
+      (failure) {
+        setState(() {
+          _isLoading = false;
+          _messages.add(ChatMessage(text: 'I encountered an error: ${failure.message}', isAi: true, time: DateTime.now()));
+        });
+      },
+      (report) {
+         setState(() {
+          _isLoading = false;
+          _messages.add(ChatMessage(
+            text: "I've analyzed your symptoms. Based on '${text}', here is a preliminary triage report:",
+            isAi: true,
+            time: DateTime.now(),
+            report: report,
+          ));
+        });
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -25,32 +83,41 @@ class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
           children: [
             _buildHeader(),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 20,
-                ),
-                children: [
-                  _buildAiBubble(
-                    'Hello! Describe your symptoms. I can help you understand what might be going on and guide you to the right care.',
-                    '10:02 AM',
-                  ),
-                  const SizedBox(height: 20),
-                  _buildUserBubble('High fever and shivering.', '10:03 AM'),
-                  const SizedBox(height: 20),
-                  _buildAiBubble(
-                    "I've analyzed your symptoms. Based on high fever and shivering, here is a preliminary triage report:",
-                    '10:03 AM',
-                  ),
-                  const SizedBox(height: 16),
-                  _buildAnalysisReport(),
-                ],
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                itemCount: _messages.length + (_isLoading ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == _messages.length) {
+                    return _buildTypingIndicator();
+                  }
+                  final msg = _messages[index];
+                  return Column(
+                     crossAxisAlignment: msg.isAi ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+                    children: [
+                      msg.isAi 
+                        ? _buildAiBubble(msg.text, DateFormat('hh:mm a').format(msg.time))
+                        : _buildUserBubble(msg.text, DateFormat('hh:mm a').format(msg.time)),
+                      if (msg.report != null) ...[
+                        const SizedBox(height: 16),
+                        _buildAnalysisReport(msg.report!),
+                      ],
+                      const SizedBox(height: 20),
+                    ],
+                  );
+                },
               ),
             ),
             _buildInputArea(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTypingIndicator() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: _buildAiBubble('Thinking...', ''),
     );
   }
 
@@ -206,7 +273,7 @@ class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
     );
   }
 
-  Widget _buildAnalysisReport() {
+  Widget _buildAnalysisReport(Map<String, dynamic> report) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -242,14 +309,16 @@ class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
             ],
           ),
           const SizedBox(height: 20),
-          _buildInfoRow('Possible Diagnosis', 'Viral Fever'),
+          _buildInfoRow('Possible Diagnosis', report['diagnosis'] ?? 'Unknown'),
           const SizedBox(height: 12),
-          _buildInfoRow('Recommended Specialist', 'General Physician'),
+          _buildInfoRow('Recommended Specialist', report['specialist'] ?? 'General Physician'),
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Routemaster.of(context).push(AppConstants.routeBookAppointment);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF10B981),
                 foregroundColor: Colors.white,
@@ -266,8 +335,8 @@ class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
                     'Book Appointment',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 8),
-                  Icon(Icons.arrow_forward, size: 18),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward, size: 18),
                 ],
               ),
             ),
@@ -335,8 +404,10 @@ class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
                 color: const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: _messageController,
+                onSubmitted: (_) => _sendMessage(),
+                decoration: const InputDecoration(
                   hintText: 'Type your symptoms...',
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -347,20 +418,23 @@ class _AISymptomTriageChatState extends State<AISymptomTriageChat> {
             ),
           ),
           const SizedBox(width: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFF10B981),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF10B981).withOpacity(0.3),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+          GestureDetector(
+            onTap: _sendMessage,
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF10B981),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF10B981).withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.send, color: Colors.white, size: 20),
             ),
-            child: const Icon(Icons.send, color: Colors.white, size: 20),
           ),
         ],
       ),

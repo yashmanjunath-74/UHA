@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../auth/controller/auth_controller.dart';
+import '../controller/patient_controller.dart';
+import 'package:intl/intl.dart';
 
-class MedicalHealthTimeline extends StatelessWidget {
+class MedicalHealthTimeline extends ConsumerWidget {
   const MedicalHealthTimeline({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authProvider).session?.user;
+    if (user == null) return const Center(child: Text('Please login to view your journey.'));
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       body: SafeArea(
@@ -17,9 +24,9 @@ class MedicalHealthTimeline extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    _buildHealthScoreCard(),
+                    _buildHealthScoreCard(ref, user.id),
                     const SizedBox(height: 32),
-                    _buildTimeline(),
+                    _buildTimeline(ref, user.id),
                     const SizedBox(height: 120),
                   ],
                 ),
@@ -112,7 +119,9 @@ class MedicalHealthTimeline extends StatelessWidget {
     );
   }
 
-  Widget _buildHealthScoreCard() {
+  Widget _buildHealthScoreCard(WidgetRef ref, String patientId) {
+    final scoreAsync = ref.watch(patientHealthScoreProvider(patientId));
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -145,27 +154,31 @@ class MedicalHealthTimeline extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '84',
-                          style: TextStyle(
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                  scoreAsync.when(
+                    data: (score) => RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '$score',
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: '/100',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white70,
+                          const TextSpan(
+                            text: '/100',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white70,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    loading: () => const SizedBox(height: 50, child: Center(child: CircularProgressIndicator(color: Colors.white))),
+                    error: (_, __) => const Text('--', style: TextStyle(fontSize: 48, color: Colors.white)),
                   ),
                 ],
               ),
@@ -196,35 +209,45 @@ class MedicalHealthTimeline extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeline() {
-    return Column(
-      children: [
-        _buildTimelineItem(
-          '12 OCT 2025',
-          'Blood Test - City Lab',
-          Icons.science,
-          tags: ['ROUTINE CHECKUP', 'COMPLETED'],
-          buttonLabel: 'View PDF Report',
-          isFirst: true,
-        ),
-        _buildTimelineItem(
-          '10 SEP 2025',
-          'Consultation - Dr. Smith',
-          Icons.medical_services,
-          subtitle: 'Cardiology Department',
-          doctorImage:
-              'https://lh3.googleusercontent.com/aida-public/AB6AXuA4p4RRAh1icTTXG7chCRtDvVP6KhCKRzeYvOGxwIg7gM3NKeXNJ5Sqtdr2lcMgnSCAad8ZdBzMR7XL8pNoSzxX-8v_RqS-5bc6CExi9dW4aK701l_O7Wf7MpwTWaUrM2bObyAjbn7M4IcsJhuln9cY-RPUcPmVMYn57wI_A68zlV-Jt0FKO4PaOS1tzy12Khz6Gk2uGD9MM95GQhZxjqsnKYaGppZ4IFVcfBUZCbiYY8zRj3hnG6SpcFaiUGTc87yGpNpXZfDEizMp',
-          buttonLabel: 'View Prescription',
-        ),
-        _buildTimelineItem(
-          '15 AUG 2025',
-          'Vaccination Record Added',
-          Icons.history,
-          isLast: true,
-          isMinimal: true,
-        ),
-      ],
+  Widget _buildTimeline(WidgetRef ref, String patientId) {
+    final recordsAsync = ref.watch(patientMedicalRecordsProvider(patientId));
+
+    return recordsAsync.when(
+      data: (records) {
+        if (records.isEmpty) {
+          return const Center(child: Padding(
+            padding: EdgeInsets.only(top: 40),
+            child: Text('No health records found yet.'),
+          ));
+        }
+        return Column(
+          children: List.generate(records.length, (index) {
+            final record = records[index];
+            return _buildTimelineItem(
+              DateFormat('dd MMM yyyy').format(record.recordDate).toUpperCase(),
+              record.title,
+              _getIconForType(record.type),
+              tags: record.tags,
+              subtitle: record.description,
+              isFirst: index == 0,
+              isLast: index == records.length - 1,
+              buttonLabel: record.fileUrl != null ? 'View Report' : null,
+            );
+          }),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: ${err.toString()}')),
     );
+  }
+
+  IconData _getIconForType(String type) {
+    switch (type) {
+      case 'lab_report': return Icons.science;
+      case 'prescription': return Icons.medical_services;
+      case 'vaccination': return Icons.history;
+      default: return Icons.event_note;
+    }
   }
 
   Widget _buildTimelineItem(

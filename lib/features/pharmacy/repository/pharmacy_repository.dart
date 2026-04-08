@@ -1,4 +1,4 @@
-﻿import '../../../core/failure.dart';
+﻿
 import '../../../core/type_defs.dart';
 import '../../../models/pharmacy_model.dart';
 

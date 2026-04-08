@@ -4,6 +4,10 @@ import '../profile/patient_profile_screen.dart';
 import '../appointments/book_appointments_screen.dart';
 import '../medical_records/medical_health_timeline.dart';
 import '../triage/ai_symptom_triage_chat.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../auth/controller/auth_controller.dart';
+import '../../../core/constants/constants.dart';
+import 'package:routemaster/routemaster.dart';
 
 class PatientHomeHub extends StatefulWidget {
   const PatientHomeHub({super.key});
@@ -108,15 +112,18 @@ class _PatientHomeHubState extends State<PatientHomeHub> {
   }
 }
 
-class DashboardContent extends StatelessWidget {
+class DashboardContent extends ConsumerWidget {
   const DashboardContent({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authProvider).session?.user;
+    final userName = user?.userMetadata?['name'] ?? 'User';
+
     return SafeArea(
       child: Column(
         children: [
-          _buildHeader(),
+          _buildHeader(userName),
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -127,7 +134,7 @@ class DashboardContent extends StatelessWidget {
                   const SizedBox(height: 16),
                   _buildSearchBar(),
                   const SizedBox(height: 32),
-                  _buildQuickActions(),
+                  _buildQuickActions(context),
                   const SizedBox(height: 32),
                   _buildUpcomingAppointment(),
                   const SizedBox(height: 32),
@@ -142,7 +149,7 @@ class DashboardContent extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(String name) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Row(
@@ -184,16 +191,16 @@ class DashboardContent extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 12),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Welcome back,',
                     style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
                   ),
                   Text(
-                    'Rose Miller 👋',
-                    style: TextStyle(
+                    '$name 👋',
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF0F172A),
@@ -300,7 +307,7 @@ class DashboardContent extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActions() {
+  Widget _buildQuickActions(BuildContext context) {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -309,34 +316,46 @@ class DashboardContent extends StatelessWidget {
       crossAxisSpacing: 16,
       childAspectRatio: 1.1,
       children: [
-        _buildActionCard(
-          'AI Triage',
-          'Check symptoms now',
-          Icons.auto_awesome,
-          const Color(0xFF10B981),
-          Colors.white,
-          isPrimary: true,
+        GestureDetector(
+          onTap: () => Routemaster.of(context).push(AppConstants.routePatientTriage),
+          child: _buildActionCard(
+            'AI Triage',
+            'Check symptoms now',
+            Icons.auto_awesome,
+            const Color(0xFF10B981),
+            Colors.white,
+            isPrimary: true,
+          ),
         ),
-        _buildActionCard(
-          'Appointments',
-          'Book or manage',
-          Icons.calendar_today_outlined,
-          const Color(0xFFDBEAFE),
-          const Color(0xFF2563EB),
+        GestureDetector(
+          onTap: () => Routemaster.of(context).push(AppConstants.routeBookAppointment),
+          child: _buildActionCard(
+            'Appointments',
+            'Book or manage',
+            Icons.calendar_today_outlined,
+            const Color(0xFFDBEAFE),
+            const Color(0xFF2563EB),
+          ),
         ),
-        _buildActionCard(
-          'My Records',
-          'View lab reports',
-          Icons.folder_open,
-          const Color(0xFFFEF3C7),
-          const Color(0xFFD97706),
+        GestureDetector(
+          onTap: () => Routemaster.of(context).push(AppConstants.routePatientDigitalFile),
+          child: _buildActionCard(
+            'My Records',
+            'View lab reports',
+            Icons.folder_open,
+            const Color(0xFFFEF3C7),
+            const Color(0xFFD97706),
+          ),
         ),
-        _buildActionCard(
-          'Find Meds',
-          'Nearby pharmacies',
-          Icons.medication_outlined,
-          const Color(0xFFF3E8FF),
-          const Color(0xFF9333EA),
+        GestureDetector(
+          onTap: () => Routemaster.of(context).push(AppConstants.routeSearchDoctors),
+          child: _buildActionCard(
+            'Find Meds',
+            'Nearby pharmacies',
+            Icons.medication_outlined,
+            const Color(0xFFF3E8FF),
+            const Color(0xFF9333EA),
+          ),
         ),
       ],
     );

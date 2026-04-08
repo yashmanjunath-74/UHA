@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../models/patient_model.dart';
 import '../controller/patient_controller.dart';
 import '../repository/patient_repository.dart';

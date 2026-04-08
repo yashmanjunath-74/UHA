@@ -61,6 +61,7 @@ class AppConstants {
 
   // Common
   static const String routeSearchDoctors = '/search/doctors';
+  static const String routeBookAppointment = '/book-appointment';
   static const String routeBookingPayment = '/booking/payment';
 
   // Admin

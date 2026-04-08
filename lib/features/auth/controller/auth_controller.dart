@@ -142,3 +142,9 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(isLoading: false, session: null, userRole: null);
   }
 }
+
+// Global provider to fetch any user's metadata by ID (e.g. for showing names in lists)
+final userDataProvider = FutureProvider.family<Map<String, dynamic>?, String>((ref, userId) async {
+  final repo = ref.read(authRepositoryProvider);
+  return await repo.getUserMetadata(userId);
+});

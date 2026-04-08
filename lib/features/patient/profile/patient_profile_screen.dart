@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import '../../auth/controller/auth_controller.dart';
+import '../controller/patient_controller.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/constants/constants.dart';
+import '../../../models/patient_model.dart';
 
 class PatientProfileScreen extends ConsumerWidget {
   const PatientProfileScreen({super.key});
@@ -77,6 +79,15 @@ class PatientProfileScreen extends ConsumerWidget {
                   }),
                   _buildProfileItem(Icons.settings_outlined, 'Settings', () {}),
                   _buildProfileItem(Icons.help_outline_rounded, 'Help & Support', () {}),
+                  const SizedBox(height: 24),
+                  
+                  if (user != null)
+                    ref.watch(patientProfileProvider(user.id)).when(
+                      data: (patient) => _buildPatientHealthInfo(patient),
+                      loading: () => const CircularProgressIndicator(),
+                      error: (err, _) => Text('Error loading health info: ${err.toString()}'),
+                    ),
+                    
                   const SizedBox(height: 40),
                   
                   // Logout Button
@@ -147,6 +158,48 @@ class PatientProfileScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: Color(0xFFF1F5F9)),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPatientHealthInfo(PatientModel patient) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFF1F5F9)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Health Summary',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF0F172A),
+            ),
+          ),
+          const SizedBox(height: 16),
+          _buildHealthRow('Blood Group', patient.bloodGroup ?? 'Unknown'),
+          _buildHealthRow('Gender', patient.gender?.name ?? 'Unknown'),
+          _buildHealthRow('Allergies', patient.allergies.isEmpty ? 'None' : patient.allergies.join(', ')),
+          _buildHealthRow('Conditions', patient.chronicConditions.isEmpty ? 'None' : patient.chronicConditions.join(', ')),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHealthRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(color: Color(0xFF64748B), fontSize: 13)),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E293B), fontSize: 13)),
+        ],
       ),
     );
   }

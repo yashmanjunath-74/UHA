@@ -36,10 +36,11 @@ import 'features/patient/home/patient_home_hub.dart';
 import 'features/patient/medical_records/patient_digital_file_view.dart';
 import 'features/patient/medical_records/medical_health_timeline.dart';
 import 'features/patient/triage/ai_symptom_triage_chat.dart';
+import 'features/patient/appointments/book_appointments_screen.dart';
 
 // Doctor Dashboard
 import 'features/doctor/dashboard/doctor_dashboard_shell.dart';
-import 'features/doctor/dashboard/doctor_schedule_dashboard.dart';
+
 import 'features/doctor/roster/doctor_roster_management.dart';
 import 'features/doctor/prescription/e_prescription_pad_view.dart';
 
@@ -48,7 +49,7 @@ import 'features/hospital/dashboard/hospital_admin_overview.dart';
 
 // Lab Dashboard
 import 'features/lab/dashboard/lab_dashboard_shell.dart';
-import 'features/lab/dashboard/lab_dashboard_screen.dart';
+
 import 'features/lab/dashboard/lab_result_upload_screen.dart';
 
 // Pharmacy Dashboard
@@ -108,6 +109,7 @@ final appRouter = RouteMap(
     AppConstants.routePatientDigitalFile: (_) => const MaterialPage(child: PatientDigitalFileView()),
     AppConstants.routePatientTimeline: (_) => const MaterialPage(child: MedicalHealthTimeline()),
     AppConstants.routePatientTriage: (_) => const MaterialPage(child: AISymptomTriageChat()),
+    AppConstants.routeBookAppointment: (_) => const MaterialPage(child: BookAppointmentsScreen()),
     AppConstants.routeSearchDoctors: (_) => const MaterialPage(child: DoctorSearchResults()),
     AppConstants.routeBookingPayment: (_) => const MaterialPage(child: BookingPaymentConfirm()),
   },
@@ -143,7 +145,7 @@ final doctorRouter = RouteMap(
     '/': (_) => const MaterialPage(child: DoctorDashboardShell()),
     AppConstants.routeDashboard: (_) => const MaterialPage(child: DoctorDashboardShell()),
     AppConstants.routeDoctorRoster: (_) => const MaterialPage(child: DoctorRosterManagement()),
-    AppConstants.routeDoctorPrescription: (_) => const MaterialPage(child: EPrescriptionPadView()),
+    '${AppConstants.routeDoctorPrescription}/:pid': (info) => MaterialPage(child: EPrescriptionPadView(patientId: info.pathParameters['pid'] ?? '')),
     ..._publicRoutes,
   },
 );
