@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../../../core/constants/constants.dart';
 import 'package:routemaster/routemaster.dart';
+import 'pharmacy_list_screen.dart';
 
 class PatientHomeHub extends StatefulWidget {
   const PatientHomeHub({super.key});
@@ -348,7 +349,12 @@ class DashboardContent extends ConsumerWidget {
           ),
         ),
         GestureDetector(
-          onTap: () => Routemaster.of(context).push(AppConstants.routeSearchDoctors),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PharmacyListScreen()),
+            );
+          },
           child: _buildActionCard(
             'Find Meds',
             'Nearby pharmacies',

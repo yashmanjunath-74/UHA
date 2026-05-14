@@ -27,46 +27,39 @@ class _DoctorDashboardShellState extends ConsumerState<DoctorDashboardShell>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6F9),
-      body: Stack(
-        children: [
-          // Main Content
-          _screens[_currentIndex],
-
-          // Floating Bottom Nav
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: _buildFloatingNav(),
-          ),
-        ],
-      ),
+      extendBody: true,
+      body: _screens[_currentIndex],
+      bottomNavigationBar: _buildFloatingNav(),
     );
   }
 
   Widget _buildFloatingNav() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _navItem(0, Icons.grid_view_rounded, Icons.grid_view_outlined, 'Home'),
-          _navItem(1, Icons.people_alt_rounded, Icons.people_alt_outlined, 'Patients'),
-          _navItem(2, Icons.calendar_month_rounded, Icons.calendar_month_outlined, 'Roster'),
-          _navItem(3, Icons.person_rounded, Icons.person_outline_rounded, 'Profile'),
-        ],
+    return SafeArea(
+      child: Container(
+        height: 68,
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.96),
+          borderRadius: BorderRadius.circular(34),
+          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 25,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _navItem(0, Icons.grid_view_rounded, Icons.grid_view_outlined, 'Home'),
+            _navItem(1, Icons.people_alt_rounded, Icons.people_alt_outlined, 'Patients'),
+            _navItem(2, Icons.calendar_month_rounded, Icons.calendar_month_outlined, 'Roster'),
+            _navItem(3, Icons.person_rounded, Icons.person_outline_rounded, 'Profile'),
+          ],
+        ),
       ),
     );
   }

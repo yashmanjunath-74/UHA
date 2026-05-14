@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
 import 'package:unified_health_alliance/core/theme/app_text_styles.dart';
 import 'package:unified_health_alliance/features/pharmacy/providers/pharmacy_provider.dart';
+import '../controller/pharmacy_controller.dart';
 
 class PharmacyOrderQueue extends ConsumerStatefulWidget {
   const PharmacyOrderQueue({super.key});
@@ -16,38 +17,22 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
 
   @override
   Widget build(BuildContext context) {
-    final pharmacyState = ref.watch(pharmacyProvider);
+    final filter = ref.watch(pharmacyFilterProvider);
+    final ordersAsync = ref.watch(pharmacyOrdersProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark
-          ? AppColors.backgroundDark
-          : AppColors.backgroundLight,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Prescription Queue',
-              style: AppTextStyles.titleMedium.copyWith(
-                fontWeight: FontWeight.bold,
-                color: isDark ? Colors.white : AppColors.neutral900,
-              ),
-            ),
-            Text(
-              'Universal Health Pharmacy #42',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            Text('Prescription Queue', style: AppTextStyles.titleMedium.copyWith(fontWeight: FontWeight.bold, color: isDark ? Colors.white : AppColors.neutral900)),
+            Text('Universal Health Pharmacy #42', style: AppTextStyles.bodySmall.copyWith(color: AppColors.primary, fontWeight: FontWeight.w500)),
           ],
         ),
         backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
         elevation: 0,
-        actions: [
-          const SizedBox(width: 8),
-        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(120),
           child: Padding(
@@ -59,93 +44,72 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
                     Expanded(
                       child: TextField(
                         controller: _searchController,
-                        style: TextStyle(
-                          color: isDark ? Colors.white : AppColors.neutral900,
-                        ),
+                        style: TextStyle(color: isDark ? Colors.white : AppColors.neutral900),
                         decoration: InputDecoration(
                           hintText: 'Search orders...',
-                          hintStyle: TextStyle(
-                            color: isDark
-                                ? AppColors.neutral400
-                                : AppColors.neutral500,
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: AppColors.neutral400,
-                          ),
+                          hintStyle: TextStyle(color: isDark ? AppColors.neutral400 : AppColors.neutral500),
+                          prefixIcon: const Icon(Icons.search, color: AppColors.neutral400),
                           filled: true,
-                          fillColor: isDark
-                              ? AppColors.backgroundDark
-                              : AppColors.neutral50,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0,
-                          ),
+                          fillColor: isDark ? AppColors.backgroundDark : AppColors.neutral50,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.filter_list),
-                        color: AppColors.primary,
-                        onPressed: () {},
-                      ),
+                      decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                      child: IconButton(icon: const Icon(Icons.filter_list), color: AppColors.primary, onPressed: () {}),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _buildFilterChip(
-                        'All Orders',
-                        pharmacyState.selectedFilter == 'All Orders',
+                ordersAsync.when(
+                  data: (orders) {
+                    final newCount = orders.where((o) => o.status == 'New').length;
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _buildFilterChip('All Orders', filter == 'All Orders'),
+                          const SizedBox(width: 8),
+                          _buildFilterChip('New', filter == 'New', count: newCount),
+                          const SizedBox(width: 8),
+                          _buildFilterChip('Preparing', filter == 'Preparing'),
+                          const SizedBox(width: 8),
+                          _buildFilterChip('Ready', filter == 'Ready'),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      _buildFilterChip(
-                        'New',
-                        pharmacyState.selectedFilter == 'New',
-                        count: 3,
-                      ),
-                      const SizedBox(width: 8),
-                      _buildFilterChip(
-                        'Preparing',
-                        pharmacyState.selectedFilter == 'Preparing',
-                      ),
-                      const SizedBox(width: 8),
-                      _buildFilterChip(
-                        'Ready',
-                        pharmacyState.selectedFilter == 'Ready',
-                      ),
-                    ],
-                  ),
+                    );
+                  },
+                  loading: () => const LinearProgressIndicator(),
+                  error: (e, _) => const SizedBox(),
                 ),
               ],
             ),
           ),
         ),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: pharmacyState.orders.length,
-        itemBuilder: (context, index) {
-          final order = pharmacyState.orders[index];
-          // Filter logic
-          if (pharmacyState.selectedFilter != 'All Orders' &&
-              order.status != pharmacyState.selectedFilter) {
-            return const SizedBox.shrink();
+      body: ordersAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, s) => Center(child: Text('Error: $e')),
+        data: (orders) {
+          final filteredOrders = orders.where((order) {
+            if (filter != 'All Orders' && order.status != filter) return false;
+            return true;
+          }).toList();
+
+          if (filteredOrders.isEmpty) {
+            return const Center(child: Text('No orders found'));
           }
 
-          return _buildOrderCard(context, order, isDark);
+          return ListView.builder(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+            itemCount: filteredOrders.length,
+            itemBuilder: (context, index) {
+              return _buildOrderCard(context, filteredOrders[index], isDark);
+            },
+          );
         },
       ),
     );
@@ -153,46 +117,23 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
 
   Widget _buildFilterChip(String label, bool isSelected, {int? count}) {
     return GestureDetector(
-      onTap: () {
-        ref.read(pharmacyProvider.notifier).setFilter(label);
-      },
+      onTap: () => ref.read(pharmacyFilterProvider.notifier).state = label,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.neutral200,
-          ),
+          border: Border.all(color: isSelected ? AppColors.primary : AppColors.neutral200),
         ),
         child: Row(
           children: [
-            Text(
-              label,
-              style: TextStyle(
-                color: isSelected ? Colors.white : AppColors.neutral600,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-              ),
-            ),
-            if (count != null) ...[
+            Text(label, style: TextStyle(color: isSelected ? Colors.white : AppColors.neutral600, fontWeight: FontWeight.w600, fontSize: 12)),
+            if (count != null && count > 0) ...[
               const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? Colors.white.withOpacity(0.2)
-                      : AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  count.toString(),
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                  ),
-                ),
+                decoration: BoxDecoration(color: isSelected ? Colors.white.withOpacity(0.2) : AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                child: Text(count.toString(), style: TextStyle(color: isSelected ? Colors.white : AppColors.primary, fontWeight: FontWeight.bold, fontSize: 10)),
               ),
             ],
           ],
@@ -201,11 +142,7 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
     );
   }
 
-  Widget _buildOrderCard(
-    BuildContext context,
-    PharmacyOrder order,
-    bool isDark,
-  ) {
+  Widget _buildOrderCard(BuildContext context, PharmacyOrder order, bool isDark) {
     Color statusColor;
     Color statusBgColor;
 
@@ -232,24 +169,14 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.neutral800 : AppColors.neutral200,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: isDark ? AppColors.neutral800 : AppColors.neutral200),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
       ),
       child: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              border: Border(left: BorderSide(color: statusColor, width: 4)),
-            ),
+            decoration: BoxDecoration(border: Border(left: BorderSide(color: statusColor, width: 4))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -258,114 +185,46 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          '#${order.id}',
-                          style: TextStyle(
-                            fontFamily: 'Monospace',
-                            color: isDark
-                                ? AppColors.neutral400
-                                : AppColors.neutral500,
-                            fontSize: 12,
-                          ),
-                        ),
+                        Text('#${order.id}', style: TextStyle(fontFamily: 'Monospace', color: isDark ? AppColors.neutral400 : AppColors.neutral500, fontSize: 12)),
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: statusBgColor,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            order.status.toUpperCase(),
-                            style: TextStyle(
-                              color: statusColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(color: statusBgColor, borderRadius: BorderRadius.circular(4)),
+                          child: Text(order.status.toUpperCase(), style: TextStyle(color: statusColor, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
                         ),
                       ],
                     ),
-                    Text(
-                      order.time,
-                      style: TextStyle(
-                        color: isDark
-                            ? AppColors.neutral400
-                            : AppColors.neutral500,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    Text(order.time, style: TextStyle(color: isDark ? AppColors.neutral400 : AppColors.neutral500, fontSize: 12, fontWeight: FontWeight.w500)),
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  order.patientName,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : AppColors.neutral900,
-                  ),
-                ),
+                Text(order.patientName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : AppColors.neutral900)),
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? AppColors.backgroundDark
-                        : AppColors.neutral50,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  decoration: BoxDecoration(color: isDark ? AppColors.backgroundDark : AppColors.neutral50, borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppColors.secondary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Icon(
-                          Icons.medication,
-                          color: AppColors.secondary,
-                          size: 20,
-                        ),
+                        decoration: BoxDecoration(color: AppColors.secondary.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(Icons.medication, color: AppColors.secondary, size: 20),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: order.items.map((item) {
+                          children: order.items.isEmpty 
+                            ? [const Text('No items listed')] 
+                            : order.items.map((item) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    '${item.name} ${item.dosage}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      color: isDark
-                                          ? Colors.white
-                                          : AppColors.neutral800,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Qty: ${item.quantity} • ${item.instructions}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: isDark
-                                          ? AppColors.neutral400
-                                          : AppColors.neutral500,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                  Text('${item.name} ${item.dosage}', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: isDark ? Colors.white : AppColors.neutral800)),
+                                  Text('Qty: ${item.quantity} • ${item.instructions}', style: TextStyle(fontSize: 12, color: isDark ? AppColors.neutral400 : AppColors.neutral500), maxLines: 1, overflow: TextOverflow.ellipsis),
                                 ],
                               ),
                             );
@@ -388,18 +247,10 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
                     icon: const Icon(Icons.print_outlined, size: 18),
                     label: const Text('Print Label'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: isDark
-                          ? AppColors.neutral300
-                          : AppColors.neutral600,
-                      side: BorderSide(
-                        color: isDark
-                            ? AppColors.neutral700
-                            : AppColors.neutral300,
-                      ),
+                      foregroundColor: isDark ? AppColors.neutral300 : AppColors.neutral600,
+                      side: BorderSide(color: isDark ? AppColors.neutral700 : AppColors.neutral300),
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   ),
                 ),
@@ -407,17 +258,16 @@ class _PharmacyOrderQueueState extends ConsumerState<PharmacyOrderQueue> {
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/pharmacy/fulfillment');
+                      final newStatus = order.status == 'New' ? 'Preparing' : (order.status == 'Preparing' ? 'Ready' : 'Completed');
+                      ref.read(pharmacyControllerProvider).updateOrderStatus(order.id, newStatus);
                     },
                     icon: const Icon(Icons.update, size: 18),
-                    label: const Text('Update Status'),
+                    label: Text(order.status == 'New' ? 'Start Prep' : 'Mark Ready'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   ),
                 ),

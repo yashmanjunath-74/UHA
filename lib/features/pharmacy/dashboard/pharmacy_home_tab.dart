@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../fulfillment/pharmacy_order_fulfillment.dart';
 import 'pharmacy_profile_screen.dart';
+import '../controller/pharmacy_controller.dart';
+import '../providers/pharmacy_provider.dart';
 
 class PharmacyHomeTab extends ConsumerWidget {
   const PharmacyHomeTab({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profileAsync = ref.watch(pharmacyProfileProvider);
+    final ordersAsync = ref.watch(pharmacyOrdersProvider);
+
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 16, 20, 120),
@@ -16,11 +22,15 @@ class PharmacyHomeTab extends ConsumerWidget {
           children: [
             // ── Header ─────────────────────────────────────────────
             Row(children: [
-              const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Monday, Oct 24', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                SizedBox(height: 4),
-                Text('MedPlus Pharmacy #42', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
-                Text('Universal Health App', style: TextStyle(fontSize: 13, color: Color(0xFF10B981), fontWeight: FontWeight.w500)),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(DateFormat('EEEE, MMM d, yyyy').format(DateTime.now()), style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                const SizedBox(height: 4),
+                profileAsync.when(
+                  data: (profile) => Text(profile?.name ?? 'Pharmacy Dashboard', style: const TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+                  loading: () => const Text('Loading...', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+                  error: (_, __) => const Text('Pharmacy Dashboard', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+                ),
+                const Text('Universal Health App', style: TextStyle(fontSize: 13, color: Color(0xFF10B981), fontWeight: FontWeight.w500)),
               ])),
               GestureDetector(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PharmacyProfileScreen())),
@@ -34,13 +44,23 @@ class PharmacyHomeTab extends ConsumerWidget {
             const SizedBox(height: 20),
 
             // ── Stats Row ───────────────────────────────────────────
-            Row(children: [
-              _stat('12', 'New Orders', const Color(0xFF10B981)),
-              const SizedBox(width: 10),
-              _stat('5', 'Processing', const Color(0xFFF59E0B)),
-              const SizedBox(width: 10),
-              _stat('3', 'Ready', const Color(0xFF6366F1)),
-            ]),
+            ordersAsync.when(
+              data: (orders) {
+                final newCount = orders.where((o) => o.status == 'New').length;
+                final prepCount = orders.where((o) => o.status == 'Preparing').length;
+                final readyCount = orders.where((o) => o.status == 'Ready').length;
+
+                return Row(children: [
+                  _stat(newCount.toString(), 'New Orders', const Color(0xFF10B981)),
+                  const SizedBox(width: 10),
+                  _stat(prepCount.toString(), 'Processing', const Color(0xFFF59E0B)),
+                  const SizedBox(width: 10),
+                  _stat(readyCount.toString(), 'Ready', const Color(0xFF6366F1)),
+                ]);
+              },
+              loading: () => const LinearProgressIndicator(),
+              error: (e, _) => const Text('Could not load stats'),
+            ),
             const SizedBox(height: 20),
 
             // ── Request Instant Payout Banner ───────────────────────
@@ -80,11 +100,27 @@ class PharmacyHomeTab extends ConsumerWidget {
               TextButton(onPressed: () {}, child: const Text('See All', style: TextStyle(color: Color(0xFF10B981), fontSize: 13, fontWeight: FontWeight.w600))),
             ]),
             const SizedBox(height: 10),
-            _orderCard(context, '#10234', 'Sarah Jenkins', 'Amoxicillin 500mg  •  Qty 30', '9:00 AM', 'Pending', const Color(0xFFF59E0B)),
-            const SizedBox(height: 10),
-            _orderCard(context, '#10235', 'Raj Kumar', 'Metformin 1g  •  Qty 60', '9:45 AM', 'New', const Color(0xFF10B981)),
-            const SizedBox(height: 10),
-            _orderCard(context, '#10236', 'Priya Sharma', 'Atorvastatin 20mg  •  Qty 30', '10:15 AM', 'New', const Color(0xFF10B981)),
+            
+            ordersAsync.when(
+              data: (orders) {
+                final pendingOrders = orders.where((o) => o.status == 'New' || o.status == 'Preparing').take(4).toList();
+                if (pendingOrders.isEmpty) {
+                  return const Text('No pending orders right now', style: TextStyle(color: Colors.grey));
+                }
+                return Column(
+                  children: pendingOrders.map((order) {
+                    final meds = order.items.isNotEmpty ? '${order.items.first.name} ${order.items.first.dosage}' : 'No meds listed';
+                    final color = order.status == 'New' ? const Color(0xFF10B981) : const Color(0xFFF59E0B);
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: _orderCard(context, '#${order.id}', order.patientName, meds, order.time, order.status, color, order),
+                    );
+                  }).toList(),
+                );
+              },
+              loading: () => const CircularProgressIndicator(),
+              error: (e, _) => const Text('Failed to fetch orders'),
+            ),
             const SizedBox(height: 10),
 
             // ── Inventory Alerts ────────────────────────────────────
@@ -128,7 +164,7 @@ class PharmacyHomeTab extends ConsumerWidget {
     ),
   );
 
-  Widget _orderCard(BuildContext context, String orderId, String patientName, String meds, String time, String status, Color statusColor) {
+  Widget _orderCard(BuildContext context, String orderId, String patientName, String meds, String time, String status, Color statusColor, PharmacyOrder order) {
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PharmacyOrderFulfillment())),
       child: Container(

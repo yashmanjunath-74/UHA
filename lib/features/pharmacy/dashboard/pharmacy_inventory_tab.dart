@@ -1,31 +1,40 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../controller/pharmacy_controller.dart';
 import 'pharmacy_product_detail_screen.dart';
 
-class PharmacyInventoryTab extends StatefulWidget {
+class PharmacyInventoryTab extends ConsumerStatefulWidget {
   const PharmacyInventoryTab({super.key});
 
   @override
-  State<PharmacyInventoryTab> createState() => _PharmacyInventoryTabState();
+  ConsumerState<PharmacyInventoryTab> createState() => _PharmacyInventoryTabState();
 }
 
-class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
-  final List<Map<String, dynamic>> _inventoryItems = [
-    {'name': 'Amoxicillin', 'category': 'Antibiotics', 'stock': 120, 'price': '₹45.00', 'color': Color(0xFF10B981)},
-    {'name': 'Paracetamol 650', 'category': 'Analgesics', 'stock': 450, 'price': '₹12.00', 'color': Color(0xFF6366F1)},
-    {'name': 'Metformin 500', 'category': 'Antidiabetic', 'stock': 85, 'price': '₹30.00', 'color': Color(0xFFF59E0B)},
-    {'name': 'Atorvastatin 20', 'category': 'Statins', 'stock': 60, 'price': '₹55.00', 'color': Color(0xFF8B5CF6)},
-    {'name': 'Cetrizine 10', 'category': 'Antihistamine', 'stock': 200, 'price': '₹8.00', 'color': Color(0xFFEC4899)},
-    {'name': 'Azithromycin 500', 'category': 'Antibiotics', 'stock': 45, 'price': '₹75.00', 'color': Color(0xFF10B981)},
-    {'name': 'Omeprazole 20', 'category': 'Acidity', 'stock': 30, 'price': '₹22.00', 'color': Color(0xFFF43F5E)},
-    {'name': 'Vitamin C 500', 'category': 'Supplements', 'stock': 300, 'price': '₹15.00', 'color': Color(0xFF0EA5E9)},
-  ];
-
+class _PharmacyInventoryTabState extends ConsumerState<PharmacyInventoryTab> {
   String _selectedCategory = 'All';
   final List<String> _categories = ['All', 'Antibiotics', 'Analgesics', 'Supplements', 'Acidity', 'Statins'];
 
+  // Controllers for Add Item form
+  final _nameCtrl = TextEditingController();
+  final _categoryCtrl = TextEditingController();
+  final _stockCtrl = TextEditingController();
+  final _priceCtrl = TextEditingController();
+  final _batchCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _categoryCtrl.dispose();
+    _stockCtrl.dispose();
+    _priceCtrl.dispose();
+    _batchCtrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final inventoryAsync = ref.watch(pharmacyInventoryProvider);
+
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,22 +99,33 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
 
           // Grid View
           Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.85,
-              ),
-              itemCount: _inventoryItems.length,
-              itemBuilder: (context, index) {
-                final item = _inventoryItems[index];
-                if (_selectedCategory != 'All' && item['category'] != _selectedCategory) {
-                  return const SizedBox.shrink();
+            child: inventoryAsync.when(
+              data: (items) {
+                final filteredItems = items.where((item) {
+                  if (_selectedCategory != 'All' && item['category'] != _selectedCategory) return false;
+                  return true;
+                }).toList();
+
+                if (filteredItems.isEmpty) {
+                  return const Center(child: Text('No inventory items found.'));
                 }
-                return _inventoryCard(item);
+
+                return GridView.builder(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 0.85,
+                  ),
+                  itemCount: filteredItems.length,
+                  itemBuilder: (context, index) {
+                    return _inventoryCard(filteredItems[index]);
+                  },
+                );
               },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, s) => Center(child: Text('Error: $e')),
             ),
           ),
         ],
@@ -163,7 +183,12 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
   }
 
   Widget _inventoryCard(Map<String, dynamic> item) {
-    final Color itemColor = item['color'];
+    // Generate a consistent color based on category
+    final colors = [Color(0xFF10B981), Color(0xFF6366F1), Color(0xFFF59E0B), Color(0xFF8B5CF6), Color(0xFFEC4899)];
+    final itemColor = colors[item['category'].hashCode % colors.length];
+    
+    final stock = int.tryParse(item['stock']?.toString() ?? '0') ?? 0;
+    
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -196,14 +221,14 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
             ),
             const Spacer(),
             Text(
-              item['name'],
+              item['name'] ?? 'Unknown',
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF1E293B)),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 2),
             Text(
-              item['category'],
+              item['category'] ?? 'General',
               style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
             ),
             const SizedBox(height: 10),
@@ -214,11 +239,11 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('STOCK', style: TextStyle(fontSize: 9, color: Color(0xFF94A3B8), fontWeight: FontWeight.bold)),
-                    Text('${item['stock']} pcs', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: item['stock'] < 50 ? const Color(0xFFEF4444) : const Color(0xFF1E293B))),
+                    Text('$stock pcs', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: stock < 50 ? const Color(0xFFEF4444) : const Color(0xFF1E293B))),
                   ],
                 ),
                 Text(
-                  item['price'],
+                  '₹${item['price'] ?? '0.00'}',
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF10B981)),
                 ),
               ],
@@ -230,11 +255,17 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
   }
 
   void _showAddItemSheet(BuildContext context) {
+    _nameCtrl.clear();
+    _categoryCtrl.clear();
+    _stockCtrl.clear();
+    _priceCtrl.clear();
+    _batchCtrl.clear();
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
+      builder: (ctx) => Container(
         height: MediaQuery.of(context).size.height * 0.75,
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -248,24 +279,58 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
             const SizedBox(height: 20),
             const Text('Add New Item', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
             const SizedBox(height: 24),
-            _inputField('Medicine Name', 'e.g. Paracetamol'),
+            _inputField('Medicine Name', 'e.g. Paracetamol', _nameCtrl),
             const SizedBox(height: 16),
-            _inputField('Category', 'e.g. Analgesics'),
+            _inputField('Category', 'e.g. Analgesics', _categoryCtrl),
             const SizedBox(height: 16),
             Row(
               children: [
-                Expanded(child: _inputField('Stock Quantity', '0')),
+                Expanded(child: _inputField('Stock Quantity', '0', _stockCtrl, TextInputType.number)),
                 const SizedBox(width: 16),
-                Expanded(child: _inputField('Price (₹)', '0.00')),
+                Expanded(child: _inputField('Price (₹)', '0.00', _priceCtrl, TextInputType.number)),
               ],
             ),
             const SizedBox(height: 16),
-            _inputField('Batch Number', 'e.g. B-2024-X'),
+            _inputField('Batch Number', 'e.g. B-2024-X', _batchCtrl),
             const Spacer(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () async {
+                  if (_nameCtrl.text.isEmpty) return;
+                  try {
+                    final errorMsg = await ref.read(pharmacyControllerProvider).addInventoryItem({
+                      'name': _nameCtrl.text,
+                      'category': _categoryCtrl.text.isEmpty ? 'General' : _categoryCtrl.text,
+                      'stock': int.tryParse(_stockCtrl.text) ?? 0,
+                      'price': double.tryParse(_priceCtrl.text) ?? 0.0,
+                      'batch_number': _batchCtrl.text,
+                    });
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                      if (errorMsg != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Saved locally but DB failed: $errorMsg'),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(seconds: 5),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Successfully saved to database!'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      }
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                    }
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF10B981),
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -280,7 +345,7 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
     );
   }
 
-  Widget _inputField(String label, String hint) {
+  Widget _inputField(String label, String hint, TextEditingController controller, [TextInputType type = TextInputType.text]) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -294,6 +359,8 @@ class _PharmacyInventoryTabState extends State<PharmacyInventoryTab> {
             border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
           child: TextField(
+            controller: controller,
+            keyboardType: type,
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
