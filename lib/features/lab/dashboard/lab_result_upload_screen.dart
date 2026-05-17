@@ -1,23 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import '../controller/lab_controller.dart';
 
-class LabResultUploadScreen extends StatefulWidget {
+class LabResultUploadScreen extends ConsumerStatefulWidget {
   final String patientName;
   final String patientId;
+  final String orderId;
 
   const LabResultUploadScreen({
     super.key,
     this.patientName = 'Sarah Jenkins',
     this.patientId = '#8942-A',
+    this.orderId = '',
   });
 
   @override
-  State<LabResultUploadScreen> createState() => _LabResultUploadScreenState();
+  ConsumerState<LabResultUploadScreen> createState() => _LabResultUploadScreenState();
 }
 
-class _LabResultUploadScreenState extends State<LabResultUploadScreen> {
+class _LabResultUploadScreenState extends ConsumerState<LabResultUploadScreen> {
   final _hbController = TextEditingController();
   final _wbcController = TextEditingController();
   final _plateletsController = TextEditingController();
+  File? _selectedImage;
+  bool _isUploading = false;
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    
+    if (image != null) {
+      setState(() {
+        _selectedImage = File(image.path);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -134,7 +153,7 @@ class _LabResultUploadScreenState extends State<LabResultUploadScreen> {
                   ),
                 ),
                 const Text(
-                  'PDF Required',
+                  'Image or PDF Required',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -188,10 +207,46 @@ class _LabResultUploadScreenState extends State<LabResultUploadScreen> {
           width: double.infinity,
           height: 60,
           child: ElevatedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.cloud_upload),
-            label: const Text(
-              'Publish to Cloud',
+            onPressed: () async {
+              if (widget.orderId.isEmpty || _selectedImage == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Please select an image first'), backgroundColor: Colors.red),
+                );
+                return;
+              }
+              
+              setState(() { _isUploading = true; });
+              try {
+                // Upload real image
+                final uploadedUrl = await ref.read(labControllerProvider).uploadResultImage(widget.orderId, _selectedImage!);
+                
+                await ref.read(labControllerProvider).updateOrderStatus(
+                  widget.orderId, 
+                  'Completed', 
+                  resultUrl: uploadedUrl,
+                );
+                
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Result uploaded successfully!'), backgroundColor: Colors.green),
+                  );
+                  Navigator.pop(context);
+                }
+              } catch (e) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+                  );
+                }
+              } finally {
+                if (mounted) {
+                  setState(() { _isUploading = false; });
+                }
+              }
+            },
+            icon: _isUploading ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1E293B))) : const Icon(Icons.cloud_upload),
+            label: Text(
+              _isUploading ? 'Uploading...' : 'Publish to Cloud',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             style: ElevatedButton.styleFrom(
@@ -218,44 +273,49 @@ class _LabResultUploadScreenState extends State<LabResultUploadScreen> {
         border: Border.all(
           color: const Color(0xFFA7F3D0).withOpacity(0.5),
           width: 2,
-          style: BorderStyle.solid, // Note: standard BoxDecor doesn't do dashed easily
+          style: BorderStyle.solid,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: _pickImage,
           borderRadius: BorderRadius.circular(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 4))
+          child: _selectedImage != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.file(_selectedImage!, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 4))
+                        ],
+                      ),
+                      child: const Icon(Icons.cloud_upload_rounded, color: Color(0xFF10B981), size: 32),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Tap to select image',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF334155),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Max file size 10MB',
+                      style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
+                    ),
                   ],
                 ),
-                child: const Icon(Icons.cloud_upload_rounded, color: Color(0xFF10B981), size: 32),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Tap to upload report',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF334155),
-                ),
-              ),
-              const SizedBox(height: 4),
-              const Text(
-                'Max file size 10MB',
-                style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
-              ),
-            ],
-          ),
         ),
       ),
     );

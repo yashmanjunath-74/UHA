@@ -24,12 +24,14 @@ class LabModel {
   factory LabModel.fromMap(Map<String, dynamic> map) {
     return LabModel(
       id: map['id'] as String,
-      userId: map['user_id'] as String,
-      name: map['name'] as String,
+      userId: map['user_id'] as String? ?? map['id'] as String, // Fallback to id if user_id is null
+      name: (map['lab_name'] ?? map['name'] ?? 'Unknown Lab') as String,
       address: map['address'] as String?,
       city: map['city'] as String?,
-      registrationNumber: map['registration_number'] as String?,
-      testTypes: List<String>.from(map['test_types'] ?? []),
+      registrationNumber: (map['license_number'] ?? map['registration_number']) as String?,
+      testTypes: (map['test_types'] != null && (map['test_types'] as List).isNotEmpty)
+          ? List<String>.from(map['test_types'])
+          : ['Blood Test', 'X-Ray', 'Urine Test', 'MRI'],
       verificationStatus: VerificationStatus.values.byName(
         map['verification_status'] as String? ?? 'pending',
       ),

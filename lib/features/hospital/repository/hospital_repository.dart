@@ -1,29 +1,81 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:fpdart/fpdart.dart';
+import '../../../core/failure.dart';
+import '../../../core/type_defs.dart';
 
 class HospitalRepository {
-  final SupabaseClient _supabase;
+  final SupabaseClient supabaseClient;
 
-  HospitalRepository(this._supabase);
+  HospitalRepository({required this.supabaseClient});
 
-  // Upload document
-  Future<String> uploadDocument(String hospitalId, File file) async {
-    final fileExt = file.path.split('.').last;
-    final fileName = '$hospitalId-${DateTime.now().millisecondsSinceEpoch}.$fileExt';
-    final filePath = '$hospitalId/$fileName';
-
-    await _supabase.storage.from('hospital_documents').upload(
-          filePath,
-          file,
-          fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
-        );
-
-    final publicUrl = _supabase.storage.from('hospital_documents').getPublicUrl(filePath);
-    return publicUrl;
+  FutureEither<List<Map<String, dynamic>>> fetchStaff(String hospitalId) async {
+    try {
+      final res = await supabaseClient
+          .from('hospital_staff')
+          .select()
+          .eq('hospital_id', hospitalId)
+          .order('name');
+      return right(List<Map<String, dynamic>>.from(res));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
 
-  // Register Hospital
+  FutureEither<List<Map<String, dynamic>>> fetchAdmissions(String hospitalId) async {
+    try {
+      final res = await supabaseClient
+          .from('hospital_admissions')
+          .select()
+          .eq('hospital_id', hospitalId)
+          .order('patient_name');
+      return right(List<Map<String, dynamic>>.from(res));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<void> addStaff(Map<String, dynamic> staffData) async {
+    try {
+      await supabaseClient.from('hospital_staff').insert(staffData);
+      return right(null);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<void> addAdmission(Map<String, dynamic> admissionData) async {
+    try {
+      await supabaseClient.from('hospital_admissions').insert(admissionData);
+      return right(null);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<void> updateAdmissionStatus(String admissionId, String status) async {
+    try {
+      await supabaseClient
+          .from('hospital_admissions')
+          .update({'status': status})
+          .eq('id', admissionId);
+      return right(null);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  Future<String?> uploadDocument(String userId, File file) async {
+    try {
+      final fileName = 'hospital_docs/$userId/registration_license.pdf';
+      await supabaseClient.storage.from('hospital_documents').upload(fileName, file);
+      return supabaseClient.storage.from('hospital_documents').getPublicUrl(fileName);
+    } catch (e) {
+      print('Document upload failed: $e');
+      return null;
+    }
+  }
+
   Future<void> registerHospital({
     required String id,
     required String institutionName,
@@ -37,28 +89,20 @@ class HospitalRepository {
     required bool hasICU,
     String? documentUrl,
   }) async {
-    await _supabase.from('hospitals').insert({
+    await supabaseClient.from('hospitals').insert({
       'id': id,
-      'institution_name': institutionName,
+      'user_id': id,
+      'name': institutionName,
       'institution_type': institutionType,
       'contact_number': contactNumber,
       'official_email': officialEmail,
-      'bed_capacity': bedCapacity,
-      'departments': departments,
+      'bed_count': bedCapacity,
+      'department_count': departments,
       'has_emergency': hasEmergency,
       'has_ambulance': hasAmbulance,
       'has_icu': hasICU,
       'document_url': documentUrl,
+      'verification_status': 'pending',
     });
   }
-
-  // Get Hospital details for admin
-  Future<Map<String, dynamic>?> getHospitalDetails(String id) async {
-    final res = await _supabase.from('hospitals').select().eq('id', id).maybeSingle();
-    return res;
-  }
 }
-
-final hospitalRepositoryProvider = Provider<HospitalRepository>((ref) {
-  return HospitalRepository(Supabase.instance.client);
-});

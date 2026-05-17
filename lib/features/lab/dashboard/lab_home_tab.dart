@@ -1,58 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import '../controller/lab_controller.dart';
+import '../../../models/lab_order_model.dart';
 
-class LabHomeTab extends StatelessWidget {
+class LabHomeTab extends ConsumerWidget {
   const LabHomeTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileAsync = ref.watch(labProfileProvider);
+    final ordersAsync = ref.watch(labOrdersProvider);
+
     return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 120),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Monday, Oct 24', style: TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                SizedBox(height: 4),
-                Text('City Diagnostics Lab', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
-                Text('Universal Health App', style: TextStyle(fontSize: 13, color: Color(0xFF10B981), fontWeight: FontWeight.w500)),
-              ]),
-              CircleAvatar(radius: 22, backgroundColor: Colors.white, child: const Icon(Icons.biotech, color: Color(0xFF10B981))),
-            ]),
-            const SizedBox(height: 24),
+      child: profileAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
+        data: (profile) {
+          if (profile == null) return const Center(child: Text('No Profile Found'));
+          
+          return ordersAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, stack) => Center(child: Text('Error loading orders: $err')),
+            data: (orders) {
+              final newOrders = orders.where((o) => o.status == 'New' || o.status == 'Testing').toList();
+              final completedOrders = orders.where((o) => o.status == 'Completed').toList();
+              final todayDate = DateFormat('EEEE, MMM d').format(DateTime.now());
+              
+              // Revenue calculation mock based on completed orders
+              final revenue = completedOrders.length * 850;
 
-            // Overview Stats
-            Row(children: [
-              _statItem('18', 'Tests Today', const Color(0xFF10B981), Icons.assignment_turned_in_outlined),
-              const SizedBox(width: 12),
-              _statItem('5', 'Pending Reports', const Color(0xFFF59E0B), Icons.pending_actions),
-            ]),
-            const SizedBox(height: 12),
-            Row(children: [
-              _statItem('₹14,500', 'Today\'s Revenue', const Color(0xFF6366F1), Icons.payments_outlined),
-              const SizedBox(width: 12),
-              _statItem('4.9', 'Lab Rating', const Color(0xFF8B5CF6), Icons.star_outline_rounded),
-            ]),
-            const SizedBox(height: 24),
+              return SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 120),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(todayDate, style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                        const SizedBox(height: 4),
+                        Text(profile.name, style: const TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+                        const Text('Universal Health App', style: TextStyle(fontSize: 13, color: Color(0xFF10B981), fontWeight: FontWeight.w500)),
+                      ]),
+                      const CircleAvatar(radius: 22, backgroundColor: Colors.white, child: Icon(Icons.biotech, color: Color(0xFF10B981))),
+                    ]),
+                    const SizedBox(height: 24),
 
-            // Payout Banner
-            _payoutBanner(),
-            const SizedBox(height: 24),
+                    // Overview Stats
+                    Row(children: [
+                      _statItem('${orders.length}', 'Total Tests', const Color(0xFF10B981), Icons.assignment_turned_in_outlined),
+                      const SizedBox(width: 12),
+                      _statItem('${newOrders.length}', 'Pending Reports', const Color(0xFFF59E0B), Icons.pending_actions),
+                    ]),
+                    const SizedBox(height: 12),
+                    Row(children: [
+                      _statItem('₹$revenue', 'Est Revenue', const Color(0xFF6366F1), Icons.payments_outlined),
+                      const SizedBox(width: 12),
+                      _statItem('4.9', 'Lab Rating', const Color(0xFF8B5CF6), Icons.star_outline_rounded),
+                    ]),
+                    const SizedBox(height: 24),
 
-            // Recent Bookings
-            const Text('Upcoming Tests', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
-            const SizedBox(height: 12),
-            _testCard('Sarah Jenkins', 'Complete Blood Count (CBC)', '10:30 AM', 'Confirmed', const Color(0xFF10B981)),
-            const SizedBox(height: 10),
-            _testCard('Raj Kumar', 'Lipid Profile', '11:15 AM', 'Arrival Pending', const Color(0xFFF59E0B)),
-            const SizedBox(height: 10),
-            _testCard('Priya Sharma', 'Blood Sugar (F)', '12:00 PM', 'Confirmed', const Color(0xFF10B981)),
-          ],
-        ),
+                    // Payout Banner
+                    _payoutBanner(),
+                    const SizedBox(height: 24),
+
+                    // Recent Bookings
+                    const Text('Upcoming Tests', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1E293B))),
+                    const SizedBox(height: 12),
+                    
+                    if (newOrders.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text('No upcoming tests.', style: TextStyle(color: Color(0xFF94A3B8))),
+                      )
+                    else
+                      ...newOrders.take(5).map((order) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: _testCard(
+                            order.patientName, 
+                            order.testName, 
+                            order.time.length > 16 ? order.time.substring(11, 16) : order.time, 
+                            order.status, 
+                            const Color(0xFFF59E0B)
+                          ),
+                        );
+                      }),
+                  ],
+                ),
+              );
+            }
+          );
+        }
       ),
     );
   }
+
 
   Widget _statItem(String value, String label, Color color, IconData icon) => Expanded(
         child: Container(

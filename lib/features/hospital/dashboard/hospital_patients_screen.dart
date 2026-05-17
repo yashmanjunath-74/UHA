@@ -1,81 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
+import '../controller/hospital_controller.dart';
+import '../../../models/hospital_admission_model.dart';
 
-class HospitalPatientsScreen extends StatefulWidget {
+class HospitalPatientsScreen extends ConsumerStatefulWidget {
   const HospitalPatientsScreen({super.key});
 
   @override
-  State<HospitalPatientsScreen> createState() => _HospitalPatientsScreenState();
+  ConsumerState<HospitalPatientsScreen> createState() => _HospitalPatientsScreenState();
 }
 
-class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
+class _HospitalPatientsScreenState extends ConsumerState<HospitalPatientsScreen> {
   final _searchController = TextEditingController();
   String _selectedFilter = 'All';
 
   final List<String> _filters = ['All', 'Admitted', 'OPD', 'Emergency', 'Discharged'];
 
-  final List<Map<String, dynamic>> _patients = [
-    {
-      'name': 'Rajesh Kumar',
-      'id': 'UHA-20241',
-      'age': 45,
-      'ward': 'Cardiology',
-      'status': 'Admitted',
-      'doctor': 'Dr. Sharma',
-      'bedNo': 'A-12',
-      'since': '2 days',
-      'gender': 'M',
-      'statusColor': const Color(0xFF10B981),
-    },
-    {
-      'name': 'Priya Patel',
-      'id': 'UHA-20242',
-      'age': 32,
-      'ward': 'Maternity',
-      'status': 'Admitted',
-      'doctor': 'Dr. Mehta',
-      'bedNo': 'B-05',
-      'since': '1 day',
-      'gender': 'F',
-      'statusColor': const Color(0xFF10B981),
-    },
-    {
-      'name': 'Suresh Nair',
-      'id': 'UHA-20243',
-      'age': 67,
-      'ward': 'ICU',
-      'status': 'Emergency',
-      'doctor': 'Dr. Singh',
-      'bedNo': 'ICU-03',
-      'since': '5 hrs',
-      'gender': 'M',
-      'statusColor': const Color(0xFFEF4444),
-    },
-    {
-      'name': 'Anita Reddy',
-      'id': 'UHA-20244',
-      'age': 28,
-      'ward': 'Orthopedics',
-      'status': 'OPD',
-      'doctor': 'Dr. Joseph',
-      'bedNo': 'OPD-7',
-      'since': 'Today',
-      'gender': 'F',
-      'statusColor': const Color(0xFF6366F1),
-    },
-    {
-      'name': 'Vikas Gupta',
-      'id': 'UHA-20245',
-      'age': 55,
-      'ward': 'Neurology',
-      'status': 'Discharged',
-      'doctor': 'Dr. Rao',
-      'bedNo': '-',
-      'since': 'Yesterday',
-      'gender': 'M',
-      'statusColor': const Color(0xFF64748B),
-    },
-  ];
+  // Remove mock data, we will fetch from provider
 
   @override
   void dispose() {
@@ -83,15 +25,15 @@ class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
     super.dispose();
   }
 
-  List<Map<String, dynamic>> get _filteredPatients {
+  List<HospitalAdmissionModel> _filteredPatients(List<HospitalAdmissionModel> allPatients) {
     var filtered = _selectedFilter == 'All'
-        ? _patients
-        : _patients.where((p) => p['status'] == _selectedFilter).toList();
+        ? allPatients
+        : allPatients.where((p) => p.status == _selectedFilter).toList();
     if (_searchController.text.isNotEmpty) {
       filtered = filtered
           .where((p) =>
-              p['name'].toLowerCase().contains(_searchController.text.toLowerCase()) ||
-              p['id'].toLowerCase().contains(_searchController.text.toLowerCase()))
+              p.patientName.toLowerCase().contains(_searchController.text.toLowerCase()) ||
+              p.patientDisplayId.toLowerCase().contains(_searchController.text.toLowerCase()))
           .toList();
     }
     return filtered;
@@ -172,11 +114,21 @@ class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
         ),
         // List
         Expanded(
-          child: ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-            itemCount: _filteredPatients.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
-            itemBuilder: (context, index) => _buildPatientCard(_filteredPatients[index]),
+          child: ref.watch(hospitalAdmissionsProvider).when(
+            data: (allPatients) {
+              final displayedPatients = _filteredPatients(allPatients);
+              if (displayedPatients.isEmpty) {
+                return const Center(child: Text('No patients found.'));
+              }
+              return ListView.separated(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+                itemCount: displayedPatients.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 10),
+                itemBuilder: (context, index) => _buildPatientCard(displayedPatients[index]),
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error: $e')),
           ),
         ),
       ],
@@ -202,8 +154,23 @@ class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
     );
   }
 
-  Widget _buildPatientCard(Map<String, dynamic> patient) {
-    final statusColor = patient['statusColor'] as Color;
+  Widget _buildPatientCard(HospitalAdmissionModel patient) {
+    Color statusColor;
+    switch (patient.status) {
+      case 'Emergency':
+        statusColor = const Color(0xFFEF4444);
+        break;
+      case 'OPD':
+        statusColor = const Color(0xFFF59E0B);
+        break;
+      case 'Discharged':
+        statusColor = const Color(0xFF64748B);
+        break;
+      case 'Admitted':
+      default:
+        statusColor = const Color(0xFF10B981);
+    }
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -215,12 +182,12 @@ class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundColor: patient['gender'] == 'M' ? const Color(0xFFE8F1FF) : const Color(0xFFFFE8F1),
+            backgroundColor: patient.gender == 'M' || patient.gender == 'Male' ? const Color(0xFFE8F1FF) : const Color(0xFFFFE8F1),
             child: Text(
-              patient['name'][0],
+              patient.patientName.isNotEmpty ? patient.patientName[0].toUpperCase() : '?',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: patient['gender'] == 'M' ? const Color(0xFF2C6BFF) : const Color(0xFFFF2C7D),
+                color: patient.gender == 'M' || patient.gender == 'Male' ? const Color(0xFF2C6BFF) : const Color(0xFFFF2C7D),
               ),
             ),
           ),
@@ -231,14 +198,14 @@ class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
               children: [
                 Row(
                   children: [
-                    Text(patient['name'], style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Color(0xFF1E293B))),
+                    Text(patient.patientName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Color(0xFF1E293B))),
                     const SizedBox(width: 6),
-                    Text('${patient['age']}y', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
+                    Text('${patient.age}y', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
                   ],
                 ),
                 const SizedBox(height: 3),
-                Text('${patient['id']} • ${patient['ward']}', style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
-                Text('${patient['doctor']} • Bed: ${patient['bedNo']}', style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+                Text('${patient.patientDisplayId} • ${patient.ward}', style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+                Text('${patient.doctorName} • Bed: ${patient.bedNo}', style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
               ],
             ),
           ),
@@ -251,10 +218,10 @@ class _HospitalPatientsScreenState extends State<HospitalPatientsScreen> {
                   color: statusColor.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text(patient['status'], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: statusColor)),
+                child: Text(patient.status, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: statusColor)),
               ),
               const SizedBox(height: 4),
-              Text(patient['since'], style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
+              Text(patient.admittedSince, style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
             ],
           ),
         ],

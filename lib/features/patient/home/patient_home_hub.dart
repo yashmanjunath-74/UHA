@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
 import '../profile/patient_profile_screen.dart';
+import 'pharmacy_list_screen.dart';
 import '../appointments/book_appointments_screen.dart';
 import '../medical_records/medical_health_timeline.dart';
 import '../triage/ai_symptom_triage_chat.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/controller/auth_controller.dart';
 import '../../../core/constants/constants.dart';
 import 'package:routemaster/routemaster.dart';
-import 'pharmacy_list_screen.dart';
+import '../chats/chat_list_screen.dart';
+import '../lab/lab_list_screen.dart';
 
 class PatientHomeHub extends StatefulWidget {
   const PatientHomeHub({super.key});
@@ -42,7 +44,9 @@ class _PatientHomeHubState extends State<PatientHomeHub> {
             // Trigger New Booking Flow directly from FAB
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const BookAppointmentsScreen()),
+              MaterialPageRoute(
+                builder: (context) => const BookAppointmentsScreen(),
+              ),
             );
           },
           backgroundColor: const Color(0xFF10B981),
@@ -66,7 +70,7 @@ class _PatientHomeHubState extends State<PatientHomeHub> {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -104,7 +108,9 @@ class _PatientHomeHubState extends State<PatientHomeHub> {
             style: TextStyle(
               fontSize: 10,
               fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-              color: isActive ? const Color(0xFF10B981) : const Color(0xFF94A3B8),
+              color: isActive
+                  ? const Color(0xFF10B981)
+                  : const Color(0xFF94A3B8),
             ),
           ),
         ],
@@ -236,7 +242,7 @@ class DashboardContent extends ConsumerWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                     ),
                   ],
@@ -277,7 +283,7 @@ class DashboardContent extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -318,7 +324,8 @@ class DashboardContent extends ConsumerWidget {
       childAspectRatio: 1.1,
       children: [
         GestureDetector(
-          onTap: () => Routemaster.of(context).push(AppConstants.routePatientTriage),
+          onTap: () =>
+              Routemaster.of(context).push(AppConstants.routePatientTriage),
           child: _buildActionCard(
             'AI Triage',
             'Check symptoms now',
@@ -329,7 +336,8 @@ class DashboardContent extends ConsumerWidget {
           ),
         ),
         GestureDetector(
-          onTap: () => Routemaster.of(context).push(AppConstants.routeBookAppointment),
+          onTap: () =>
+              Routemaster.of(context).push(AppConstants.routeBookAppointment),
           child: _buildActionCard(
             'Appointments',
             'Book or manage',
@@ -339,7 +347,9 @@ class DashboardContent extends ConsumerWidget {
           ),
         ),
         GestureDetector(
-          onTap: () => Routemaster.of(context).push(AppConstants.routePatientDigitalFile),
+          onTap: () => Routemaster.of(
+            context,
+          ).push(AppConstants.routePatientDigitalFile),
           child: _buildActionCard(
             'My Records',
             'View lab reports',
@@ -352,7 +362,9 @@ class DashboardContent extends ConsumerWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PharmacyListScreen()),
+              MaterialPageRoute(
+                builder: (context) => const PharmacyListScreen(),
+              ),
             );
           },
           child: _buildActionCard(
@@ -361,6 +373,37 @@ class DashboardContent extends ConsumerWidget {
             Icons.medication_outlined,
             const Color(0xFFF3E8FF),
             const Color(0xFF9333EA),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            // Now navigating to the ChatListScreen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ChatListScreen()),
+            );
+          },
+          child: _buildActionCard(
+            'Messages',
+            'Chat with doctors',
+            Icons.chat_bubble_outline_rounded,
+            const Color(0xFFECFDF5),
+            const Color(0xFF059669),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LabListScreen()),
+            );
+          },
+          child: _buildActionCard(
+            'Find Labs',
+            'Book a lab test',
+            Icons.science_outlined,
+            const Color(0xFFFFF7ED),
+            const Color(0xFFEA580C),
           ),
         ),
       ],
@@ -374,9 +417,12 @@ class DashboardContent extends ConsumerWidget {
     Color bgColor,
     Color iconColor, {
     bool isPrimary = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(24),
+      child: Container(
       decoration: BoxDecoration(
         color: isPrimary ? bgColor : Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -384,14 +430,14 @@ class DashboardContent extends ConsumerWidget {
         boxShadow: isPrimary
             ? [
                 BoxShadow(
-                  color: bgColor.withOpacity(0.3),
+                  color: bgColor.withValues(alpha: 0.3),
                   blurRadius: 15,
                   offset: const Offset(0, 8),
                 ),
               ]
             : [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
+                  color: Colors.black.withValues(alpha: 0.02),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -404,7 +450,7 @@ class DashboardContent extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isPrimary ? Colors.white.withOpacity(0.2) : bgColor,
+              color: isPrimary ? Colors.white.withValues(alpha: 0.2) : bgColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -430,7 +476,7 @@ class DashboardContent extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 11,
                   color: isPrimary
-                      ? Colors.white.withOpacity(0.8)
+                      ? Colors.white.withValues(alpha: 0.8)
                       : const Color(0xFF64748B),
                 ),
               ),
@@ -438,8 +484,9 @@ class DashboardContent extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildUpcomingAppointment() {
     return Column(
@@ -475,7 +522,7 @@ class DashboardContent extends ConsumerWidget {
             border: Border.all(color: const Color(0xFFF1F5F9)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
+                color: Colors.black.withValues(alpha: 0.02),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),

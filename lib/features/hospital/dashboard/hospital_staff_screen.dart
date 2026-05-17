@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unified_health_alliance/core/theme/app_colors.dart';
+import '../controller/hospital_controller.dart';
+import '../../../models/hospital_staff_model.dart';
 
-class HospitalStaffScreen extends StatefulWidget {
+class HospitalStaffScreen extends ConsumerStatefulWidget {
   const HospitalStaffScreen({super.key});
 
   @override
-  State<HospitalStaffScreen> createState() => _HospitalStaffScreenState();
+  ConsumerState<HospitalStaffScreen> createState() => _HospitalStaffScreenState();
 }
 
-class _HospitalStaffScreenState extends State<HospitalStaffScreen>
+class _HospitalStaffScreenState extends ConsumerState<HospitalStaffScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final _searchController = TextEditingController();
 
-  final List<Map<String, dynamic>> _doctors = [
-    {'name': 'Dr. Arjun Sharma', 'dept': 'Cardiology', 'status': 'On Duty', 'patients': 12, 'shift': 'Morning', 'exp': '15 yrs', 'avatar': 'AS', 'color': const Color(0xFF2C6BFF)},
-    {'name': 'Dr. Priya Mehta', 'dept': 'Gynecology', 'status': 'On Duty', 'patients': 8, 'shift': 'Morning', 'exp': '10 yrs', 'avatar': 'PM', 'color': const Color(0xFFFF2C7D)},
-    {'name': 'Dr. Ramesh Singh', 'dept': 'Neurology', 'status': 'Off Duty', 'patients': 0, 'shift': 'Evening', 'exp': '20 yrs', 'avatar': 'RS', 'color': const Color(0xFF6366F1)},
-    {'name': 'Dr. Kavya Joseph', 'dept': 'Pediatrics', 'status': 'On Duty', 'patients': 15, 'shift': 'Morning', 'exp': '7 yrs', 'avatar': 'KJ', 'color': const Color(0xFF10B981)},
-    {'name': 'Dr. Vijay Rao', 'dept': 'Orthopedics', 'status': 'On Leave', 'patients': 0, 'shift': '-', 'exp': '12 yrs', 'avatar': 'VR', 'color': const Color(0xFFF59E0B)},
-  ];
-
-  final List<Map<String, dynamic>> _nurses = [
-    {'name': 'Sunita Devi', 'dept': 'ICU', 'status': 'On Duty', 'ward': 'ICU-A', 'shift': 'Morning', 'exp': '8 yrs', 'avatar': 'SD', 'color': const Color(0xFF10B981)},
-    {'name': 'Geeta Rani', 'dept': 'Maternity', 'status': 'On Duty', 'ward': 'Ward-B', 'shift': 'Morning', 'exp': '5 yrs', 'avatar': 'GR', 'color': const Color(0xFFFF2C7D)},
-    {'name': 'Ravi Shankar', 'dept': 'Emergency', 'status': 'On Duty', 'ward': 'ER-1', 'shift': 'Night', 'exp': '3 yrs', 'avatar': 'RS', 'color': const Color(0xFFEF4444)},
-    {'name': 'Meena Kumari', 'dept': 'Cardiology', 'status': 'Off Duty', 'ward': '-', 'shift': 'Evening', 'exp': '10 yrs', 'avatar': 'MK', 'color': const Color(0xFF64748B)},
-  ];
+  // Remove mock staff data, we will fetch from provider
 
   @override
   void initState() {
@@ -86,12 +76,21 @@ class _HospitalStaffScreenState extends State<HospitalStaffScreen>
           ),
         ),
         Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildStaffList(_doctors, isDoctors: true),
-              _buildStaffList(_nurses, isDoctors: false),
-            ],
+          child: ref.watch(hospitalStaffProvider).when(
+            data: (staffList) {
+              final doctors = staffList.where((s) => s.isDoctor).toList();
+              final nurses = staffList.where((s) => !s.isDoctor).toList();
+              
+              return TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildStaffList(doctors, isDoctors: true),
+                  _buildStaffList(nurses, isDoctors: false),
+                ],
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error: $e')),
           ),
         ),
       ],
@@ -116,14 +115,20 @@ class _HospitalStaffScreenState extends State<HospitalStaffScreen>
     );
   }
 
-  Widget _buildStaffList(List<Map<String, dynamic>> list, {required bool isDoctors}) {
+  Widget _buildStaffList(List<HospitalStaffModel> list, {required bool isDoctors}) {
+    if (list.isEmpty) {
+      return Center(child: Text('No ${isDoctors ? 'doctors' : 'nurses'} found.'));
+    }
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
       itemCount: list.length,
       separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         final staff = list[index];
-        final statusColor = _statusColor(staff['status']);
+        final statusColor = _statusColor(staff.status);
+        final avatarText = staff.name.length >= 2 ? staff.name.substring(0, 2).toUpperCase() : '??';
+        final roleColor = isDoctors ? const Color(0xFF2C6BFF) : const Color(0xFF10B981);
+        
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -135,21 +140,21 @@ class _HospitalStaffScreenState extends State<HospitalStaffScreen>
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: (staff['color'] as Color).withOpacity(0.15),
-                child: Text(staff['avatar'],
-                    style: TextStyle(fontWeight: FontWeight.bold, color: staff['color'] as Color, fontSize: 14)),
+                backgroundColor: roleColor.withOpacity(0.15),
+                child: Text(avatarText,
+                    style: TextStyle(fontWeight: FontWeight.bold, color: roleColor, fontSize: 14)),
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(staff['name'],
+                    Text(staff.name,
                         style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: Color(0xFF1E293B))),
                     const SizedBox(height: 3),
-                    Text('${staff['dept']} • ${staff['exp']}',
+                    Text('${staff.department} • ${staff.role}',
                         style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
-                    Text('Shift: ${staff['shift']}',
+                    Text('Phone: ${staff.phone}',
                         style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
                   ],
                 ),
@@ -163,14 +168,9 @@ class _HospitalStaffScreenState extends State<HospitalStaffScreen>
                       color: statusColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(staff['status'],
+                    child: Text(staff.status,
                         style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: statusColor)),
                   ),
-                  if (isDoctors && staff['patients'] > 0) ...[
-                    const SizedBox(height: 4),
-                    Text('${staff['patients']} patients',
-                        style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
-                  ],
                 ],
               ),
             ],

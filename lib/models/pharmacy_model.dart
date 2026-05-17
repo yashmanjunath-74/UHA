@@ -22,17 +22,24 @@ class PharmacyModel {
   });
 
   factory PharmacyModel.fromMap(Map<String, dynamic> map) {
+    // Handle the fact that DB might not have verification_status or uses different field names
+    String vStatusStr = map['verification_status'] as String? ?? 'pending';
+    VerificationStatus vStatus;
+    try {
+      vStatus = VerificationStatus.values.byName(vStatusStr);
+    } catch (_) {
+      vStatus = VerificationStatus.pending;
+    }
+
     return PharmacyModel(
-      id: map['id'] as String,
-      userId: map['user_id'] as String,
-      name: map['name'] as String,
+      id: map['id'] as String? ?? '',
+      userId: map['user_id'] as String? ?? '',
+      name: map['name'] as String? ?? map['pharmacy_name'] as String? ?? 'Unknown Pharmacy',
       address: map['address'] as String?,
       city: map['city'] as String?,
       licenseNumber: map['license_number'] as String?,
       gstNumber: map['gst_number'] as String?,
-      verificationStatus: VerificationStatus.values.byName(
-        map['verification_status'] as String? ?? 'pending',
-      ),
+      verificationStatus: vStatus,
     );
   }
 

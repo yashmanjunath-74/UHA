@@ -4,6 +4,7 @@ import 'lab_home_tab.dart';
 import 'lab_tests_tab.dart';
 import 'lab_earnings_tab.dart';
 import 'lab_profile_tab.dart';
+import 'lab_manage_tests_tab.dart';
 
 class LabDashboardShell extends ConsumerStatefulWidget {
   const LabDashboardShell({super.key});
@@ -18,6 +19,7 @@ class _LabDashboardShellState extends ConsumerState<LabDashboardShell> {
   final List<Widget> _screens = const [
     LabHomeTab(),
     LabTestsTab(),
+    LabManageTestsTab(),
     LabEarningsTab(),
     LabProfileTab(),
   ];
@@ -26,20 +28,8 @@ class _LabDashboardShellState extends ConsumerState<LabDashboardShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6F9),
-      body: Stack(
-        children: [
-          // Main content
-          _screens[_currentIndex],
-
-          // Floating Bottom Navigation Bar
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: _buildFloatingNav(),
-          ),
-        ],
-      ),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: _buildFloatingNav(),
     );
   }
 
@@ -62,9 +52,10 @@ class _LabDashboardShellState extends ConsumerState<LabDashboardShell> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _navItem(0, Icons.dashboard_rounded, Icons.dashboard_outlined, 'Home'),
-          _navItem(1, Icons.biotech_rounded, Icons.biotech_outlined, 'Tests'),
-          _navItem(2, Icons.payments_rounded, Icons.payments_outlined, 'Earnings'),
-          _navItem(3, Icons.person_rounded, Icons.person_outline, 'Profile'),
+          _navItem(1, Icons.assignment_rounded, Icons.assignment_outlined, 'Orders'),
+          _navItem(2, Icons.biotech_rounded, Icons.biotech_outlined, 'Tests'),
+          _navItem(3, Icons.payments_rounded, Icons.payments_outlined, 'Earnings'),
+          _navItem(4, Icons.person_rounded, Icons.person_outline, 'Profile'),
         ],
       ),
     );
