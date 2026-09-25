@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Role Selection Gateway - UHA</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#009B6B", // Exact emerald green from reference
+              secondary: "#E0F2EC", // Lighter tint of the emerald for backgrounds
+              accent: "#00B37E", // A slightly brighter variation for hovers
+              "background-light": "#F4F9F6", // Very subtle green-tinted white
+              "background-dark": "#0A1F18", // Deep dark green/black for dark mode
+              "card-light": "#FFFFFF",
+              "card-dark": "#162B24",
+              "text-primary-light": "#111827",
+              "text-secondary-light": "#6B7280",
+              "text-primary-dark": "#ECFDF5",
+              "text-secondary-dark": "#9CA3AF",
+            },
+            fontFamily: {
+              sans: ["Inter", "Poppins", "sans-serif"],
+              display: ["Poppins", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              'xl': '1.5rem',
+              '2xl': '2.5rem',
+              '3xl': '3rem',
+            },
+            boxShadow: {
+                'soft': '0 20px 40px -15px rgba(0, 155, 107, 0.1)',
+                'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                'glow': '0 0 25px rgba(0, 155, 107, 0.25)'
+            }
+          },
+        },
+      };
+    </script>
+<style>.role-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .role-card:active {
+            transform: scale(0.98);
+        }.no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(800px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gradient-to-br from-background-light to-[#E8F5F1] dark:from-background-dark dark:to-[#051510] font-sans text-text-primary-light dark:text-text-primary-dark antialiased min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden transition-colors duration-300">
+<div class="absolute top-[-15%] left-[-15%] w-96 h-96 bg-primary/10 dark:bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/15 dark:bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+<main class="w-full max-w-md z-10 flex flex-col h-full justify-between gap-6 py-4">
+<header class="text-center flex flex-col items-center space-y-4 mb-6">
+<div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-card-dark shadow-soft mb-2 ring-1 ring-primary/10">
+<span class="material-icons-round text-primary text-5xl">add_box</span>
+</div>
+<div class="space-y-1">
+<h1 class="text-[28px] font-display font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
+            Welcome to <span class="text-primary">UHA</span>
+</h1>
+<p class="text-text-secondary-light dark:text-text-secondary-dark font-medium text-lg">
+            Who are you?
+        </p>
+</div>
+</header>
+<div class="flex flex-col gap-4 w-full">
+<button class="role-card group relative w-full p-5 bg-card-light dark:bg-card-dark rounded-3xl shadow-card hover:shadow-soft dark:shadow-none dark:border dark:border-gray-800 flex items-center gap-5 hover:border-primary/50 border border-transparent ring-1 ring-black/5 dark:ring-white/5">
+<div class="flex-shrink-0 w-14 h-14 rounded-full bg-secondary dark:bg-primary/20 flex items-center justify-center text-primary dark:text-emerald-400 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-icons-round text-3xl">person</span>
+</div>
+<div class="text-left flex-1">
+<h3 class="text-[17px] font-display font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-emerald-400 transition-colors">Patient</h3>
+<p class="text-[13px] text-text-secondary-light dark:text-text-secondary-dark font-medium leading-tight mt-0.5">I am seeking care</p>
+</div>
+<div class="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-icons-round text-gray-400 dark:text-gray-500 group-hover:text-primary text-lg">chevron_right</span>
+</div>
+</button>
+<button class="role-card group relative w-full p-5 bg-card-light dark:bg-card-dark rounded-3xl shadow-card hover:shadow-soft dark:shadow-none dark:border dark:border-gray-800 flex items-center gap-5 hover:border-primary/50 border border-transparent ring-1 ring-black/5 dark:ring-white/5">
+<div class="flex-shrink-0 w-14 h-14 rounded-full bg-secondary dark:bg-primary/20 flex items-center justify-center text-primary dark:text-emerald-400 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-icons-round text-3xl">stethoscope</span>
+</div>
+<div class="text-left flex-1">
+<h3 class="text-[17px] font-display font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-emerald-400 transition-colors">Doctor</h3>
+<p class="text-[13px] text-text-secondary-light dark:text-text-secondary-dark font-medium leading-tight mt-0.5">I am a provider</p>
+</div>
+<div class="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-icons-round text-gray-400 dark:text-gray-500 group-hover:text-primary text-lg">chevron_right</span>
+</div>
+</button>
+<button class="role-card group relative w-full p-5 bg-card-light dark:bg-card-dark rounded-3xl shadow-card hover:shadow-soft dark:shadow-none dark:border dark:border-gray-800 flex items-center gap-5 hover:border-primary/50 border border-transparent ring-1 ring-black/5 dark:ring-white/5">
+<div class="flex-shrink-0 w-14 h-14 rounded-full bg-secondary dark:bg-primary/20 flex items-center justify-center text-primary dark:text-emerald-400 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="material-icons-round text-3xl">domain</span>
+</div>
+<div class="text-left flex-1">
+<h3 class="text-[17px] font-display font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-emerald-400 transition-colors">Partner</h3>
+<p class="text-[13px] text-text-secondary-light dark:text-text-secondary-dark font-medium leading-tight mt-0.5">Hospital / Lab Admin</p>
+</div>
+<div class="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+<span class="material-icons-round text-gray-400 dark:text-gray-500 group-hover:text-primary text-lg">chevron_right</span>
+</div>
+</button>
+</div>
+<footer class="text-center mt-auto pb-4 pt-8">
+<p class="text-[15px] text-text-secondary-light dark:text-text-secondary-dark font-medium">
+        New here? 
+        <a class="font-bold text-primary hover:text-accent dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors ml-1" href="#">Register Organization</a>
+</p>
+<div class="mt-8 flex justify-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary/20"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary/20"></span>
+<span class="w-8 h-2.5 rounded-full bg-primary"></span>
+</div>
+</footer>
+</main>
+<div class="absolute top-0 w-full h-12 pointer-events-none z-20 bg-gradient-to-b from-background-light/80 to-transparent dark:from-background-dark/80"></div>
+</body></html>

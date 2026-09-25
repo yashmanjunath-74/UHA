@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmacy Reg: Document Upload</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df2a6",
+                        "primary-dark": "#0be098", 
+                        "background-light": "#f5f8f7",
+                        "background-dark": "#10221c",
+                        "neutral-surface": "#ffffff",
+                        "neutral-surface-dark": "#1a2e28",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar hide for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center font-display">
+<!-- Mobile Device Simulation Wrapper -->
+<div class="w-full max-w-[375px] h-[812px] bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden relative flex flex-col rounded-[2.5rem] border-[8px] border-gray-900">
+<!-- Status Bar Area (Simulated) -->
+<div class="w-full h-12 flex justify-between items-end px-6 pb-2 text-xs font-medium text-gray-900 dark:text-gray-100 z-20">
+<span>9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons-round text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-sm">wifi</span>
+<span class="material-icons-round text-lg">battery_full</span>
+</div>
+</div>
+<!-- Header -->
+<div class="px-6 pt-2 pb-4 bg-background-light dark:bg-background-dark z-10">
+<div class="flex items-center justify-between mb-6">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-neutral-surface-dark shadow-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round">arrow_back</span>
+</button>
+<div class="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Registration</div>
+<div class="w-10"></div> <!-- Spacer for alignment -->
+</div>
+<!-- Progress Bar -->
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-primary">Step 2 of 3</span>
+<span class="text-xs text-gray-400 dark:text-gray-500">66% Completed</span>
+</div>
+<div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3 rounded-full shadow-[0_0_10px_rgba(13,242,166,0.5)]"></div>
+</div>
+</div>
+<!-- Main Content (Scrollable) -->
+<div class="flex-1 overflow-y-auto no-scrollbar px-6 pb-24">
+<div class="mb-8 mt-2">
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Verify your Pharmacy</h1>
+<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                    Please upload valid government-issued documents to proceed with the verification process.
+                </p>
+</div>
+<!-- Upload Card 1: Operating License -->
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-gray-800 dark:text-gray-200">Pharmacy Operating License</label>
+<span class="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded">Required</span>
+</div>
+<div class="group relative w-full h-40 rounded-xl border-2 border-dashed border-primary/50 bg-white dark:bg-neutral-surface-dark hover:bg-primary/5 dark:hover:bg-primary/5 transition-all cursor-pointer flex flex-col items-center justify-center text-center p-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-200">
+<span class="material-icons-outlined text-primary text-2xl">cloud_upload</span>
+</div>
+<p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Tap to upload
+                    </p>
+<p class="text-xs text-gray-400 dark:text-gray-500">
+                        PDF, JPG or PNG (Max 5MB)
+                    </p>
+</div>
+</div>
+<!-- Upload Card 2: GST/Tax Certificate (Uploaded State) -->
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<label class="text-sm font-semibold text-gray-800 dark:text-gray-200">GST / Tax Certificate</label>
+<span class="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded">Required</span>
+</div>
+<!-- This simulates an uploaded state -->
+<div class="relative w-full rounded-xl border border-primary/30 bg-primary/5 dark:bg-primary/10 p-4 flex items-center justify-between">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="w-10 h-10 flex-shrink-0 rounded-lg bg-white dark:bg-neutral-surface-dark flex items-center justify-center shadow-sm text-red-500">
+<span class="material-icons-outlined">picture_as_pdf</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-semibold text-gray-900 dark:text-white truncate block w-40">GST_Certificate_2023.pdf</span>
+<span class="text-xs text-gray-500 dark:text-gray-400">2.4 MB • Uploaded</span>
+</div>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-icons-round text-lg">close</span>
+</button>
+<!-- Success Indicator Badge -->
+<div class="absolute -top-2 -right-2 bg-primary text-white rounded-full p-1 border-2 border-background-light dark:border-background-dark shadow-sm">
+<span class="material-icons-round text-xs block font-bold">check</span>
+</div>
+</div>
+</div>
+<!-- Additional Info / Help -->
+<div class="flex items-start gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-800">
+<span class="material-icons-outlined text-gray-400 text-xl mt-0.5">info</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    Documents must be clear and legible. Blurred or expired documents will result in rejection of the application.
+                </p>
+</div>
+</div>
+<!-- Footer / Navigation -->
+<div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark pt-12 z-20">
+<div class="flex gap-4">
+<button class="flex-1 py-4 rounded-xl font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-neutral-surface-dark border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm">
+                    Back
+                </button>
+<button class="flex-[2] py-4 rounded-xl font-semibold text-background-dark bg-primary hover:bg-primary-dark transition-colors shadow-[0_4px_14px_0_rgba(13,242,166,0.39)] flex items-center justify-center gap-2 group">
+                    Next Step
+                    <span class="material-icons-round text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Home Indicator -->
+<div class="w-full flex justify-center mt-6 pb-2">
+<div class="w-1/3 h-1.5 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Decorative background elements behind phone -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 bg-gray-50 dark:bg-gray-900 pointer-events-none overflow-hidden">
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-50 mix-blend-multiply dark:mix-blend-screen"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl opacity-50 mix-blend-multiply dark:mix-blend-screen"></div>
+</div>
+</body></html>

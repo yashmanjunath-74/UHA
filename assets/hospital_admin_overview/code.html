@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hospital Admin Overview - UHA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#009463",
+              "primary-dark": "#007a52",
+              "background-light": "#f5f8f7",
+              "background-dark": "#0f231c",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem", 
+              "lg": "0.5rem", 
+              "xl": "0.75rem", 
+              "2xl": "1rem",
+              "3xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-100 antialiased min-h-screen pb-24">
+<!-- Header Section -->
+<header class="px-6 pt-12 pb-6 bg-white dark:bg-primary/5 sticky top-0 z-10 shadow-sm border-b border-gray-100 dark:border-primary/10">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-icons">local_hospital</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-gray-900 dark:text-white leading-tight">UHA Admin</h1>
+<p class="text-xs text-gray-500 dark:text-gray-400">St. Mary's General</p>
+</div>
+</div>
+<div class="relative">
+<button class="w-10 h-10 rounded-full bg-gray-50 dark:bg-primary/20 flex items-center justify-center text-gray-600 dark:text-primary-dark hover:bg-gray-100 transition">
+<span class="material-icons">notifications_none</span>
+</button>
+<div class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Good morning,</p>
+<h2 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Sarah Jenning</h2>
+</div>
+<img alt="Doctor profile portrait" class="w-12 h-12 rounded-full object-cover border-2 border-primary/20" data-alt="Professional female doctor portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzxAkB9LBUZoVEiskllUlnDJxCubyTTKpkFzegyyGU0f0Skak3W90PijB9HuKfFslG51zWEcBjFZV9KVYgyUoQOBev2iDlszDrOfK__Aubjx4jxl1VpMQGhjc6mXaWTejqtXiXoYzJpSdavFm4hA53SZD6OniGDQYc0roWuhgugJ9dTddNtitf_FefFKJzkiR7x3zSoX-7AkED2hTmDP6pkZSZ-ExCrq5RhsdLMidDyzWS7k0Ib75tuqGHwNRSJMm_srnzWuzxTHrE"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="px-4 py-6 space-y-6">
+<!-- KPI Cards Carousel -->
+<section class="overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide flex gap-4 snap-x">
+<!-- Total Patients Card -->
+<div class="snap-center shrink-0 w-72 p-5 bg-white dark:bg-primary/10 rounded-2xl shadow-sm border border-gray-100 dark:border-primary/10">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+<span class="material-icons">people_alt</span>
+</div>
+<span class="px-2 py-1 rounded-full bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs font-medium flex items-center gap-1">
+<span class="material-icons text-[10px]">arrow_upward</span> 12%
+                    </span>
+</div>
+<h3 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Total Patients Today</h3>
+<p class="text-3xl font-bold text-gray-900 dark:text-white">1,248</p>
+<div class="mt-4 h-1.5 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[75%]"></div>
+</div>
+<p class="text-xs text-gray-400 mt-2">75% of daily capacity</p>
+</div>
+<!-- Active Doctors Card -->
+<div class="snap-center shrink-0 w-72 p-5 bg-white dark:bg-primary/10 rounded-2xl shadow-sm border border-gray-100 dark:border-primary/10">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+<span class="material-icons">medical_services</span>
+</div>
+<span class="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium">
+                        Shift A
+                    </span>
+</div>
+<h3 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">Active Doctors</h3>
+<p class="text-3xl font-bold text-gray-900 dark:text-white">42</p>
+<div class="flex -space-x-2 mt-4">
+<img alt="Doctor avatar" class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark object-cover" data-alt="Male doctor avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTlLJ7Xor5wmExAvM1rLZe8FqYodwWLBbuJzzGcM5jW8QkaWvHm2T9dnkOhT337-YPNNxbSeWm86Gk1DiSzwayIlAO-MWimNJlWLiOafgc8p2jcyXXUuhczwtvQY_0C7hekuR6S46GYazs_F6QZkf74N7Uunusf_eX5q9kqQYLYZnq0UPQjruKKK-Kr7tGUg5B1LqETlgZiCJ7rHsW-uOQy1MElTwupqhCNgTeEuQ1LCPFrDAQ_Ia0mEETKTQS_iLk5-r3qu2Vy3Hs"/>
+<img alt="Nurse avatar" class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark object-cover" data-alt="Female nurse avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuz3qtIaPMnkQBBEsEdV3WJbroq_ATMkrGvq4tBEQ2QRJze9VOwNWZS3Rsjz5BhgbI3YsJTv7uQxawcyDzKeqc_2_VYmr5PmRX6uu4gybfOqGFNkfi3zZK_HUwn1A2yJ1yd2BPcZLtx1uYYajlYCTxLIPWGSE1BFtZRrcj-6WzuTKsnx603Aluit-cQO8R_PW5DOw-5T9KXIBbhwdIHgfxWqK7FOM-YASPpudH64MvmZI1TqC0VL1eHnOde5E-w29_VIl0tMlTT0B7"/>
+<img alt="Surgeon avatar" class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark object-cover" data-alt="Male surgeon avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYIY7LdgT2OemQ-BYoKztTtjC6NJogEXc7tYFvS1rTyW4Z0-Ds-mYFEMCG47Go3XC_BNpyqtbSqS6i1P_1xDD483IDKxHICzvhT9M4z3LjYYkdAkLjr9yr6pekMycZ8SabEtL6I3QViVOMbR0SzulT8rinDUW-bo3XZyJkOLq0NPAAuzTDN0aHVOEfLKZhyGjR-BbLo5ck8Lqbrrq-7NxkwHpojJk4Y3ywYyPgtOaVG-BQv-yAJfYleAP9rQ5jsIIMYqNQe-2OQbHB"/>
+<div class="w-8 h-8 rounded-full border-2 border-white dark:border-background-dark bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs text-gray-500 font-medium">+39</div>
+</div>
+</div>
+</section>
+<!-- Bed Occupancy Chart -->
+<section class="bg-white dark:bg-primary/10 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-primary/10">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-gray-900 dark:text-white text-lg">Bed Occupancy</h3>
+<button class="text-primary hover:text-primary-dark text-sm font-medium">Details</button>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative w-32 h-32 flex-shrink-0">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="dark:stroke-gray-700" cx="64" cy="64" fill="transparent" r="56" stroke="#f3f4f6" stroke-width="12"></circle>
+<circle cx="64" cy="64" fill="transparent" r="56" stroke="#009463" stroke-dasharray="351.86" stroke-dashoffset="87.96" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">75%</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wider">Occupied</span>
+</div>
+</div>
+<div class="flex-1 space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-sm text-gray-600 dark:text-gray-300">General Ward</span>
+</div>
+<span class="text-sm font-bold text-gray-900 dark:text-white">145</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary/60"></span>
+<span class="text-sm text-gray-600 dark:text-gray-300">ICU</span>
+</div>
+<span class="text-sm font-bold text-gray-900 dark:text-white">32</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600"></span>
+<span class="text-sm text-gray-600 dark:text-gray-300">Available</span>
+</div>
+<span class="text-sm font-bold text-gray-900 dark:text-white">58</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Revenue Chart -->
+<section class="bg-white dark:bg-primary/10 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-primary/10">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-bold text-gray-900 dark:text-white text-lg">Financial Overview</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400">Revenue vs Expenses</p>
+</div>
+<div class="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5">
+<button class="px-3 py-1 text-xs font-medium rounded-md bg-white dark:bg-primary text-primary dark:text-white shadow-sm">Week</button>
+<button class="px-3 py-1 text-xs font-medium rounded-md text-gray-500 dark:text-gray-400">Month</button>
+</div>
+</div>
+<!-- Simplified Chart Bars for Mobile -->
+<div class="h-48 flex items-end justify-between gap-2">
+<!-- Day 1 -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="w-full flex gap-1 items-end justify-center h-full relative">
+<div class="w-3 bg-primary/30 rounded-t-sm h-[40%] group-hover:bg-primary/40 transition-all"></div>
+<div class="w-3 bg-primary rounded-t-sm h-[60%] shadow-lg shadow-primary/20 group-hover:bg-primary-dark transition-all"></div>
+</div>
+<span class="text-xs text-gray-400">Mon</span>
+</div>
+<!-- Day 2 -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="w-full flex gap-1 items-end justify-center h-full relative">
+<div class="w-3 bg-primary/30 rounded-t-sm h-[30%] group-hover:bg-primary/40 transition-all"></div>
+<div class="w-3 bg-primary rounded-t-sm h-[75%] shadow-lg shadow-primary/20 group-hover:bg-primary-dark transition-all"></div>
+</div>
+<span class="text-xs text-gray-400">Tue</span>
+</div>
+<!-- Day 3 -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="w-full flex gap-1 items-end justify-center h-full relative">
+<div class="w-3 bg-primary/30 rounded-t-sm h-[50%] group-hover:bg-primary/40 transition-all"></div>
+<div class="w-3 bg-primary rounded-t-sm h-[55%] shadow-lg shadow-primary/20 group-hover:bg-primary-dark transition-all"></div>
+</div>
+<span class="text-xs text-gray-400">Wed</span>
+</div>
+<!-- Day 4 -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="w-full flex gap-1 items-end justify-center h-full relative">
+<div class="w-3 bg-primary/30 rounded-t-sm h-[45%] group-hover:bg-primary/40 transition-all"></div>
+<div class="w-3 bg-primary rounded-t-sm h-[85%] shadow-lg shadow-primary/20 group-hover:bg-primary-dark transition-all"></div>
+</div>
+<span class="text-xs text-gray-400 font-bold text-primary">Thu</span>
+</div>
+<!-- Day 5 -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="w-full flex gap-1 items-end justify-center h-full relative">
+<div class="w-3 bg-primary/30 rounded-t-sm h-[35%] group-hover:bg-primary/40 transition-all"></div>
+<div class="w-3 bg-primary rounded-t-sm h-[70%] shadow-lg shadow-primary/20 group-hover:bg-primary-dark transition-all"></div>
+</div>
+<span class="text-xs text-gray-400">Fri</span>
+</div>
+<!-- Day 6 -->
+<div class="flex flex-col items-center gap-2 flex-1 group">
+<div class="w-full flex gap-1 items-end justify-center h-full relative">
+<div class="w-3 bg-primary/30 rounded-t-sm h-[25%] group-hover:bg-primary/40 transition-all"></div>
+<div class="w-3 bg-primary rounded-t-sm h-[40%] shadow-lg shadow-primary/20 group-hover:bg-primary-dark transition-all"></div>
+</div>
+<span class="text-xs text-gray-400">Sat</span>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Revenue</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary/30"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Expenses</span>
+</div>
+</div>
+</section>
+<!-- Department Quick List -->
+<section>
+<h3 class="font-bold text-gray-900 dark:text-white text-lg mb-4">Departments</h3>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 bg-white dark:bg-primary/10 rounded-xl border border-gray-100 dark:border-primary/10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-500 flex items-center justify-center">
+<span class="material-icons">favorite</span>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900 dark:text-white text-sm">Cardiology</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">8 Doctors • 24 Patients</p>
+</div>
+</div>
+<span class="material-icons text-gray-400">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-white dark:bg-primary/10 rounded-xl border border-gray-100 dark:border-primary/10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center">
+<span class="material-icons">child_care</span>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900 dark:text-white text-sm">Pediatrics</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">5 Doctors • 18 Patients</p>
+</div>
+</div>
+<span class="material-icons text-gray-400">chevron_right</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (iOS Style) -->
+<nav class="fixed bottom-0 w-full bg-white dark:bg-background-dark border-t border-gray-100 dark:border-primary/10 pb-6 pt-2 px-6 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons text-primary group-hover:scale-110 transition-transform">dashboard</span>
+<span class="text-[10px] font-medium text-primary">Overview</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">people</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Patients</span>
+</button>
+<!-- Floating Action Button for center -->
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-lg shadow-primary/40 flex items-center justify-center transform active:scale-95 transition-transform">
+<span class="material-icons text-2xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">badge</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Staff</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">settings</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Settings</span>
+</button>
+</nav>
+<!-- Overlay Gradient for Bottom Nav -->
+<div class="fixed bottom-0 w-full h-24 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-background-dark dark:via-background-dark/80 pointer-events-none z-40"></div>
+</body></html>

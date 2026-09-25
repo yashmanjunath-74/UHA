@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Digital File 360 View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "primary-dark": "#0eb59a", 
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Hide scrollbar for clean horizontal scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen flex justify-center">
+<!-- Mobile Container -->
+<div class="w-full max-w-md bg-white dark:bg-[#152a26] min-h-screen shadow-2xl relative overflow-hidden flex flex-col">
+<!-- iOS Status Bar Placeholder -->
+<div class="h-12 w-full bg-white dark:bg-[#152a26] flex items-end px-6 pb-2 justify-between z-20">
+<span class="text-xs font-semibold">9:41</span>
+<div class="flex items-center space-x-1.5">
+<span class="material-icons text-[16px]">signal_cellular_alt</span>
+<span class="material-icons text-[16px]">wifi</span>
+<span class="material-icons text-[16px]">battery_full</span>
+</div>
+</div>
+<!-- Top Navigation / Header -->
+<div class="px-6 py-4 flex items-center justify-between sticky top-0 bg-white/90 dark:bg-[#152a26]/90 backdrop-blur-md z-10 border-b border-gray-100 dark:border-white/5">
+<button class="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+<span class="material-icons text-slate-600 dark:text-slate-300">arrow_back_ios_new</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Patient 360°</h1>
+<button class="p-2 -mr-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+<span class="material-icons text-slate-600 dark:text-slate-300">more_horiz</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto pb-24">
+<!-- Patient Profile Header -->
+<div class="px-6 pt-2 pb-6">
+<div class="flex items-start space-x-4">
+<div class="relative">
+<img alt="Portrait of young woman smiling" class="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-[#152a26] shadow-lg" data-alt="Portrait of Sarah Jenkins patient" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8_wHtBr1hhkVAhZMS8IrxhJIqrZk_AfRQWX7q5suOtBy5U5b-AYF0GH6gXvjjN5jlkUWmq2bIPi85gRUW74gkp4yf1MtUlMMsAgbNent0AATW03ycq9wLmsWw2wWN1QpFcvMrlNDa2VYKU3hEJ7KCOuqnWYJC1QCruIWaEW49auebf1PQz5G6RVLwUmiAjyy9KfzqoXT2057aLMSqNGhPcMdQC8uCzkQ2rIH0Jih7gyvFTW6p4cdEH3GP8vEcSI18j7Nim0SefzTG"/>
+<div class="absolute bottom-0 right-0 w-6 h-6 bg-primary rounded-full border-2 border-white dark:border-[#152a26] flex items-center justify-center">
+<span class="material-icons text-[14px] text-background-dark">check</span>
+</div>
+</div>
+<div class="flex-1 pt-1">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white leading-tight">Sarah Jenkins</h2>
+<div class="flex flex-wrap gap-2 mt-3">
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+<span class="material-icons text-[14px] mr-1 opacity-70">cake</span> 29 Yrs
+                            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+<span class="material-icons text-[14px] mr-1 opacity-70">female</span> Female
+                            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-primary/20 text-teal-800 dark:text-primary">
+<span class="material-icons text-[14px] mr-1">bloodtype</span> A+
+                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Summary Card -->
+<div class="px-6 mb-8">
+<div class="relative bg-gradient-to-br from-primary/10 to-transparent dark:from-primary/20 dark:to-transparent rounded-xl p-5 border border-primary/40 shadow-sm overflow-hidden group">
+<!-- Decorative background element -->
+<div class="absolute -right-6 -top-6 w-24 h-24 bg-primary/20 rounded-full blur-2xl group-hover:bg-primary/30 transition-all duration-500"></div>
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/30 mr-3">
+<span class="material-icons text-background-dark text-lg">auto_awesome</span>
+</div>
+<h3 class="text-sm font-bold text-teal-900 dark:text-primary tracking-wide uppercase">AI Health Insight</h3>
+</div>
+<p class="text-slate-700 dark:text-slate-200 text-sm leading-relaxed">
+<strong class="text-teal-800 dark:text-primary-dark">Summary:</strong> Patient has history of <span class="font-medium underline decoration-slate-300 underline-offset-2">Asthma (2019)</span>. Allergic to Dust. Last visit was 2 months ago for Flu symptoms. Vitals are currently stable.
+                    </p>
+</div>
+</div>
+<!-- Tabs Navigation -->
+<div class="sticky top-[72px] bg-white dark:bg-[#152a26] z-10 pb-2 border-b border-gray-100 dark:border-white/5">
+<div class="flex px-6 space-x-6 overflow-x-auto no-scrollbar" role="tablist">
+<button class="pb-3 border-b-2 border-primary text-primary font-semibold text-sm whitespace-nowrap flex-shrink-0">
+                        Timeline
+                    </button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium text-sm whitespace-nowrap flex-shrink-0 transition-colors">
+                        Lab Reports
+                    </button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium text-sm whitespace-nowrap flex-shrink-0 transition-colors">
+                        Vitals
+                    </button>
+<button class="pb-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium text-sm whitespace-nowrap flex-shrink-0 transition-colors">
+                        Prescriptions
+                    </button>
+</div>
+</div>
+<!-- Timeline Content -->
+<div class="px-6 py-6 space-y-8 relative">
+<!-- Vertical Line -->
+<div class="absolute left-[43px] top-6 bottom-6 w-[2px] bg-slate-100 dark:bg-white/10"></div>
+<!-- Timeline Item 1 -->
+<div class="relative flex gap-5 group">
+<div class="flex-shrink-0 z-10">
+<div class="w-10 h-10 rounded-full bg-white dark:bg-[#152a26] border-2 border-primary flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-200">
+<span class="material-icons text-primary text-sm">medical_services</span>
+</div>
+</div>
+<div class="flex-1 bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-white/5 group-hover:border-primary/30 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">General Consultation</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Dr. Smith • Family Medicine</p>
+</div>
+<span class="text-xs font-semibold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-white/5 px-2 py-1 rounded">Oct 12, 2023</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                            Reported high fever and fatigue. Diagnosed with seasonal flu. Prescribed Tamiflu and rest.
+                        </p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-300 text-xs rounded-md font-medium border border-orange-100 dark:border-orange-500/20">Flu Symptoms</span>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative flex gap-5 group">
+<div class="flex-shrink-0 z-10">
+<div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-[#152a26] border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+<span class="material-icons text-slate-400 text-sm">science</span>
+</div>
+</div>
+<div class="flex-1 bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-white/5">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Lab Results: Blood Panel</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Central Lab • Ref #88392</p>
+</div>
+<span class="text-xs font-semibold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-white/5 px-2 py-1 rounded">Aug 05, 2023</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-icons text-green-500 text-sm">check_circle</span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-200">All markers within normal range</span>
+</div>
+<button class="text-primary text-xs font-bold hover:underline flex items-center mt-2">
+                            View Full Report <span class="material-icons text-[14px] ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative flex gap-5 group">
+<div class="flex-shrink-0 z-10">
+<div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-[#152a26] border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+<span class="material-icons text-slate-400 text-sm">vaccines</span>
+</div>
+</div>
+<div class="flex-1 bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-white/5">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Vaccination</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Community Clinic</p>
+</div>
+<span class="text-xs font-semibold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-white/5 px-2 py-1 rounded">Feb 20, 2021</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 mb-2">
+                            COVID-19 Booster Shot (Pfizer-BioNTech)
+                        </p>
+</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="relative flex gap-5 group">
+<div class="flex-shrink-0 z-10">
+<div class="w-10 h-10 rounded-full bg-slate-50 dark:bg-[#152a26] border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+<span class="material-icons text-slate-400 text-sm">history_edu</span>
+</div>
+</div>
+<div class="flex-1 bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm border border-slate-100 dark:border-white/5">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Initial Diagnosis</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">City Hospital</p>
+</div>
+<span class="text-xs font-semibold text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-white/5 px-2 py-1 rounded">Jan 10, 2019</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                            Patient presented with shortness of breath. Pulmonary function test confirmed mild asthma.
+                        </p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-300 text-xs rounded-md font-medium border border-red-100 dark:border-red-500/20">Asthma</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">Chronic</span>
+</div>
+</div>
+</div>
+</div>
+<!-- End of list padding -->
+<div class="h-12 flex items-center justify-center text-slate-300 dark:text-slate-600 text-xs">
+                End of records
+            </div>
+</div>
+<!-- Bottom Navigation / Actions -->
+<div class="absolute bottom-0 left-0 w-full bg-white dark:bg-[#152a26] border-t border-gray-100 dark:border-white/5 px-6 py-4 z-20 flex justify-between items-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex space-x-6 text-slate-400 dark:text-slate-500">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons group-hover:text-primary transition-colors">home</span>
+<span class="text-[10px] font-medium group-hover:text-slate-800 dark:group-hover:text-slate-200">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons text-primary">folder_shared</span>
+<span class="text-[10px] font-bold text-slate-800 dark:text-slate-100">Records</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-icons group-hover:text-primary transition-colors">chat</span>
+<span class="text-[10px] font-medium group-hover:text-slate-800 dark:group-hover:text-slate-200">Chat</span>
+</button>
+</div>
+<button class="bg-primary hover:bg-primary-dark text-background-dark font-bold rounded-full w-12 h-12 flex items-center justify-center shadow-lg shadow-primary/40 transform transition hover:scale-105 active:scale-95">
+<span class="material-icons">add</span>
+</button>
+</div>
+</div>
+</body></html>

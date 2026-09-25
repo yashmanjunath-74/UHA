@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Unified Search &amp; Booking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#009669",
+                "primary-light": "#34d399", 
+                "primary-dark": "#065f46",
+                "background-light": "#f8fafc",
+                "background-dark": "#0f231c",
+                "surface-light": "#ffffff",
+                "surface-dark": "#162e25",
+              },
+              fontFamily: {
+                "display": ["Poppins", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+              boxShadow: {
+                'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display antialiased min-h-screen pb-24">
+<div class="h-12 w-full flex items-center justify-between px-6 pt-2 text-sm font-medium z-50 relative">
+<span class="dark:text-white">9:41</span>
+<div class="flex items-center gap-1.5 dark:text-white">
+<span class="material-icons-outlined text-sm">signal_cellular_alt</span>
+<span class="material-icons-outlined text-sm">wifi</span>
+<span class="material-icons-outlined text-sm">battery_full</span>
+</div>
+</div>
+<header class="px-6 py-4 sticky top-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md z-40 space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-xl font-bold text-slate-900 dark:text-white">Find Care</h1>
+<p class="text-xs text-primary font-medium">Universal Health App</p>
+</div>
+<button class="w-10 h-10 rounded-full bg-white dark:bg-surface-dark shadow-sm flex items-center justify-center border border-slate-100 dark:border-primary/20">
+<img alt="Profile" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCblGwky0-mSyP1hpaZHPFk0pTKMy_jUbhsA1go81nJeGUzHmJiNEtw3kMWIpAQqZRsWi-DFdb-JXpv_lZi6bdNY3bd01K3MV0l1tjEXeWxoWnppkH03hoc0q_jQkEwSAT3ks4wqedt5k42Qzt5NWt8naFj7bwgSWvTGmA21ird3dLR7ddb2KDzD_If8fcVm6tkmjNu8r9gsMqOPcMJ9IfUoES4ymUXzgbPd2kJzHATWb-pVQpGD1jtwPxMsbKwle98DJg-_oOwWq6I"/>
+</button>
+</div>
+<div class="relative">
+<span class="material-icons-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-11 pr-4 py-3.5 bg-white dark:bg-surface-dark border-none rounded-2xl text-sm shadow-soft text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-primary/20" placeholder="Search doctors, hospitals, or lab tests..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+<span class="material-icons-outlined text-lg">tune</span>
+</button>
+</div>
+<div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+<button class="flex-shrink-0 px-4 py-2 bg-primary text-white rounded-full text-xs font-medium shadow-lg shadow-primary/25 transition-transform active:scale-95">
+                Nearby
+            </button>
+<button class="flex-shrink-0 px-4 py-2 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-medium shadow-sm whitespace-nowrap hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                Top Rated
+            </button>
+<button class="flex-shrink-0 px-4 py-2 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-medium shadow-sm whitespace-nowrap hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                Available Now
+            </button>
+<button class="flex-shrink-0 px-4 py-2 bg-white dark:bg-surface-dark text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-700 rounded-full text-xs font-medium shadow-sm whitespace-nowrap hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                Specialists
+            </button>
+</div>
+</header>
+<main class="px-6 pb-6 space-y-5">
+<div class="bg-white dark:bg-surface-dark p-4 rounded-2xl shadow-soft border border-slate-100 dark:border-primary/10 transition-all hover:shadow-lg hover:-translate-y-1">
+<div class="flex gap-4">
+<div class="relative w-20 h-20 flex-shrink-0">
+<img alt="Dr. Sarah Johnson" class="w-full h-full object-cover rounded-xl shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNlL63yULvn5UZ--cLUL2MlsTQQmSat5Un_WTWAWWmRq-b9W9uYb6VTX18dGp8XVa5CcEK87wX7B3XvzNiZT5w-IUF8_0xSdh2DCdHJWlXl8MYKQ0xsR6WQJWvXE39aS-SfUdJotW65QCUPbeMYwc1HKKaZyNz9hOyprtS4Hep2_trnqqR-LASSmGGRJv4TAeYSwCAU1P8tgQ5jfgdg-8Z4HfCTEyb-YFNkBwtQwxO7b-AzS2DbvqdkTQy4z00qxhR9rtCY85KOXKr"/>
+<div class="absolute -bottom-2 -right-2 bg-white dark:bg-surface-dark p-1 rounded-full shadow-sm">
+<span class="material-icons-outlined text-primary text-sm">verified</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-base font-bold text-slate-900 dark:text-white truncate">Dr. Sarah Johnson</h3>
+<p class="text-xs text-primary font-medium mt-0.5">Cardiologist</p>
+</div>
+<div class="flex items-center gap-1 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded-md">
+<span class="material-icons-outlined text-primary text-xs">star</span>
+<span class="text-xs font-bold text-primary">4.9</span>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
+<span class="flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">location_on</span>
+                            1.2 km
+                        </span>
+<span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+<span class="flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">work_history</span>
+                            12 yrs exp
+                        </span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50 flex gap-3">
+<div class="flex-1">
+<p class="text-[10px] text-slate-400 uppercase font-semibold">Next Available</p>
+<p class="text-xs font-medium text-slate-700 dark:text-slate-300">Today, 2:30 PM</p>
+</div>
+<button class="bg-primary hover:bg-primary-dark text-white text-sm font-semibold py-2.5 px-6 rounded-xl shadow-md shadow-primary/20 transition-colors">
+                    Book Now
+                </button>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-2xl shadow-soft border border-slate-100 dark:border-primary/10 transition-all hover:shadow-lg hover:-translate-y-1">
+<div class="flex gap-4">
+<div class="w-20 h-20 flex-shrink-0 bg-slate-100 rounded-xl overflow-hidden">
+<img alt="City General Hospital" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHcUNlUuGVWO9ZEM3svRhYQD49FXfVBWZj5Qgb_q5uuzEiua7-s0WPtfk26JNIRkuauMClWmfQlv53mP3fxCMdaPxJw_48tPEOp6GiNAQYUZQom3IdoCz1y4-zp8kqWVbsZTCnOmgGo1onBOpGEqKhCK_UZF3Y4GhVs1N3MXy7NdO9GUFz9gU5DRMmL6EbdvVe6PDPBsguPQJEyOGfRMG9HyFsGffRXTxqzSSsBoqJ9r-DFk0v9Wt3h_tT5sk6UBBs1-XV1t1VfZZ0"/>
+</div>
+<div class="flex-1">
+<h3 class="text-base font-bold text-slate-900 dark:text-white">City General Hospital</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">Multi-specialty care center offering advanced diagnostics and emergency services.</p>
+<div class="flex flex-wrap gap-1.5 mt-2.5">
+<span class="px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-medium rounded-md">Emergency</span>
+<span class="px-2 py-0.5 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-[10px] font-medium rounded-md">Cardiology</span>
+<span class="px-2 py-0.5 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-medium rounded-md">+4 More</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 bg-white dark:bg-surface-dark border border-primary text-primary hover:bg-primary/5 font-semibold py-2.5 rounded-xl text-sm transition-colors">
+                View Services
+            </button>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-2xl shadow-soft border border-slate-100 dark:border-primary/10 relative overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
+<div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-3xl -mr-2 -mt-2"></div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<div>
+<span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Pathology</span>
+<h3 class="text-base font-bold text-slate-900 dark:text-white mt-0.5">Full Body Checkup</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
+<span class="material-icons-outlined text-sm">science</span>
+                        Apex Diagnostics Lab
+                    </p>
+</div>
+<div class="text-right">
+<span class="block text-lg font-bold text-primary">$45</span>
+<span class="text-[10px] text-slate-400 line-through">$80</span>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 my-3">
+<div class="flex items-center gap-3 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-icons-outlined text-primary text-sm">check_circle</span>
+                        85 Tests included
+                    </div>
+<div class="flex items-center gap-1">
+<span class="material-icons-outlined text-primary text-sm">schedule</span>
+                        Report in 24h
+                    </div>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 rounded-xl text-sm shadow-md shadow-primary/20 flex items-center justify-center gap-2 transition-colors">
+<span class="material-icons-outlined text-lg">home_health</span>
+                Book Home Sample
+            </button>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full bg-white dark:bg-surface-dark border-t border-slate-200 dark:border-primary/20 pb-safe pt-3 px-6 pb-6 z-50">
+<div class="flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 w-12 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-12 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">calendar_month</span>
+<span class="text-[10px] font-medium">Appts</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-12 text-primary">
+<span class="material-icons-outlined">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-12 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">folder_shared</span>
+<span class="text-[10px] font-medium">Records</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-12 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</div>
+</nav>
+
+</body></html>

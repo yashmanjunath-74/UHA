@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmacy Order Fulfillment - UHA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13eca4",
+                        "primary-dark": "#0eb57e", 
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162e26",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hide for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-100 min-h-screen flex flex-col antialiased selection:bg-primary selection:text-black">
+<!-- Mobile Header -->
+<header class="sticky top-0 z-50 bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-4 py-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<button class="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-500 dark:text-gray-400">
+<span class="material-icons">arrow_back</span>
+</button>
+<div>
+<h1 class="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Order #10234</h1>
+<div class="flex items-center gap-2">
+<span class="text-lg font-bold text-gray-900 dark:text-white">Fulfillment</span>
+<span class="px-2 py-0.5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-medium border border-yellow-200 dark:border-yellow-800">Pending</span>
+</div>
+</div>
+</div>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-500 dark:text-gray-400">
+<span class="material-icons">more_vert</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto px-4 py-6 space-y-6 pb-32">
+<!-- Patient Profile Card -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-4">
+<div class="relative">
+<img alt="Portrait of patient Sarah Jenkins" class="w-14 h-14 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" data-alt="Portrait of a female patient smiling slightly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP2SFZEtTufQpfVjTm39_omCxIaawQParFT-UovpguxyZTOySPsBzn8558AcygbmFJLVoyhWhgCnTaWO5WQroDa1sf_VeoXR2NRgCORqxjd25sHpUYD99x73ivvyaE_-5RbQ1koSomTRFZ0Pu5CTnTQSFI1i2PyjzhtZuk9jRQSobADmOBVYNDIMLbZLYnWoztiJ5lpHdKvAIm5nlf2hhbBe2-4YVbnV-QYSQSKkAHyu39xeW3Hv29IP1slxF1LbdXwfRzOLsnPMBM"/>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-gray-900 dark:text-white">Sarah Jenkins</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400">ID: P-9982 • 45 Y/O • Female</p>
+</div>
+</div>
+</div>
+<div class="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 rounded-lg p-3 flex items-start gap-3">
+<span class="material-icons text-red-500 text-xl mt-0.5">warning</span>
+<div>
+<span class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wide">Critical Alert</span>
+<p class="text-sm font-medium text-red-800 dark:text-red-200">Allergy: Penicillin (Severe)</p>
+</div>
+</div>
+</section>
+<!-- Digital Prescription Card -->
+<section class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+<div class="bg-gray-50 dark:bg-gray-800/50 px-5 py-3 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+<h3 class="font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+<span class="material-icons text-primary text-sm">receipt_long</span>
+                    Prescription
+                </h3>
+<span class="text-xs text-gray-400">Issued: Today, 9:00 AM</span>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="text-xl font-bold text-gray-900 dark:text-white">Amoxicillin</h4>
+<p class="text-sm text-primary font-medium">500mg Capsules</p>
+</div>
+<div class="text-right">
+<span class="block text-2xl font-bold text-gray-900 dark:text-white">30</span>
+<span class="text-xs text-gray-500 uppercase">Quantity</span>
+</div>
+</div>
+<div class="bg-gray-50 dark:bg-gray-800/30 rounded-lg p-4 my-4 border-l-4 border-gray-300 dark:border-gray-600">
+<p class="text-sm font-medium text-gray-600 dark:text-gray-300 italic">"Take 1 capsule by mouth three times daily for 10 days."</p>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800 mt-4">
+<div class="flex items-center gap-2">
+<img alt="Doctor profile" class="w-8 h-8 rounded-full object-cover" data-alt="Small thumbnail of a doctor in a white coat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi7VVrkaJEcopykTrm-A12r2zkOLhw5TtGhGF6DqkUOslgTgXRFy0jdz8FoJ5fqndh1MZ09TJ-GQEGI8mN4YnKPudkHiLDV8F2LIHnqUYOqeYuc_mUOp-GM5m7tKHcF-lxIJkjNglXkwgLU5X053C_zP7FmijRFzPAUuBwUa-JZFu5c91Tt0v2hS3pxEZJSVIVZIveV2uaUs1zyaqlfwpoGptpP2ypbQGOhW7aoSKjx10p1CLRX7sciYxKwbxR_gySRkoGXQDiADlo"/>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-gray-800 dark:text-gray-200">Dr. Emily Chen</span>
+<span class="text-[10px] text-gray-500">Cardiologist • LIC #88392</span>
+</div>
+</div>
+<img alt="Doctor Signature" class="h-8 opacity-60 dark:invert" data-alt="Digital signature scan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfDIcc_bXv-xZtaradNlnasMg4Cbufd4WkoKPRsYGGtfhzbv8fGYluKSWzKO4s8urK42ffDc56u_ujeWbwtOzJH0OFwssqAjdwKx4gaLo03Iwz3-GZgdvjLL1ajQc690SfhAn1X1YplqhXulV5LMd4opZlJeHfsk1ghtiMMebJIltkjs5gBCIvgp1L2zAjD_puhL8RjhOidO5lD3awsD1zU6CsVrv77MZv6a8SOWkxmQegtuggj23HBwn6SnSdZz4VjkojUqJXyvmh"/>
+</div>
+</div>
+</section>
+<!-- Fulfillment Checklist -->
+<section class="space-y-4">
+<h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-1">Fulfillment Steps</h3>
+<!-- Step 1: Verify Drug -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border-l-4 border-primary relative">
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm">1</div>
+<div>
+<h4 class="font-bold text-gray-900 dark:text-white">Verify Medication</h4>
+<p class="text-xs text-gray-500">Confirm NDC match</p>
+</div>
+</div>
+<!-- Toggle Checkbox -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<button class="w-full mt-2 group flex items-center justify-center gap-2 bg-gray-50 dark:bg-gray-800 hover:bg-primary/10 border border-dashed border-gray-300 dark:border-gray-600 hover:border-primary active:scale-[0.98] transition-all rounded-lg py-3">
+<span class="material-icons text-gray-500 group-hover:text-primary transition-colors">qr_code_scanner</span>
+<span class="font-semibold text-gray-600 dark:text-gray-300 group-hover:text-primary transition-colors">Scan Bottle Barcode</span>
+</button>
+</div>
+<!-- Step 2: Check Expiry -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 opacity-90">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 flex items-center justify-center font-bold text-sm">2</div>
+<div>
+<h4 class="font-bold text-gray-900 dark:text-white">Check Expiry</h4>
+<p class="text-xs text-gray-500">Must be &gt; 06/2025</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Step 3: Pack -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 opacity-90">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 flex items-center justify-center font-bold text-sm">3</div>
+<div>
+<h4 class="font-bold text-gray-900 dark:text-white">Pack Order</h4>
+<p class="text-xs text-gray-500">Apply safety cap &amp; label</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</main>
+<!-- Fixed Bottom Actions -->
+<footer class="fixed bottom-0 left-0 right-0 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 p-4 pb-8 z-40">
+<!-- Secondary Actions Row -->
+<div class="grid grid-cols-2 gap-3 mb-3">
+<button class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-300 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons text-sm">chat_bubble_outline</span>
+                Query Doctor
+            </button>
+<button class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent text-gray-600 dark:text-gray-300 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons text-sm">person_outline</span>
+                Contact Patient
+            </button>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary hover:bg-primary-dark text-black font-bold text-lg py-4 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+<span class="material-icons">check_circle</span>
+            Mark as Ready
+        </button>
+</footer>
+</body></html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmacy Order Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Google Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#009468",
+                        "primary-dark": "#007a56",
+                        "primary-light": "#dcfce7",
+                        "background-light": "#f5f8f7",
+                        "background-dark": "#0f231d",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162e26",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* iOS-like safe area padding for bottom navigation */
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+        /* Hide scrollbar for clean look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-hidden">
+<!-- Top Status Bar Area (Mock) -->
+<div class="h-12 w-full bg-surface-light dark:bg-surface-dark flex items-center justify-between px-6 pt-2 select-none border-b border-gray-100 dark:border-gray-800 sticky top-0 z-20">
+<div class="text-sm font-semibold">9:41</div>
+<div class="flex space-x-2">
+<span class="material-icons-round text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-sm">wifi</span>
+<span class="material-icons-round text-sm">battery_full</span>
+</div>
+</div>
+<!-- Header Section -->
+<header class="bg-surface-light dark:bg-surface-dark px-5 py-4 shadow-sm z-10 sticky top-12">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h1 class="text-xl font-bold text-gray-900 dark:text-white">Prescription Queue</h1>
+<p class="text-xs text-primary font-medium mt-0.5">Universal Health Pharmacy #42</p>
+</div>
+<button class="p-2 rounded-full bg-background-light dark:bg-primary/20 hover:bg-gray-100 dark:hover:bg-primary/30 transition-colors relative">
+<span class="material-icons-round text-primary dark:text-primary-light">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-surface-dark"></span>
+</button>
+</div>
+<!-- Search and Filter -->
+<div class="flex gap-3">
+<div class="relative flex-1">
+<span class="material-icons-round absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+<input class="w-full pl-9 pr-4 py-2.5 bg-background-light dark:bg-background-dark border-none rounded-xl text-sm focus:ring-1 focus:ring-primary text-gray-700 dark:text-gray-200 placeholder-gray-400" placeholder="Search orders..." type="text"/>
+</div>
+<button class="flex items-center justify-center w-10 h-10 bg-primary/10 dark:bg-primary/20 rounded-xl text-primary dark:text-primary-light">
+<span class="material-icons-round">filter_list</span>
+</button>
+</div>
+<!-- Quick Status Filters -->
+<div class="flex gap-2 mt-4 overflow-x-auto no-scrollbar pb-1">
+<button class="px-4 py-1.5 rounded-full bg-primary text-white text-xs font-medium whitespace-nowrap shadow-sm shadow-primary/30">All Orders</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-surface-dark border border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium whitespace-nowrap">New <span class="ml-1 bg-primary/10 text-primary px-1.5 py-0.5 rounded-md text-[10px]">3</span></button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-surface-dark border border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium whitespace-nowrap">Preparing</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-surface-dark border border-gray-100 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium whitespace-nowrap">Ready</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark px-4 py-4 pb-24 space-y-4">
+<!-- Date Header -->
+<div class="flex items-center justify-between px-1">
+<h2 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Today, Oct 24</h2>
+<span class="text-xs text-gray-400">5 New Orders</span>
+</div>
+<!-- Card: New Order -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-3 pl-2">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-mono text-gray-400 dark:text-gray-500">#ORD-9281</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light uppercase tracking-wide">New Order</span>
+</div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Sarah Jenkins</h3>
+</div>
+<div class="text-right">
+<span class="text-xs text-gray-400 font-medium">10:42 AM</span>
+</div>
+</div>
+<div class="pl-2 mb-4">
+<div class="flex items-start gap-3 bg-background-light dark:bg-background-dark p-3 rounded-lg">
+<div class="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
+<span class="material-icons-round text-blue-600 dark:text-blue-400 text-lg">medication</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Amoxicillin 500mg</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Qty: 30 • Take 1 tablet every 8 hours</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2 pl-2">
+<button class="flex-1 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<span class="material-icons-round text-base">print</span> Print Label
+                </button>
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-white text-sm font-medium shadow-md shadow-primary/20 flex items-center justify-center gap-2 hover:bg-primary-dark transition-colors">
+<span>Update Status</span> <span class="material-icons-round text-base">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Card: Preparing -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-orange-500"></div>
+<div class="flex justify-between items-start mb-3 pl-2">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-mono text-gray-400 dark:text-gray-500">#ORD-9278</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400 uppercase tracking-wide">Preparing</span>
+</div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Michael Chen</h3>
+</div>
+<div class="text-right">
+<span class="text-xs text-gray-400 font-medium">09:15 AM</span>
+</div>
+</div>
+<div class="pl-2 mb-4 space-y-2">
+<div class="flex items-start gap-3 bg-background-light dark:bg-background-dark p-2 rounded-lg">
+<div class="bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-md">
+<span class="material-icons-round text-purple-600 dark:text-purple-400 text-sm">vaccines</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Lisinopril 10mg</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Qty: 90</p>
+</div>
+</div>
+<div class="flex items-start gap-3 bg-background-light dark:bg-background-dark p-2 rounded-lg">
+<div class="bg-teal-100 dark:bg-teal-900/30 p-1.5 rounded-md">
+<span class="material-icons-round text-teal-600 dark:text-teal-400 text-sm">healing</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Aspirin 81mg (Low Dose)</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Qty: 100</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2 pl-2">
+<button class="w-full py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+<span class="material-icons-round text-base">check_circle</span> Mark Ready
+                </button>
+</div>
+</div>
+<!-- Card: Ready for Pickup -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden opacity-90">
+<div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+<div class="flex justify-between items-start mb-3 pl-2">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-mono text-gray-400 dark:text-gray-500">#ORD-9265</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 uppercase tracking-wide">Ready for Pickup</span>
+</div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Emma Wilson</h3>
+</div>
+<div class="text-right">
+<span class="text-xs text-gray-400 font-medium">08:30 AM</span>
+</div>
+</div>
+<div class="pl-2 mb-4">
+<div class="flex items-start gap-3 bg-background-light dark:bg-background-dark p-3 rounded-lg">
+<div class="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
+<span class="material-icons-round text-red-600 dark:text-red-400 text-lg">medical_services</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Ventolin HFA Inhaler</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Qty: 1 • 90mcg/actuation</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2 pl-2">
+<button class="w-full py-2.5 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800 text-sm font-medium flex items-center justify-center gap-2">
+<span class="material-icons-round text-base">done_all</span> Completed
+                </button>
+</div>
+</div>
+<!-- Card: New Order -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-3 pl-2">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xs font-mono text-gray-400 dark:text-gray-500">#ORD-9250</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light uppercase tracking-wide">New Order</span>
+</div>
+<h3 class="text-base font-bold text-gray-900 dark:text-white">Robert Fox</h3>
+</div>
+<div class="text-right">
+<span class="text-xs text-gray-400 font-medium">Yesterday</span>
+</div>
+</div>
+<div class="pl-2 mb-4">
+<div class="flex items-start gap-3 bg-background-light dark:bg-background-dark p-3 rounded-lg">
+<div class="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-lg">
+<span class="material-icons-round text-yellow-600 dark:text-yellow-400 text-lg">local_pharmacy</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-800 dark:text-gray-200">Metformin 500mg</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Qty: 60</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2 pl-2">
+<button class="flex-1 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 flex items-center justify-center gap-2">
+<span class="material-icons-round text-base">print</span> Print Label
+                </button>
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-white text-sm font-medium shadow-md shadow-primary/20 flex items-center justify-center gap-2">
+<span>Update Status</span> <span class="material-icons-round text-base">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="bg-surface-light dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 fixed bottom-0 w-full z-30 safe-area-bottom">
+<div class="flex justify-around items-center pt-2 pb-1">
+<button class="flex flex-col items-center justify-center p-2 w-16 group">
+<span class="material-icons-round text-2xl text-primary group-hover:scale-110 transition-transform">receipt_long</span>
+<span class="text-[10px] font-medium mt-1 text-primary">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center p-2 w-16 group text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary-light">
+<span class="material-icons-round text-2xl group-hover:scale-110 transition-transform">inventory_2</span>
+<span class="text-[10px] font-medium mt-1">Inventory</span>
+</button>
+<!-- Floating Action Button for Scan - centered and raised -->
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-primary rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white transform transition-transform active:scale-95 border-4 border-background-light dark:border-background-dark">
+<span class="material-icons-round text-2xl">qr_code_scanner</span>
+</button>
+</div>
+<button class="flex flex-col items-center justify-center p-2 w-16 group text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary-light">
+<span class="material-icons-round text-2xl group-hover:scale-110 transition-transform">monetization_on</span>
+<span class="text-[10px] font-medium mt-1">Earnings</span>
+</button>
+<button class="flex flex-col items-center justify-center p-2 w-16 group text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary-light">
+<span class="material-icons-round text-2xl group-hover:scale-110 transition-transform">settings</span>
+<span class="text-[10px] font-medium mt-1">Settings</span>
+</button>
+</div>
+</nav>
+<!-- Modal Mockup (Hidden by default, shown for visual completeness if Javascript were active) -->
+<!-- This represents what happens when "Update Status" is clicked -->
+<div class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-end justify-center sm:items-center">
+<!-- Content would go here -->
+</div>
+</body></html>

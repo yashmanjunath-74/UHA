@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Universal Login Screen - UHA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#009366", // Exact match from reference image
+                        "primary-dark": "#007a55", // Slightly darker for hover
+                        "background-light": "#F0FDF4", // Emerald 50
+                        "background-dark": "#111827", // Gray 900
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "input-light": "#F9FAFB",
+                        "input-dark": "#374151",
+                    },
+                    fontFamily: {
+                        display: ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0, 147, 102, 0.15)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col justify-between relative overflow-hidden transition-colors duration-300">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+<main class="flex-1 flex flex-col items-center justify-center p-6 w-full max-w-md mx-auto z-10">
+<div class="w-full text-center mb-10">
+<div class="inline-flex items-center justify-center w-20 h-20 bg-primary/10 dark:bg-primary/20 rounded-2xl mb-6 shadow-soft">
+<span class="material-icons-round text-primary text-4xl">local_hospital</span>
+</div>
+<div class="flex items-center justify-center gap-2 mb-2">
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white">UHA</h1>
+<span class="material-icons-round text-primary text-xl" title="Secure Connection">lock</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 font-medium">Universal Health Application</p>
+</div>
+<div class="w-full bg-card-light dark:bg-card-dark rounded-[2rem] p-8 shadow-xl border border-gray-100 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+<h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">Welcome Back</h2>
+<form action="#" class="space-y-5">
+<div>
+<label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 ml-1" for="email">Email or UHID Number</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-icons-round text-gray-400 dark:text-gray-500">person_outline</span>
+</div>
+<input class="w-full pl-11 pr-4 py-4 bg-input-light dark:bg-input-dark border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 font-medium transition-all duration-200 outline-none" id="email" placeholder="Enter your ID or email" type="text"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 ml-1" for="password">Password</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-icons-round text-gray-400 dark:text-gray-500">lock_outline</span>
+</div>
+<input class="w-full pl-11 pr-12 py-4 bg-input-light dark:bg-input-dark border-transparent focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 font-medium transition-all duration-200 outline-none" id="password" placeholder="Enter your password" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" type="button">
+<span class="material-icons-round">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="flex justify-end pt-1">
+<a class="text-sm font-semibold text-primary hover:text-primary-dark transition-colors" href="#">Forgot Password?</a>
+</div>
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 group" type="button">
+<span>Secure Login</span>
+<span class="material-icons-round text-white group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
+</button>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-4 bg-card-light dark:bg-card-dark text-gray-500 dark:text-gray-400 font-medium">Or continue with</span>
+</div>
+</div>
+<button class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 font-semibold py-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-3" type="button">
+<img alt="Google Logo" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiMXc7Sq89XMsmKrNhnrsClcwxplk5T0VkK8TUi3uhAbPWE5CWec7j7AzTY8la3xFIeUHxLiI2iHSH1EI9hyCAleIgk-WPZ_aGA1ngpKskqHpVdDRZsW9RXB14RbBznJaRHKzez7kcC3tJyoe0PkqaijgIDwnwo8AQV6AqM6tak7zMJR-BGUlU2N4qcZTuf7YKBwh-r3NgJ4j-8W_Yjhwucn3uu-5zVLefliK7ZFqWka3CJBI3QQBUSGKVin22C5kFgIvYuzgMZS0y"/>
+<span>Continue with Google</span>
+</button>
+</div>
+<p class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+            Don't have an account? 
+            <a class="font-bold text-primary hover:text-primary-dark transition-colors" href="#">Register</a>
+</p>
+</main>
+<div class="w-full h-6 flex justify-center items-center pb-2 z-10">
+<div class="w-32 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+</div>
+</body></html>

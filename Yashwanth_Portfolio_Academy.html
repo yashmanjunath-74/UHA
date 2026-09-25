@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yashwanth_Portfolio_Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=SF+Pro+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0071e3;
+      --primary-dark: #0077ed;
+      --emerald: #059669;
+      --emerald-dark: #065f46;
+      --text: #1d1d1f;
+      --text-muted: #86868b;
+      --bg: #ffffff;
+      --card-bg: #fbfbfd;
+      --border: #d2d2d7;
+      --tag-bg: #f5f5f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header-card {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 28px;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e8f2fe;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .meta-item strong {
+      color: var(--text);
+    }
+
+    .quote-box {
+      background: var(--card-bg);
+      border-left: 4px solid var(--emerald);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #374151;
+      margin: 24px 0;
+      font-size: 1.05rem;
+    }
+
+    h2.section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 44px 0 20px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      color: #111827;
+    }
+
+    .project-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      page-break-inside: avoid;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .project-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .project-type-pill {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .field-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-top: 16px;
+      margin-bottom: 4px;
+    }
+
+    p, li {
+      font-size: 0.95rem;
+      color: #374151;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-top: 6px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+      margin-bottom: 12px;
+    }
+
+    .image-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f8fafc;
+      text-align: center;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-caption {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 6px 8px;
+      font-weight: 500;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--card-bg);
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .print-footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: #fff;
+      }
+      .container {
+        max-width: 100%;
+      }
+      .project-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+        margin-bottom: 24px;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="no-print" style="background: #e8f2fe; padding: 12px 16px; border-radius: 8px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.9rem; font-weight: 500; color: #0071e3;">💡 Ready for PDF Export: Press <strong>Ctrl + P</strong> (or Cmd + P) and select "Save as PDF"</span>
+      <button onclick="window.print()" style="background: #0071e3; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">Print to PDF</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header-card">
+      <span class="badge">Apple Developer Academy Indonesia • Official Candidate Portfolio</span>
+      <h1>Yashwanth M</h1>
+      <p style="font-size: 1.15rem; color: #4b5563; font-weight: 500;">Lead Mobile Systems Architect & Full-Stack Engineer</p>
+      
+      <div class="meta-grid">
+        <div class="meta-item"><strong>Submission File:</strong> Yashwanth_Portfolio_Academy.pdf</div>
+        <div class="meta-item"><strong>Target Program:</strong> Apple Developer Academy Indonesia</div>
+        <div class="meta-item"><strong>GitHub:</strong> github.com/yashmanjunath-74</div>
+        <div class="meta-item"><strong>Email:</strong> yashyashwanth7447@gmail.com</div>
+      </div>
+
+      <div class="quote-box">
+        "Technology becomes truly transformative when it bridges complex software engineering with compassionate, human-centered design. I build applications that solve real-world logistical, medical, and community pain points."
+      </div>
+    </header>
+
+    <!-- Project 1: UHA -->
+    <section class="project-card">
+      <div class="project-header">
+        <div>
+          <span class="badge" style="background: #d1fae5; color: #059669;">Flagship Project 01</span>
+          <h2 class="project-title">Unified Health Alliance (UHA) — Digital Healthcare Operating Ecosystem</h2>
+        </div>
+        <span class="project-type-pill">Self-Initiated • Individual Architecture</span>
+      </div>
+
+      <div class="field-title">1. One- to Two-Sentence Summary</div>
+      <p>Unified Health Alliance (UHA) is an interconnected digital healthcare ecosystem built with Flutter, Riverpod, and Supabase that breaks down clinical data silos by seamlessly linking patients, verified physicians, pharmacies, diagnostic laboratories, and hospital administrations into a real-time, privacy-first care delivery network. Featuring an on-device conversational AI symptom triage engine, digital e-prescription pad, synchronized pharmacy fulfillment queue, and longitudinal 360° Electronic Health Records, UHA replaces fragmented medical workflows with a unified, transparent standard of patient care.</p>
+
+      <div class="field-title">2. Project Classification</div>
+      <p><strong>Type:</strong> Self-Initiated Architectural Solution &bull; <strong>Nature:</strong> Individual Project (Lead Systems Architect & Full-Stack Flutter Engineer) &bull; <strong>Core Disciplines:</strong> Cross-Platform Mobile Engineering (Flutter/Dart), Reactive State Architecture (Riverpod), Cloud Relational Database (Supabase/PostgreSQL/RLS), Conversational AI Triage, Clinical Informatics (Drug Allergy Safety, Digital E-Prescriptions), and Human-Centered Healthcare UI/UX.</p>
+
+      <div class="field-title">3. Impact Made on the Project</div>
+      <ul>
+        <li><strong>Unified 5 Disconnected Stakeholders:</strong> Engineered an interoperable ecosystem bridging Patients, Doctors, Retail Pharmacies, Diagnostic Labs, and Hospital Administrators under a cryptographic role model with Supabase Row Level Security (RLS).</li>
+        <li><strong>Conversational AI Clinical Triage:</strong> Built an intelligent clinical intake chatbot that assesses symptoms, estimates diagnostic urgency, and immediately connects users to qualified specialists.</li>
+        <li><strong>Active Medication Contraindication Guardrails:</strong> Implemented real-time allergy cross-referencing in both the physician's E-Rx pad and the pharmacy fulfillment queue, alerting clinicians of severe cross-sensitivities (e.g., Penicillin) prior to dispensing.</li>
+        <li><strong>Closed-Loop Fulfillment & Diagnostic Sync:</strong> Developed an end-to-end pipeline from digital prescription generation to live pharmacy order queue picking/packing and automated inventory decrements, alongside direct lab test queues and verified PDF report delivery.</li>
+        <li><strong>Longitudinal Patient Agency:</strong> Created an encrypted 360° health summary and an interactive chronological visual health timeline tracking consultations, prescriptions, and lab tests over time.</li>
+      </ul>
+
+      <div class="field-title">4. Key Learnings & Growth</div>
+      <ul>
+        <li><strong>Relational Integrity & Row-Level Security at Scale:</strong> Mastered PostgreSQL schema normalization and fine-grained Supabase RLS policies to guarantee patient data confidentiality and regulatory compliance.</li>
+        <li><strong>Complex Multi-Tenant State Management:</strong> Structured comprehensive state architectures across 40+ user flows using Riverpod, managing live subscriptions, optimistic updates, and multi-user roles without race conditions.</li>
+        <li><strong>High-Stress UX Empathy:</strong> Designed a calming emerald and dark jade design language optimized for clarity, legibility, and rapid decision-making under clinical stress.</li>
+      </ul>
+
+      <div class="field-title">5. Visual Walkthrough</div>
+      <div class="image-grid">
+        <div class="image-box">
+          <img src="assets/ai_symptom_triage_chat/screen.png" alt="AI Symptom Triage">
+          <div class="image-caption">AI Symptom Triage & Intake</div>
+        </div>
+        <div class="image-box">
+          <img src="assets/e_prescription_pad_view/screen.png" alt="E-Prescription Pad">
+          <div class="image-caption">E-Rx Pad with Allergy Alert</div>
+        </div>
+        <div class="image-box">
+          <img src="assets/pharmacy_order_fulfillment/screen.png" alt="Pharmacy Fulfillment">
+          <div class="image-caption">Pharmacy Safety Verification</div>
+        </div>
+      </div>
+      <div class="image-grid">
+        <div class="image-box">
+          <img src="assets/medical_health_timeline/screen.png" alt="Medical Timeline">
+          <div class="image-caption">Chronological Health Timeline</div>
+        </div>
+        <div class="image-box">
+          <img src="assets/doctor_s_schedule_dashboard/screen.png" alt="Doctor Schedule">
+          <div class="image-caption">Doctor Daily Schedule Dashboard</div>
+        </div>
+        <div class="image-box">
+          <img src="assets/hospital_admin_overview/screen.png" alt="Hospital Admin">
+          <div class="image-caption">Hospital Admin Master Overview</div>
+        </div>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;"><strong>Repository:</strong> github.com/yashmanjunath-74/UHA (Includes complete 43-screen visual architecture)</p>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Project 2: Timely.AI -->
+    <section class="project-card">
+      <div class="project-header">
+        <div>
+          <span class="badge">Project 02</span>
+          <h2 class="project-title">Timely.AI — Intelligent Academic Timetable Scheduling System</h2>
+        </div>
+        <span class="project-type-pill">Self-Initiated • Individual Project</span>
+      </div>
+
+      <div class="field-title">1. One- to Two-Sentence Summary</div>
+      <p>Timely.AI is an intelligent scheduling application built with Flutter and Python that transforms the tedious, multi-day task of academic timetable generation into an instantaneous, conflict-free automated process using constraint satisfaction algorithms (Google OR-Tools CP-SAT) paired with an intuitive, dark-mode mobile interface and on-device PDF compilation.</p>
+
+      <div class="field-title">2. Project Classification</div>
+      <p><strong>Type:</strong> Self-Initiated Project &bull; <strong>Nature:</strong> Individual Full-Stack & Operations Research Project &bull; <strong>Core Disciplines:</strong> Mobile UI/UX Design (Flutter/Dart), Discrete Optimization (Google OR-Tools CP-SAT, Python), Reactive State Architecture (Riverpod), and Document Generation (PDF/Printing).</p>
+
+      <div class="field-title">3. Impact Made on the Project</div>
+      <ul>
+        <li><strong>Conflict-Free NP-Hard Solving:</strong> Solved complex academic timetable constraints (faculty availability, room capacities, consecutive laboratory blocks, and student cohort clashes) mathematically with zero manual conflicts.</li>
+        <li><strong>Slashed Preparation Time:</strong> Reduced timetable planning time from weeks of trial-and-error to sub-second mathematical solving.</li>
+        <li><strong>Interactive Availability Matrix:</strong> Created tactile weekly schedule grids allowing professors and department heads to designate availability windows and blackout hours with visual ease.</li>
+        <li><strong>Publication-Ready Export:</strong> Implemented official university-formatted PDF timetable compilation directly on-device with legends, faculty mappings, and printing support.</li>
+      </ul>
+
+      <div class="field-title">4. Key Learnings & Growth</div>
+      <ul>
+        <li><strong>Operations Research Translation:</strong> Translated real-world institutional scheduling bottlenecks into mathematical boolean and integer expressions executed by constraint solvers.</li>
+        <li><strong>High-Density Data UX:</strong> Designed intuitive, high-contrast dark interfaces making dense tabular data easy to manipulate on small mobile viewports.</li>
+      </ul>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;"><strong>Repository:</strong> github.com/yashmanjunath-74/Timely.AI</p>
+    </section>
+
+    <!-- Project 3: Magic ePaper -->
+    <section class="project-card">
+      <div class="project-header">
+        <div>
+          <span class="badge">Project 03</span>
+          <h2 class="project-title">Magic ePaper — NFC Tri-Color Display Design & Dithering Suite</h2>
+        </div>
+        <span class="project-type-pill">Open Source • Collaborative Contribution</span>
+      </div>
+
+      <div class="field-title">1. One- to Two-Sentence Summary</div>
+      <p>Magic ePaper App is an open-source Flutter mobile application that enables users to design, process, and transfer custom graphical content to ultra-low-power, battery-free tri-color NFC ePaper badges using advanced on-device image dithering algorithms and NFC communication.</p>
+
+      <div class="field-title">2. Project Classification</div>
+      <p><strong>Type:</strong> Open-Source Project &bull; <strong>Nature:</strong> Collaborative Contribution &bull; <strong>Core Disciplines:</strong> Cross-Platform Mobile Engineering (Flutter/Dart), Hardware Interfacing (Near Field Communication / NFC NDEF), Computer Graphics Dithering (Floyd–Steinberg & Atkinson dithers), and Custom Canvas UI.</p>
+
+      <div class="field-title">3. Impact Made on the Project</div>
+      <ul>
+        <li><strong>On-Device Dithering Graphics Pipeline:</strong> Built color palette reduction algorithms converting 24-bit RGB images into crisp tri-color (Black, White, Red) formats for electronic ink displays.</li>
+        <li><strong>Resilient NFC Payload Chunking:</strong> Designed robust data transmission protocols transferring bitmap frames over NFC to energy-harvesting microcontrollers within brief contact taps.</li>
+        <li><strong>Interactive Studio Canvas:</strong> Built tools for QR/barcode generation, employee badges, custom typography, and real-time electronic badge preview.</li>
+      </ul>
+
+      <div class="field-title">4. Key Learnings & Growth</div>
+      <ul>
+        <li><strong>Hardware-Software Boundaries:</strong> Learned to respect physical display refresh rates, transmission bottlenecks, and energy harvesting constraints.</li>
+        <li><strong>Collaborative Open Source:</strong> Honed pull request workflows, internationalization, and documentation for global developer communities.</li>
+      </ul>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;"><strong>Repository:</strong> github.com/fossasia/magic-epaper-app</p>
+    </section>
+
+    <!-- Project 4: Aquaflow & Swasthya Sahayak -->
+    <section class="project-card">
+      <div class="project-header">
+        <div>
+          <span class="badge">Project 04</span>
+          <h2 class="project-title">Aquaflow & Swasthya Sahayak — Civic Tech & Grassroots Health Solution</h2>
+        </div>
+        <span class="project-type-pill">Self-Initiated • Civic Innovation</span>
+      </div>
+
+      <div class="field-title">1. One- to Two-Sentence Summary</div>
+      <p>Aquaflow & Swasthya Sahayak are civic-tech mobile solutions designed to tackle resource distribution and grassroots health monitoring in semi-urban communities by providing offline-first logging, real-time supply alerts, and localized health advisory tools.</p>
+
+      <div class="field-title">2. Project Classification</div>
+      <p><strong>Type:</strong> Self-Initiated Civic Solution &bull; <strong>Nature:</strong> Individual Project &bull; <strong>Core Disciplines:</strong> Offline-First Mobile Architecture, Geolocation Mapping, Community Informatics, and Multilingual Accessibility.</p>
+
+      <div class="field-title">3. Impact Made on the Project</div>
+      <ul>
+        <li><strong>Essential Civic Visibility:</strong> Provided households and community workers with real-time tracking of water delivery schedules and local clinic immunization supplies.</li>
+        <li><strong>Resilient Offline-First Data:</strong> Engineered local SQLite persistence that allows health logs and water reports to be captured with zero connectivity and synchronized asynchronously.</li>
+        <li><strong>Low-Literacy Inclusivity:</strong> Created an iconographic, vernacular interface empowering non-technical users to access critical community resources effortlessly.</li>
+      </ul>
+
+      <div class="field-title">4. Key Learnings & Growth</div>
+      <ul>
+        <li><strong>Empathetic User Research:</strong> Realized that software design in rural/semi-urban settings requires high contrast, large touch targets, and minimal text dependencies.</li>
+      </ul>
+    </section>
+
+    <!-- Project 5: EventSnap & RIT-Event -->
+    <section class="project-card">
+      <div class="project-header">
+        <div>
+          <span class="badge">Project 05</span>
+          <h2 class="project-title">EventSnap & RIT-Event — Campus Engagement & Real-Time Event Discovery</h2>
+        </div>
+        <span class="project-type-pill">University Initiative • Group Project</span>
+      </div>
+
+      <div class="field-title">1. One- to Two-Sentence Summary</div>
+      <p>EventSnap / RIT-Event is an interactive university campus engagement and ticketing platform that connects students with academic symposiums, hackathons, and cultural clubs through dynamic schedule discovery, digital badge check-ins, and peer networking.</p>
+
+      <div class="field-title">2. Project Classification</div>
+      <p><strong>Type:</strong> University Community Project &bull; <strong>Nature:</strong> Group Project (Role: Frontend Lead & Mobile Architect) &bull; <strong>Core Disciplines:</strong> Mobile UI/UX Design, Real-Time Cloud Sync, QR-Code Attendance Verification, and Social Community Features.</p>
+
+      <div class="field-title">3. Impact Made on the Project</div>
+      <ul>
+        <li><strong>Paperless Verification:</strong> Slashed entry queues at campus events by replacing physical sign-in sheets with rapid QR code mobile ticket validation.</li>
+        <li><strong>Live Schedule Broadcasts:</strong> Kept thousands of participants updated with real-time push announcements for room changes, speaker delays, and results.</li>
+      </ul>
+
+      <div class="field-title">4. Key Learnings & Growth</div>
+      <ul>
+        <li><strong>Collaborative Agile Leadership:</strong> Coordinated sprint tasks across design, backend, and student organizing committees to ship on a strict campus festival deadline.</li>
+      </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Academy Evaluation Pillars -->
+    <section class="project-card">
+      <h2 class="project-title" style="margin-bottom: 16px;">🌟 Alignment with Apple Developer Academy Indonesia Values</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Academy Pillar</th>
+            <th>Candidate Demonstration & Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🔥 Interest & Motivation</strong></td>
+            <td>A relentless passion for building impactful software from the ground up. Dedicating hundreds of hours to architecting complex full-stack ecosystems (UHA), combinatorial mathematical algorithms (Timely.AI), and low-level NFC hardware tools (Magic ePaper). Eager to dedicate 100% of my energy to the 9-month immersive learning journey in Indonesia.</td>
+          </tr>
+          <tr>
+            <td><strong>🎨 Creativity & Expression</strong></td>
+            <td>Translating complex, stressful processes into serene, human-centered mobile experiences. From UHA's soothing emerald and jade glassmorphism design system to Timely.AI's tactile availability matrices, I view interface design as an expressive craft of empathy and clarity.</td>
+          </tr>
+          <tr>
+            <td><strong>🧠 Interdisciplinary Potential</strong></td>
+            <td>Seamlessly connecting software engineering with Operations Research, clinical safety protocols, medical informatics, computer graphics dithering, hardware physics, and civic technology. Enthusiastic about expanding into Swift, SwiftUI, CoreML, and Apple HealthKit.</td>
+          </tr>
+          <tr>
+            <td><strong>⚡ Work Ethic & Excellence</strong></td>
+            <td>Consistently delivering beyond minimal viable products. Every project is executed with full architectural rigor: robust database schemas, automated triggers, comprehensive error handling, 40+ responsive screens, and production-ready documentation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer -->
+    <footer class="print-footer">
+      <p><strong>Yashwanth M</strong> &bull; Apple Developer Academy Indonesia Candidate Portfolio &bull; 2026/2027</p>
+      <p>Document: <code>Yashwanth_Portfolio_Academy.pdf</code> &bull; Built with dedication and craft.</p>
+    </footer>
+  </div>
+</body>
+</html>

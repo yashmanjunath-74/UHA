@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Registration Success - UHA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#009468",
+                "primary-dark": "#007a56",
+                "background-light": "#f5f8f7",
+                "background-dark": "#0f231d",
+                },
+                fontFamily: {
+                "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom subtle pattern for background texture */
+        .bg-pattern {
+            background-color: transparent;
+            background-image: radial-gradient(circle at 1px 1px, #009468 1px, transparent 0);
+            background-size: 40px 40px;
+            opacity: 0.03;
+        }
+        .dark .bg-pattern {
+            opacity: 0.1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col items-center justify-between relative overflow-hidden text-slate-800 dark:text-slate-100 transition-colors duration-200">
+<!-- Background Pattern Overlay -->
+<div class="absolute inset-0 bg-pattern pointer-events-none z-0"></div>
+<!-- Main Content Container -->
+<main class="flex-1 flex flex-col items-center justify-center w-full max-w-md px-6 relative z-10 pt-12 pb-24">
+<!-- Animated Success Icon -->
+<div class="mb-8 relative">
+<div class="absolute inset-0 bg-primary/20 dark:bg-primary/10 rounded-full blur-2xl transform scale-150 animate-pulse"></div>
+<div class="relative bg-white dark:bg-slate-800 rounded-full p-6 shadow-xl shadow-primary/10 ring-1 ring-slate-100 dark:ring-slate-700">
+<div class="bg-primary/10 dark:bg-primary/20 rounded-full p-4">
+<span class="material-icons text-primary text-6xl">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Success Text Group -->
+<div class="text-center space-y-3 mb-10">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Registration Successful!</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base leading-relaxed max-w-[280px] mx-auto">
+                Your account is ready. You can now access your universal health records securely.
+            </p>
+</div>
+<!-- UHID Card Component -->
+<div class="w-full bg-white dark:bg-slate-800 rounded-2xl shadow-lg shadow-primary/5 border border-primary/10 dark:border-primary/20 p-1 relative overflow-hidden group">
+<!-- Decorative Accent -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/40 via-primary to-primary/40"></div>
+<div class="p-5 flex flex-col items-center justify-center space-y-1 relative z-10">
+<span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Universal Health ID</span>
+<div class="flex items-center gap-2">
+<span class="text-2xl sm:text-3xl font-mono font-bold text-primary tracking-widest">UHA-992-102</span>
+<button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors text-slate-400 hover:text-primary" title="Copy UHID">
+<span class="material-icons text-sm">content_copy</span>
+</button>
+</div>
+<div class="mt-4 flex items-center gap-2 text-xs text-slate-400 bg-slate-50 dark:bg-slate-900/50 px-3 py-1.5 rounded-full">
+<span class="material-icons text-primary text-sm">verified_user</span>
+<span>Identity Verified</span>
+</div>
+</div>
+<!-- Background faint logo/watermark -->
+<div class="absolute -bottom-6 -right-6 text-primary/5 dark:text-primary/10 transform -rotate-12 pointer-events-none">
+<span class="material-icons text-9xl">local_hospital</span>
+</div>
+</div>
+<!-- Additional Actions -->
+<div class="mt-8 grid grid-cols-2 gap-4 w-full">
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group">
+<div class="p-2 bg-primary/10 rounded-full mb-2 group-hover:bg-primary group-hover:text-white text-primary transition-colors">
+<span class="material-icons text-xl">download</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300">Download Card</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group">
+<div class="p-2 bg-primary/10 rounded-full mb-2 group-hover:bg-primary group-hover:text-white text-primary transition-colors">
+<span class="material-icons text-xl">share</span>
+</div>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300">Share Details</span>
+</button>
+</div>
+</main>
+<!-- Bottom Fixed Action Area -->
+<footer class="w-full max-w-md px-6 pb-8 pt-4 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark fixed bottom-0 z-20">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-6 rounded-xl shadow-lg shadow-primary/25 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 group">
+<span>Go to Dashboard</span>
+<span class="material-icons text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</footer>
+</body></html>

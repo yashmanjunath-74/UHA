@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab Registration: Certifications &amp; Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0bda95",
+                        "primary-dark": "#09af76", 
+                        "background-light": "#f5f8f7",
+                        "background-dark": "#10221c",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#182e26",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .upload-dashed-border {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%230BDA95FF' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        }
+        .dark .upload-dashed-border {
+             background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%230BDA95AA' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen flex flex-col items-center justify-center p-4 antialiased">
+<!-- Mobile Container -->
+<div class="w-full max-w-md bg-surface-light dark:bg-surface-dark h-[850px] max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col relative border border-slate-200 dark:border-slate-800">
+<!-- Top Navigation / Header -->
+<div class="px-6 pt-8 pb-4 bg-surface-light dark:bg-surface-dark z-10">
+<div class="flex items-center justify-between mb-6">
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-icons">arrow_back_ios</span>
+</button>
+<div class="flex space-x-2">
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+<div class="w-8 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+</div>
+<div class="w-6"></div> <!-- Spacer for alignment -->
+</div>
+<div>
+<p class="text-sm font-semibold text-primary uppercase tracking-wider mb-1">Step 2 of 3</p>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Certifications &amp; Services</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Verify your lab's credentials by uploading official documents and listing your services.
+                </p>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto px-6 pb-24 scroll-smooth">
+<!-- Section 1: Services -->
+<div class="mb-8">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" for="services">
+                    Test Menu / Packages Offered
+                </label>
+<div class="relative">
+<textarea class="w-full bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400 dark:text-white resize-none" id="services" placeholder="e.g., Blood Test, MRI, Full Body Checkup, Thyroid Profile..." rows="4"></textarea>
+<div class="absolute bottom-3 right-3 text-xs text-slate-400">
+                        max 500 chars
+                    </div>
+</div>
+</div>
+<!-- Section 2: Uploads -->
+<div class="space-y-6">
+<!-- Upload Zone A -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            NABL / ISO Certification
+                        </label>
+<span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">Required</span>
+</div>
+<div class="upload-dashed-border rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-primary/5 transition-colors group relative bg-white dark:bg-surface-dark">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-icons text-primary text-2xl">cloud_upload</span>
+</div>
+<p class="text-sm font-medium text-slate-900 dark:text-white mb-1">
+                            Tap to upload
+                        </p>
+<p class="text-xs text-slate-500 dark:text-slate-400">
+                            PDF, JPG or PNG (Max 5MB)
+                        </p>
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+</div>
+</div>
+<!-- Upload Zone B (Simulated Uploaded State) -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Government Health Permit
+                        </label>
+<span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">Required</span>
+</div>
+<!-- Example of a 'success' state after upload -->
+<div class="border border-primary bg-primary/5 dark:bg-primary/10 rounded-xl p-4 flex items-center justify-between cursor-pointer group relative">
+<div class="flex items-center space-x-3 overflow-hidden">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+<span class="material-icons text-white text-xl">description</span>
+</div>
+<div class="min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">health_permit_2023.pdf</p>
+<p class="text-xs text-primary font-medium flex items-center mt-0.5">
+<span class="material-icons text-[10px] mr-1">check_circle</span> Uploaded successfully
+                                </p>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-icons text-xl">close</span>
+</button>
+</div>
+</div>
+<!-- Additional Helper Info -->
+<div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 flex gap-3 items-start border border-blue-100 dark:border-blue-800/30 mt-4">
+<span class="material-icons text-blue-500 text-sm mt-0.5">info</span>
+<p class="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">
+                        Certifications must be valid for at least 6 months from the date of registration. Expired documents will be rejected automatically.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Navigation -->
+<div class="absolute bottom-0 left-0 w-full bg-surface-light dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 p-6 z-20">
+<div class="flex space-x-4">
+<button class="flex-1 py-3.5 px-4 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200">
+                    Back
+                </button>
+<button class="flex-[2] py-3.5 px-4 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold text-sm shadow-lg shadow-primary/30 transition-all transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+                    Next Step
+                </button>
+</div>
+</div>
+<!-- Decorative Background Elements (Abstract) -->
+<div class="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" data-alt="Soft abstract green glow in corner"></div>
+<div class="absolute bottom-20 left-0 -ml-16 w-48 h-48 bg-blue-400/5 rounded-full blur-3xl pointer-events-none" data-alt="Soft abstract blue glow in corner"></div>
+</div>
+</body></html>

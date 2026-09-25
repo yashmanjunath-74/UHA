@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Under Review Status</title>
+<!-- Google Fonts for Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13eca4",
+              "primary-dark": "#0fb982", 
+              "background-light": "#f6f8f7",
+              "background-dark": "#10221c",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Gradient for the illustration background blob */
+        .bg-blob {
+            background: radial-gradient(circle, rgba(19, 236, 164, 0.15) 0%, rgba(19, 236, 164, 0) 70%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col items-center justify-center p-6 antialiased font-display text-slate-800 dark:text-slate-100 transition-colors duration-300">
+<!-- Top Navigation / Logo Area -->
+<div class="absolute top-0 w-full p-6 flex justify-center">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="text-background-dark font-bold text-lg">U</span>
+</div>
+<span class="font-bold text-lg tracking-tight text-slate-900 dark:text-white">Universal Health</span>
+</div>
+</div>
+<!-- Main Content Container -->
+<main class="w-full max-w-sm flex flex-col items-center text-center space-y-8 mt-10">
+<!-- Illustration Area -->
+<div class="relative w-full aspect-square max-w-[280px] flex items-center justify-center">
+<!-- Background Blob -->
+<div class="absolute inset-0 bg-blob rounded-full transform scale-125"></div>
+<!-- Main Illustration Image -->
+<div class="relative z-10 w-full h-full rounded-2xl overflow-hidden shadow-sm bg-white/50 dark:bg-white/5 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 flex items-center justify-center">
+<img alt="Doctor holding a clipboard reviewing medical documents in a bright office" class="w-full h-full object-cover opacity-90" data-alt="Doctor holding a clipboard reviewing medical documents in a bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB59qF4nhbAJG_A-uZ4UJ2L22gZiKAnIGJr_Y9-wK1VPeUPHZ35kNG_2uu8S96Ji8MqKbFwuc_uOQMj_g8UzszTE65Me0OQQuko8oByMMe7E7TIF4TtT9mDSYEdaHjmGEPbrqQStsp3Vp5HIyckICdIyTlAWw_K7ut-X3U45oARwecVgeLRbVDSvZt8TBxvhT-2Lxax9lSTeQ5hJs4kJXahHIxfLsDqkLKMZW_uYb3vRbQFap6ryqe5r7tl2UYLtpUEdLXwPFg1W5zE"/>
+<!-- Overlay Icon -->
+<div class="absolute bottom-4 right-4 bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700 flex items-center justify-center">
+<span class="material-icons-round text-primary text-3xl">hourglass_top</span>
+</div>
+</div>
+</div>
+<!-- Status Badge -->
+<div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-xs font-semibold text-primary-dark dark:text-primary uppercase tracking-wide">Pending Review</span>
+</div>
+<!-- Text Content -->
+<div class="space-y-3">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white leading-tight">
+                Application Under Review
+            </h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-[300px] mx-auto">
+                Our team is verifying your medical credentials. This usually takes 24-48 hours. We will notify you once your account is active.
+            </p>
+</div>
+<!-- Progress Steps (Visual Indicator) -->
+<div class="w-full bg-white dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700/50">
+<div class="space-y-4">
+<!-- Step 1: Completed -->
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-icons-round text-background-dark text-sm">check</span>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-200">Documents Submitted</span>
+</div>
+<!-- Connector Line -->
+<div class="ml-3 w-0.5 h-4 bg-slate-200 dark:bg-slate-600 -my-1"></div>
+<!-- Step 2: Active -->
+<div class="flex items-center space-x-3">
+<div class="flex-shrink-0 w-6 h-6 rounded-full border-2 border-primary flex items-center justify-center bg-primary/10">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-medium text-slate-900 dark:text-white">Verification in Progress</span>
+<span class="text-[10px] text-slate-400">Est. completion: 24-48 hrs</span>
+</div>
+</div>
+<!-- Connector Line -->
+<div class="ml-3 w-0.5 h-4 bg-slate-200 dark:bg-slate-600 -my-1"></div>
+<!-- Step 3: Pending -->
+<div class="flex items-center space-x-3 opacity-50">
+<div class="flex-shrink-0 w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-600 flex items-center justify-center">
+</div>
+<span class="text-sm font-medium text-slate-500 dark:text-slate-400">Account Activation</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="w-full space-y-3 pt-2">
+<button class="w-full py-3.5 px-6 rounded-xl bg-primary hover:bg-primary-dark active:scale-[0.98] transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-primary/25">
+<span class="material-icons-round text-background-dark text-xl">dashboard</span>
+<span class="font-semibold text-background-dark">Explore Demo Dashboard</span>
+</button>
+<button class="w-full py-3.5 px-6 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:scale-[0.98] transition-all duration-200 text-slate-600 dark:text-slate-300 font-medium flex items-center justify-center space-x-2">
+<span class="material-icons-round text-lg">support_agent</span>
+<span>Contact Support</span>
+</button>
+</div>
+</main>
+<!-- Footer Logout -->
+<div class="mt-auto pb-6 pt-8">
+<button class="text-sm font-medium text-slate-400 hover:text-primary transition-colors flex items-center space-x-1">
+<span class="material-icons-round text-base">logout</span>
+<span>Log out</span>
+</button>
+</div>
+</body></html>

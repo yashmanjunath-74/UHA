@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UHA Brand Color Palette</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#009468",
+                        "secondary": "#008B8B",
+                        "background-light": "#f5f8f7",
+                        "background-dark": "#0f231d",
+                        "uha-neutral-50": "#F8F9FA",
+                        "uha-neutral-100": "#f0f2f1",
+                        "uha-neutral-800": "#111827",
+                        "uha-neutral-500": "#4B5563",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "heading": ["Poppins", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .heading-font { font-family: 'Poppins', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-uha-neutral-800 dark:text-uha-neutral-100 pb-12">
+<!-- Header / Navigation -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 py-4">
+<div class="flex items-center justify-between max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-icons">palette</span>
+</div>
+<div>
+<h1 class="font-heading font-bold text-lg leading-tight">Brand Identity</h1>
+<p class="text-xs text-uha-neutral-500 uppercase tracking-widest font-semibold">Visual Guidelines</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-icons text-xl">share</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-4 mt-6 space-y-8">
+<!-- Introduction Section -->
+<section>
+<h2 class="font-heading text-2xl font-bold mb-2">Color Palette</h2>
+<p class="text-uha-neutral-500 dark:text-uha-neutral-100/60 text-sm leading-relaxed">
+                The Universal Health Application (UHA) visual language is rooted in trust, clarity, and vitality.
+            </p>
+</section>
+<!-- Primary Colors -->
+<section class="space-y-4">
+<h3 class="text-xs font-bold text-uha-neutral-500 uppercase tracking-widest">Core Brand Colors</h3>
+<!-- Emerald Card -->
+<div class="bg-white dark:bg-white/5 rounded-xl border border-primary/10 overflow-hidden shadow-sm">
+<div class="h-32 bg-primary flex items-end p-4">
+<span class="text-white/40 font-bold text-4xl">01</span>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-uha-neutral-800 dark:text-white">Primary Emerald</h4>
+<p class="text-xs text-uha-neutral-500 dark:text-uha-neutral-100/50">#009468</p>
+</div>
+<button class="p-2 hover:bg-primary/5 rounded-lg transition-colors text-primary">
+<span class="material-icons text-sm">content_copy</span>
+</button>
+</div>
+<p class="text-sm text-uha-neutral-500 dark:text-uha-neutral-100/60">Main buttons, progress bars, active navigation states, and success indicators.</p>
+</div>
+</div>
+<!-- Teal Card -->
+<div class="bg-white dark:bg-white/5 rounded-xl border border-primary/10 overflow-hidden shadow-sm">
+<div class="h-32 bg-secondary flex items-end p-4">
+<span class="text-white/40 font-bold text-4xl">02</span>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-uha-neutral-800 dark:text-white">Secondary Teal</h4>
+<p class="text-xs text-uha-neutral-500 dark:text-uha-neutral-100/50">#008B8B</p>
+</div>
+<button class="p-2 hover:bg-primary/5 rounded-lg transition-colors text-primary">
+<span class="material-icons text-sm">content_copy</span>
+</button>
+</div>
+<p class="text-sm text-uha-neutral-500 dark:text-uha-neutral-100/60">Specifically reserved for AI-driven health insights, health score accents, and tech-forward features.</p>
+</div>
+</div>
+</section>
+<!-- Neutral Palette -->
+<section class="space-y-4">
+<h3 class="text-xs font-bold text-uha-neutral-500 uppercase tracking-widest">Neutral Foundation</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white dark:bg-white/5 p-3 rounded-lg border border-primary/5">
+<div class="w-full h-12 bg-uha-neutral-50 dark:bg-uha-neutral-800 rounded mb-2 border border-uha-neutral-100 dark:border-white/10"></div>
+<p class="text-xs font-bold truncate">Off-White</p>
+<p class="text-[10px] text-uha-neutral-500">#F8F9FA</p>
+</div>
+<div class="bg-white dark:bg-white/5 p-3 rounded-lg border border-primary/5">
+<div class="w-full h-12 bg-white dark:bg-white/10 rounded mb-2 border border-uha-neutral-100"></div>
+<p class="text-xs font-bold truncate">Surface White</p>
+<p class="text-[10px] text-uha-neutral-500">#FFFFFF</p>
+</div>
+<div class="bg-white dark:bg-white/5 p-3 rounded-lg border border-primary/5">
+<div class="w-full h-12 bg-uha-neutral-800 dark:bg-white rounded mb-2"></div>
+<p class="text-xs font-bold truncate">Text Primary</p>
+<p class="text-[10px] text-uha-neutral-500">#111827</p>
+</div>
+<div class="bg-white dark:bg-white/5 p-3 rounded-lg border border-primary/5">
+<div class="w-full h-12 bg-uha-neutral-500 rounded mb-2"></div>
+<p class="text-xs font-bold truncate">Text Secondary</p>
+<p class="text-[10px] text-uha-neutral-500">#4B5563</p>
+</div>
+</div>
+</section>
+<!-- Component Gallery Previews -->
+<section class="space-y-4">
+<h3 class="text-xs font-bold text-uha-neutral-500 uppercase tracking-widest">Component Usage</h3>
+<div class="bg-white dark:bg-white/5 p-6 rounded-xl border border-primary/10 space-y-6 shadow-sm">
+<!-- Primary Button Example -->
+<div class="space-y-2">
+<p class="text-[10px] font-bold text-primary uppercase">Primary Button</p>
+<button class="w-full bg-primary text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2">
+                        Confirm Treatment
+                        <span class="material-icons text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Alert Example -->
+<div class="space-y-2">
+<p class="text-[10px] font-bold text-primary uppercase">Success Feedback</p>
+<div class="bg-primary/10 border border-primary/20 p-4 rounded-lg flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+<span class="material-icons text-lg">check</span>
+</div>
+<p class="text-sm text-uha-neutral-800 dark:text-uha-neutral-100">Vital signs recorded successfully.</p>
+</div>
+</div>
+<!-- AI Accent Example -->
+<div class="space-y-2">
+<p class="text-[10px] font-bold text-secondary uppercase">AI Feature Accent</p>
+<div class="flex items-center gap-4 p-4 rounded-lg border border-secondary/10 bg-secondary/5">
+<span class="material-icons text-secondary">auto_awesome</span>
+<div>
+<p class="text-sm font-bold">Health Insight</p>
+<p class="text-xs text-uha-neutral-500 dark:text-uha-neutral-100/60">AI is analyzing your sleep patterns.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Typography Section -->
+<section class="space-y-4 pb-10">
+<h3 class="text-xs font-bold text-uha-neutral-500 uppercase tracking-widest">Typography</h3>
+<div class="bg-white dark:bg-white/5 p-6 rounded-xl border border-primary/10 space-y-6 shadow-sm">
+<div>
+<p class="text-[10px] font-bold text-uha-neutral-500 uppercase mb-3">Headings • Poppins</p>
+<div class="space-y-1">
+<p class="font-heading text-3xl font-bold">H1 Heading</p>
+<p class="font-heading text-xl font-bold">H2 Subheading</p>
+</div>
+</div>
+<div class="pt-4 border-t border-primary/5">
+<p class="text-[10px] font-bold text-uha-neutral-500 uppercase mb-3">Body • Inter</p>
+<div class="space-y-3">
+<p class="text-sm font-medium">Medium Body - Used for emphasized content and labels.</p>
+<p class="text-sm text-uha-neutral-500 dark:text-uha-neutral-100/60 leading-relaxed">
+                            Regular Body - Standard reading font for patient reports and medical descriptions. Ensure high legibility across all screen sizes.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar (Fixed) -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-uha-neutral-800 text-white rounded-full py-3 px-6 shadow-2xl flex items-center justify-between">
+<span class="text-sm font-medium">Export CSS Vars</span>
+<div class="flex items-center gap-4">
+<span class="material-icons text-primary">download</span>
+<div class="w-px h-4 bg-white/20"></div>
+<span class="material-icons">more_vert</span>
+</div>
+</div>
+</body></html>

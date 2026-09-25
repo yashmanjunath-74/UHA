@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Doctor Registration: Prof. Info</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13eca4",
+                        "primary-dark": "#0fb881", 
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1c3029",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 antialiased selection:bg-primary/30">
+<div class="mx-auto max-w-md min-h-screen bg-background-light dark:bg-background-dark flex flex-col relative overflow-hidden shadow-2xl">
+<!-- Top Navigation Area -->
+<header class="pt-12 pb-4 px-6 flex items-center justify-between sticky top-0 z-10 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm">
+<button class="p-2 -ml-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+<span class="material-icons">arrow_back_ios_new</span>
+</button>
+<div class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                Registration
+            </div>
+<div class="w-8"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-6 flex flex-col">
+<!-- Progress Section -->
+<div class="mt-2 mb-8">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-semibold text-primary">Step 1 of 3</span>
+<span class="text-xs text-slate-400 dark:text-slate-500">33% Completed</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-surface-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/3 rounded-full shadow-[0_0_10px_rgba(19,236,164,0.5)]"></div>
+</div>
+</div>
+<!-- Header Text -->
+<div class="mb-8">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Professional Profile</h1>
+<p class="text-slate-500 dark:text-slate-400 leading-relaxed">Let's verify your credentials to get you started with UHA.</p>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-6 flex-1" onsubmit="event.preventDefault()">
+<!-- Profile Image Upload (Visual Flair) -->
+<div class="flex justify-center mb-6">
+<div class="relative group cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-surface-light dark:bg-surface-dark border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center overflow-hidden hover:border-primary transition-colors">
+<span class="material-icons text-slate-400 text-3xl group-hover:text-primary transition-colors">add_a_photo</span>
+<!-- Hidden Input -->
+<input class="hidden" type="file"/>
+</div>
+<div class="absolute bottom-0 right-0 bg-primary text-slate-900 p-1.5 rounded-full shadow-lg">
+<span class="material-icons text-sm block">edit</span>
+</div>
+</div>
+</div>
+<!-- Full Name Field -->
+<div class="group">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 ml-1" for="fullName">Full Name</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-[20px]">person</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3.5 bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow shadow-sm" id="fullName" name="fullName" placeholder="Dr. Jane Doe" required="" type="text"/>
+</div>
+</div>
+<!-- Specialization Dropdown -->
+<div class="group">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 ml-1" for="specialization">Specialization</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-[20px]">local_hospital</span>
+</div>
+<select class="block w-full pl-10 pr-10 py-3.5 bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white appearance-none focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow shadow-sm cursor-pointer" id="specialization" name="specialization">
+<option disabled="" selected="" value="">Select your specialty</option>
+<option value="cardiology">Cardiology</option>
+<option value="dermatology">Dermatology</option>
+<option value="general_practice">General Practice</option>
+<option value="neurology">Neurology</option>
+<option value="pediatrics">Pediatrics</option>
+<option value="psychiatry">Psychiatry</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Medical License Number -->
+<div class="group">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 ml-1" for="license">Medical License Number</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons text-slate-400 text-[20px]">badge</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3.5 bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-shadow shadow-sm font-mono tracking-wide uppercase" id="license" name="license" placeholder="MD-12345678" required="" type="text"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+<!-- Valid checkmark (hidden by default, shown for demo) -->
+<span class="material-icons text-primary text-sm hidden">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Years of Experience -->
+<div class="group">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 ml-1" for="experience">Years of Experience</label>
+<div class="relative flex items-center">
+<button class="absolute left-0 top-0 bottom-0 w-12 flex items-center justify-center bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-l-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors z-10" onclick="document.getElementById('experience').stepDown()" type="button">
+<span class="material-icons text-slate-500">remove</span>
+</button>
+<input class="block w-full text-center py-3.5 bg-surface-light dark:bg-surface-dark border-y border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold focus:outline-none focus:ring-0 z-0" id="experience" max="80" min="0" name="experience" placeholder="0" required="" type="number" value="5"/>
+<button class="absolute right-0 top-0 bottom-0 w-12 flex items-center justify-center bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-r-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors z-10" onclick="document.getElementById('experience').stepUp()" type="button">
+<span class="material-icons text-slate-500">add</span>
+</button>
+</div>
+</div>
+<!-- Spacer to push button to bottom if content is short -->
+<div class="flex-grow min-h-[40px]"></div>
+</form>
+</main>
+<!-- Bottom Action Bar -->
+<div class="px-6 pb-8 pt-4 bg-background-light dark:bg-background-dark/95 backdrop-blur-md sticky bottom-0 z-20">
+<button class="w-full bg-primary hover:bg-primary-dark text-slate-900 font-bold py-4 rounded-xl shadow-[0_4px_14px_0_rgba(19,236,164,0.39)] hover:shadow-[0_6px_20px_rgba(19,236,164,0.23)] hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group" type="button">
+<span>Next Step</span>
+<span class="material-icons ml-2 text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Background Decorative Elements -->
+<div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-1/4 left-0 -ml-20 w-48 h-48 bg-blue-400/5 rounded-full blur-3xl pointer-events-none"></div>
+</div>
+</body></html>

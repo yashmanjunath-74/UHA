@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pharmacy Inventory Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13eca4",
+                        "primary-dark": "#0eb57e",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                        "neutral-surface": "#eef2f0",
+                        "neutral-surface-dark": "#1a332a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom scrollbar for table container */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-white min-h-screen font-display pb-24">
+<!-- Top Navigation / Header -->
+<header class="sticky top-0 z-30 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-primary/10 px-4 pt-12 pb-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-neutral-surface dark:bg-neutral-surface-dark overflow-hidden ring-2 ring-primary/20">
+<img class="h-full w-full object-cover" data-alt="Doctor profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdt3K7UyYL5Yj1xNL_F95OeK2pKvf9pR_xs4p3602cB1UgmUYS5gJ7Jimjiu8z4i90T9gCKt2kDUieUWicEyCWX2tXz4sNihl6Fihn_-3WYnh5QsRa_Hl1zZEx10qDOXUOCpGE1IjNxDB2xbmyj5IvMcljZwq5FBGfPGDvnUcPs53v4pvHU_t_N3AtPCnk2UUelVzEjOod8iLX-hIoz21vBUi66OFZpImsf2FEM9wD01V3gB0W6OaH9DX9I5IghImnJkQ_MdJHOSoA"/>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Welcome back,</p>
+<h1 class="text-lg font-bold leading-tight">Dr. Sarah Admin</h1>
+</div>
+</div>
+<button class="relative p-2 rounded-full hover:bg-neutral-surface dark:hover:bg-neutral-surface-dark transition-colors">
+<span class="material-icons-round text-slate-600 dark:text-slate-300">notifications_none</span>
+<span class="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-background-light dark:border-background-dark"></span>
+</button>
+</div>
+<!-- Search Bar -->
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons-round text-slate-400">search</span>
+</span>
+<input class="block w-full pl-10 pr-3 py-3 border-none rounded-xl bg-white dark:bg-neutral-surface-dark shadow-sm ring-1 ring-slate-200 dark:ring-slate-700/50 focus:ring-2 focus:ring-primary placeholder-slate-400 text-sm transition-shadow" placeholder="Search item, batch, or ID..." type="text"/>
+<button class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<div class="p-1.5 rounded-lg bg-primary/10 dark:bg-primary/20 text-primary-dark dark:text-primary">
+<span class="material-icons-round text-sm">tune</span>
+</div>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="px-4 py-6 space-y-6">
+<!-- AI Insight Card -->
+<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-neutral-surface to-white dark:from-neutral-surface-dark dark:to-background-dark shadow-sm border border-primary/20">
+<!-- Decorative background blob -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+<div class="p-5 relative z-10">
+<div class="flex items-start justify-between mb-3">
+<div class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 w-fit">
+<span class="material-icons-round text-primary-dark dark:text-primary text-sm">auto_awesome</span>
+<span class="text-xs font-semibold text-primary-dark dark:text-primary uppercase tracking-wide">AI Insight</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons-round text-sm">close</span>
+</button>
+</div>
+<h2 class="text-lg font-bold text-slate-800 dark:text-white mb-1">Predicted Shortage</h2>
+<p class="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                    Based on current consumption rates, <span class="font-semibold text-slate-900 dark:text-white">Insulin Glargine</span> will run out in <span class="text-red-500 font-bold">3 days</span>.
+                </p>
+<div class="flex gap-3">
+<button class="flex-1 bg-primary text-slate-900 font-semibold py-2.5 px-4 rounded-lg text-sm shadow-md shadow-primary/20 active:scale-95 transition-transform flex items-center justify-center gap-2">
+<span>Reorder Now</span>
+<span class="material-icons-round text-base">arrow_forward</span>
+</button>
+<button class="px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                        Details
+                    </button>
+</div>
+</div>
+</div>
+<!-- Inventory Section -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Stock Status</h3>
+<button class="text-xs font-medium text-primary-dark dark:text-primary flex items-center gap-1">
+                    View Reports
+                    <span class="material-icons-round text-sm">chevron_right</span>
+</button>
+</div>
+<!-- Inventory List -->
+<div class="space-y-3">
+<!-- Item 1: Healthy Stock -->
+<div class="bg-white dark:bg-neutral-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800/50 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="h-10 w-10 rounded-lg bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-icons-round">medication</span>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 dark:text-white text-sm">Paracetamol 500mg</h4>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">#8829</span>
+<span class="text-xs text-slate-400">•</span>
+<span class="text-xs text-slate-500">Exp: Dec 2024</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-bold text-slate-900 dark:text-white">850</span>
+<span class="text-xs text-slate-500">Units</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<!-- Item 2: Warning Stock -->
+<div class="bg-white dark:bg-neutral-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800/50 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="h-10 w-10 rounded-lg bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-500 dark:text-orange-400">
+<span class="material-icons-round">vaccines</span>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 dark:text-white text-sm">Amoxicillin</h4>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">#9921</span>
+<span class="text-xs text-slate-400">•</span>
+<span class="text-xs text-slate-500">Exp: Nov 2024</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-bold text-slate-900 dark:text-white">120</span>
+<span class="text-xs text-slate-500">Units</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+<div class="bg-orange-400 h-2 rounded-full" style="width: 25%"></div>
+</div>
+</div>
+<!-- Item 3: Critical Stock -->
+<div class="bg-white dark:bg-neutral-surface-dark p-4 rounded-xl shadow-sm border border-red-100 dark:border-red-900/30 flex flex-col gap-3 ring-1 ring-red-500/10">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="h-10 w-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
+<span class="material-icons-round">warning</span>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 dark:text-white text-sm">Insulin Glargine</h4>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">#1102</span>
+<span class="text-xs text-slate-400">•</span>
+<span class="text-xs text-red-500 font-medium">Exp: Jan 2025</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-bold text-red-500">15</span>
+<span class="text-xs text-red-400 font-medium">Low Stock</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+<div class="bg-red-500 h-2 rounded-full animate-pulse" style="width: 5%"></div>
+</div>
+</div>
+<!-- Item 4: Healthy Stock -->
+<div class="bg-white dark:bg-neutral-surface-dark p-4 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800/50 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="h-10 w-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-icons-round">healing</span>
+</div>
+<div>
+<h4 class="font-semibold text-slate-900 dark:text-white text-sm">Bandages (Sterile)</h4>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">#4021</span>
+<span class="text-xs text-slate-400">•</span>
+<span class="text-xs text-slate-500">Exp: N/A</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="block font-bold text-slate-900 dark:text-white">2,400</span>
+<span class="text-xs text-slate-500">Units</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 95%"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar / Sticky Footer -->
+<div class="fixed bottom-[88px] left-0 right-0 px-4 z-20 pointer-events-none">
+<div class="max-w-md mx-auto pointer-events-auto">
+<button class="w-full bg-primary hover:bg-primary-dark text-slate-900 font-bold py-4 px-6 rounded-2xl shadow-xl shadow-primary/30 transform transition active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-icons-round">shopping_cart_checkout</span>
+                Reorder Low Stock (2)
+            </button>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full bg-white dark:bg-neutral-surface-dark border-t border-slate-200 dark:border-slate-800 pb-safe pt-2 z-30">
+<div class="flex justify-around items-center px-2 h-16 pb-4"> <!-- Added pb-4 for iOS home indicator spacing simulation -->
+<a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-icons-round">dashboard</span>
+<span class="text-[10px] font-medium">Inventory</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-icons-round">receipt_long</span>
+<span class="text-[10px] font-medium">Orders</span>
+</a>
+<div class="w-12"></div> <!-- Spacer for FAB if we wanted one, but here we keep spacing even -->
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-icons-round">analytics</span>
+<span class="text-[10px] font-medium">Reports</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-icons-round">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Add safe area padding for devices with notches -->
+<style>
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</body></html>

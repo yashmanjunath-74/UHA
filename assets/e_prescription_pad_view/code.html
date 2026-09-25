@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>E-Prescription Pad</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13eca4",
+              "primary-dark": "#0eb57e",
+              "background-light": "#f6f8f7",
+              "background-dark": "#10221c",
+              "surface-light": "#ffffff",
+              "surface-dark": "#162e26",
+              "neutral-light": "#e2e8e6",
+              "neutral-dark": "#1e3830",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+            boxShadow: {
+                'glow': '0 0 15px rgba(19, 236, 164, 0.3)',
+            }
+          },
+        },
+      }
+    </script>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Hide scrollbar for clean mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-gray-100 min-h-screen flex flex-col font-display antialiased">
+<!-- Header -->
+<header class="sticky top-0 z-40 bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-neutral-light dark:border-neutral-dark px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="p-2 -ml-2 rounded-full hover:bg-neutral-light dark:hover:bg-neutral-dark text-slate-600 dark:text-gray-300 transition-colors">
+<span class="material-icons-round text-2xl">chevron_left</span>
+</button>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white">E-Rx Pad</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-medium text-slate-500 dark:text-gray-400">Patient ID</p>
+<p class="text-sm font-bold text-slate-900 dark:text-white">#UHA-8921</p>
+</div>
+<div class="h-10 w-10 rounded-full bg-primary/20 overflow-hidden ring-2 ring-primary/30">
+<img alt="Patient Portrait" class="h-full w-full object-cover" data-alt="Portrait of a male patient smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWrFYF_sPBpV9OOpX1A-ICGdDGe9GCmCblBK2Hf63WJ7NqnjBuXYiKonkSo-A1G4KFp9Nv4o6G4fSUitSgRFKSmKlhsE2jZdTgORa4YZVnMJ9dJoAwy8Dk8sEdCN_dfE2dYlOnDd-jr7-Nzsu-V5x7sKdDNiKp6ysFyuJXTyt2j1LnpqhlEMjk7xkTQ8pwsdHIkcd8bOuSXjQe7Wx5EMawur2Nqu8f5lPM8eUtBz_OxXpYNle5fj5nMDGk7zEgPiUNqC9jdQoKSebv"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-4 py-6 max-w-lg mx-auto w-full pb-32">
+<!-- Patient Context -->
+<div class="mb-6">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">New Prescription for John Doe</h2>
+<div class="flex gap-3 text-sm text-slate-500 dark:text-gray-400">
+<span class="bg-neutral-light dark:bg-neutral-dark px-2 py-0.5 rounded text-xs font-medium uppercase tracking-wide">Male</span>
+<span>34 Years Old</span>
+<span>•</span>
+<span>Allergies: <span class="text-red-500 font-medium">Penicillin</span></span>
+</div>
+</div>
+<!-- Diagnosis Section -->
+<section class="mb-8 relative group">
+<div class="flex items-center justify-between mb-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-300 uppercase tracking-wider text-xs">Diagnosis &amp; Notes</label>
+<button class="text-primary hover:text-primary-dark text-xs font-medium flex items-center gap-1">
+<span class="material-icons-round text-sm">history</span> History
+                </button>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-light dark:bg-surface-dark border border-neutral-light dark:border-neutral-dark rounded-xl p-4 pr-12 min-h-[120px] focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none shadow-sm text-slate-700 dark:text-gray-200 placeholder-slate-400 dark:placeholder-gray-600 transition-all" placeholder="Enter diagnosis, symptoms, or clinical observations..."></textarea>
+<button class="absolute bottom-3 right-3 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full transition-colors group-focus-within:bg-primary group-focus-within:text-background-dark group-focus-within:shadow-glow">
+<span class="material-icons-round">mic</span>
+</button>
+</div>
+</section>
+<!-- Medication Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<label class="text-sm font-semibold text-slate-700 dark:text-gray-300 uppercase tracking-wider text-xs">Medications</label>
+</div>
+<!-- Existing Med Row -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-neutral-light dark:border-neutral-dark p-4 mb-4 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Amoxicillin</h3>
+<p class="text-xs text-slate-500 dark:text-gray-400">500mg • Capsule</p>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-icons-round text-lg">close</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Frequency Control -->
+<div>
+<label class="text-[10px] uppercase font-bold text-slate-400 dark:text-gray-500 mb-1 block">Frequency</label>
+<div class="flex bg-background-light dark:bg-background-dark rounded-lg p-1">
+<button class="flex-1 text-xs py-1.5 rounded-md text-center font-medium bg-primary text-background-dark shadow-sm">1</button>
+<button class="flex-1 text-xs py-1.5 rounded-md text-center font-medium text-slate-500 dark:text-gray-400">0</button>
+<button class="flex-1 text-xs py-1.5 rounded-md text-center font-medium bg-primary text-background-dark shadow-sm">1</button>
+</div>
+</div>
+<!-- Duration Input -->
+<div>
+<label class="text-[10px] uppercase font-bold text-slate-400 dark:text-gray-500 mb-1 block">Duration</label>
+<div class="relative">
+<input class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg py-1.5 px-3 text-sm font-medium text-slate-700 dark:text-gray-200 focus:ring-1 focus:ring-primary text-center" type="text" value="5 Days"/>
+</div>
+</div>
+</div>
+<!-- Instruction Note -->
+<div class="mt-3 pt-3 border-t border-neutral-light dark:border-neutral-dark">
+<div class="flex items-center gap-2 text-xs text-orange-500 font-medium">
+<span class="material-icons-round text-sm">warning</span>
+<span>Interaction alert: Mild reaction with history.</span>
+</div>
+</div>
+</div>
+<!-- New Med Input Form -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-dashed border-primary/40 p-4 relative">
+<div class="mb-3 relative">
+<label class="text-[10px] uppercase font-bold text-slate-400 dark:text-gray-500 mb-1 block">Drug Name</label>
+<input class="w-full bg-background-light dark:bg-background-dark border border-neutral-light dark:border-neutral-dark rounded-lg py-2.5 px-3 text-sm font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none" type="text" value="Asp"/>
+<!-- Autocomplete Dropdown -->
+<div class="absolute top-full left-0 right-0 mt-1 bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl border border-neutral-light dark:border-neutral-dark z-20 overflow-hidden">
+<div class="p-2 border-b border-neutral-light dark:border-neutral-dark bg-background-light dark:bg-background-dark">
+<p class="text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider">Suggestions</p>
+</div>
+<ul>
+<li class="px-4 py-3 hover:bg-primary/10 cursor-pointer border-b border-neutral-light dark:border-neutral-dark last:border-0 flex justify-between items-center group">
+<div>
+<span class="block text-sm font-medium text-slate-800 dark:text-gray-200 group-hover:text-primary-dark dark:group-hover:text-primary">Aspirin <span class="text-slate-400 font-normal">75mg</span></span>
+<span class="block text-xs text-slate-500">Blood Thinner • Tablet</span>
+</div>
+<span class="material-icons-round text-primary opacity-0 group-hover:opacity-100 text-lg">add_circle</span>
+</li>
+<li class="px-4 py-3 hover:bg-primary/10 cursor-pointer flex justify-between items-center group">
+<div>
+<span class="block text-sm font-medium text-slate-800 dark:text-gray-200 group-hover:text-primary-dark dark:group-hover:text-primary">Aspirin Protect <span class="text-slate-400 font-normal">100mg</span></span>
+<span class="block text-xs text-slate-500">Gastro-resistant • Tablet</span>
+</div>
+<span class="material-icons-round text-primary opacity-0 group-hover:opacity-100 text-lg">add_circle</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mb-3">
+<div>
+<label class="text-[10px] uppercase font-bold text-slate-400 dark:text-gray-500 mb-1 block">Dosage</label>
+<input class="w-full bg-background-light dark:bg-background-dark border border-neutral-light dark:border-neutral-dark rounded-lg py-2 px-3 text-sm text-slate-700 dark:text-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="e.g. 500mg" type="text"/>
+</div>
+<div>
+<label class="text-[10px] uppercase font-bold text-slate-400 dark:text-gray-500 mb-1 block">Duration</label>
+<input class="w-full bg-background-light dark:bg-background-dark border border-neutral-light dark:border-neutral-dark rounded-lg py-2 px-3 text-sm text-slate-700 dark:text-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="e.g. 3 Days" type="text"/>
+</div>
+</div>
+<div class="mb-4">
+<label class="text-[10px] uppercase font-bold text-slate-400 dark:text-gray-500 mb-1 block">Frequency</label>
+<div class="flex gap-2">
+<label class="cursor-pointer">
+<input class="peer sr-only" name="freq" type="radio"/>
+<div class="px-3 py-1.5 rounded-md border border-neutral-light dark:border-neutral-dark text-xs font-medium text-slate-600 dark:text-gray-400 peer-checked:bg-primary peer-checked:text-background-dark peer-checked:border-primary transition-all">1-0-1</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="freq" type="radio"/>
+<div class="px-3 py-1.5 rounded-md border border-neutral-light dark:border-neutral-dark text-xs font-medium text-slate-600 dark:text-gray-400 peer-checked:bg-primary peer-checked:text-background-dark peer-checked:border-primary transition-all">1-1-1</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="freq" type="radio"/>
+<div class="px-3 py-1.5 rounded-md border border-neutral-light dark:border-neutral-dark text-xs font-medium text-slate-600 dark:text-gray-400 peer-checked:bg-primary peer-checked:text-background-dark peer-checked:border-primary transition-all">SOS</div>
+</label>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg border border-primary text-primary hover:bg-primary/5 text-sm font-semibold transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-round text-lg">add</span>
+                    Add Medicine
+                </button>
+</div>
+</section>
+</main>
+<!-- Floating Footer Actions -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-lg border-t border-neutral-light dark:border-neutral-dark z-50">
+<div class="max-w-lg mx-auto flex flex-col gap-3">
+<!-- AI Interaction Check Button -->
+<button class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors group">
+<span class="material-icons-round text-lg animate-pulse">auto_awesome</span>
+<span class="text-sm font-semibold">Check Interactions with AI</span>
+</button>
+<!-- Primary Action -->
+<button class="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary hover:bg-primary-dark text-background-dark font-bold shadow-lg shadow-primary/25 transition-all transform active:scale-[0.98]">
+<span class="text-base">Sign &amp; Send Prescription</span>
+<span class="material-icons-round">send</span>
+</button>
+</div>
+</div>
+</body></html>

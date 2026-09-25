@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Doctor Registration: Credentials - UHA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13eca4",
+                        "primary-dark": "#0fb982", // Darker shade for text contrast if needed
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162e26",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hide for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-100 antialiased h-screen flex flex-col overflow-hidden">
+<!-- Status Bar Area (iOS Safe Area Simulation) -->
+<div class="h-12 w-full shrink-0 bg-background-light dark:bg-background-dark flex items-center justify-between px-6 pt-2">
+<span class="text-sm font-semibold tracking-wide">9:41</span>
+<div class="flex gap-1.5">
+<span class="material-icons-round text-xs">signal_cellular_alt</span>
+<span class="material-icons-round text-xs">wifi</span>
+<span class="material-icons-round text-xs">battery_full</span>
+</div>
+</div>
+<!-- Header Navigation -->
+<header class="shrink-0 px-6 py-4 flex items-center justify-between bg-background-light dark:bg-background-dark">
+<button class="p-2 -ml-2 rounded-full hover:bg-gray-200 dark:hover:bg-surface-dark transition-colors text-gray-500 dark:text-gray-300">
+<span class="material-icons-round">arrow_back_ios_new</span>
+</button>
+<span class="font-semibold text-lg text-gray-900 dark:text-white">Registration</span>
+<div class="w-10"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 overflow-y-auto no-scrollbar px-6 pb-24">
+<!-- Progress Bar -->
+<div class="mt-2 mb-8">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-medium text-primary-dark dark:text-primary">Step 2 of 3</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Credentials</span>
+</div>
+<div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-primary rounded-full shadow-[0_0_10px_rgba(19,236,164,0.4)]"></div>
+</div>
+</div>
+<!-- Section Header -->
+<div class="mb-8">
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Professional Credentials</h1>
+<p class="text-sm text-gray-500 dark:text-gray-400">Please provide your current workplace and verify your medical qualifications.</p>
+</div>
+<!-- Form Fields -->
+<div class="space-y-6">
+<!-- Primary Hospital -->
+<div class="group">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="hospital">Primary Hospital / Clinic</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-icons-round text-xl">local_hospital</span>
+</span>
+<input class="block w-full pl-10 pr-4 py-3.5 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm text-sm placeholder-gray-400 dark:placeholder-gray-600 dark:text-white" id="hospital" placeholder="e.g. St. Mary's General Hospital" type="text"/>
+</div>
+</div>
+<!-- Department & License Row -->
+<div class="grid grid-cols-1 gap-6">
+<!-- Specialty -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="specialty">Department / Specialty</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-icons-round text-xl">medical_services</span>
+</span>
+<input class="block w-full pl-10 pr-4 py-3.5 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm text-sm placeholder-gray-400 dark:placeholder-gray-600 dark:text-white" id="specialty" placeholder="e.g. Cardiology" type="text"/>
+</div>
+</div>
+<!-- License Number -->
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" for="license">Medical License Number</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-icons-round text-xl">badge</span>
+</span>
+<input class="block w-full pl-10 pr-4 py-3.5 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm text-sm placeholder-gray-400 dark:placeholder-gray-600 dark:text-white" id="license" placeholder="MD-12345678" type="text"/>
+</div>
+</div>
+</div>
+<!-- Upload Section -->
+<div class="pt-2">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Upload Medical Degree</label>
+<!-- Upload Box -->
+<div class="relative border-2 border-dashed border-primary/50 dark:border-primary/40 bg-primary/5 dark:bg-primary/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer group">
+<div class="h-12 w-12 rounded-full bg-white dark:bg-surface-dark shadow-md flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-icons-round text-primary text-2xl">upload_file</span>
+</div>
+<p class="text-sm font-semibold text-gray-800 dark:text-white mb-1">Tap to upload</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">PDF, JPG or PNG (Max 5MB)</p>
+</div>
+<!-- Example of an Uploaded File State (Hidden by default, shown here for visual completeness if user had uploaded) -->
+<!-- 
+                <div class="mt-4 flex items-center justify-between p-3 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="h-10 w-10 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
+                            <span class="material-icons-round text-xl">picture_as_pdf</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm font-medium text-gray-900 dark:text-white truncate max-w-[150px]">dr_smith_degree.pdf</span>
+                            <span class="text-xs text-gray-500">2.4 MB</span>
+                        </div>
+                    </div>
+                    <button class="text-gray-400 hover:text-red-500 transition-colors">
+                        <span class="material-icons-round">delete_outline</span>
+                    </button>
+                </div>
+                -->
+</div>
+<!-- Terms Notice -->
+<div class="flex items-start gap-3 mt-4">
+<div class="flex items-center h-5">
+<input class="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-surface-dark dark:border-gray-600 dark:checked:bg-primary" id="certify" name="certify" type="checkbox"/>
+</div>
+<div class="text-xs leading-5">
+<label class="font-medium text-gray-700 dark:text-gray-300" for="certify">I certify that the information provided is accurate.</label>
+<p class="text-gray-500 dark:text-gray-400">By proceeding, you agree to our verification process.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Actions -->
+<footer class="shrink-0 px-6 py-6 bg-background-light dark:bg-background-dark border-t border-gray-200/50 dark:border-gray-700/50 pb-8">
+<div class="flex gap-4">
+<button class="flex-1 py-3.5 px-4 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                Back
+            </button>
+<button class="flex-[2] py-3.5 px-4 rounded-xl bg-primary hover:bg-opacity-90 text-background-dark font-bold text-sm shadow-lg shadow-primary/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                Next Step
+                <span class="material-icons-round text-sm">arrow_forward</span>
+</button>
+</div>
+</footer>
+</body></html>

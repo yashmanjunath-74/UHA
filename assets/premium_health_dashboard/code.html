@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Premium Health Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0dba80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .stadium-shadow {
+            box-shadow: 0 10px 40px -10px rgba(13, 186, 128, 0.15);
+        }
+        .nav-shadow {
+            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 min-h-screen font-display">
+<!-- Mobile Screen Container (iOS Mockup feel) -->
+<div class="max-w-md mx-auto min-h-screen relative flex flex-col pb-32">
+<!-- Header -->
+<header class="px-6 pt-12 pb-6 flex justify-between items-center">
+<div>
+<p class="text-sm font-medium text-slate-500 dark:text-primary/70">Welcome back,</p>
+<h1 class="text-3xl font-extrabold tracking-tight">Hello, User</h1>
+</div>
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="Portrait of a smiling user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNKmzX8nNC0F_Fynzh79lR5FlCu29EXbVDug_t9XSkfkVCD_bGSfDKkslK8Sl9RD7oH4RW01LgQpaL0S0Ji2LVEnVZBW5OOI-Bmxkt3ScRwn8N9BmEN4lbR6tTZs0kuH5h9TtyCt8QNemi9UPYqm5N3Fxp6CU67CATu9mWSz77146mSPXgSaTtsRtANwfXEXI9F6o0mhXiZ_amyW1_S0hLaj15pG1rnzdRcvwMaXHbq43ShuwpSgFpsmwUfULIGhMgOOkslhLIHM2l"/>
+</div>
+<div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-primary border-2 border-background-light dark:border-background-dark rounded-full"></div>
+</div>
+</header>
+<!-- Upcoming Appointments -->
+<section class="px-6 mb-8">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-lg font-bold">Upcoming Appointments</h2>
+<button class="text-primary font-semibold text-sm">View All</button>
+</div>
+<div class="bg-white dark:bg-slate-900/50 rounded-lg p-5 flex items-center gap-4 stadium-shadow border border-slate-100 dark:border-slate-800">
+<div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+<img alt="Dr. Smith" class="w-full h-full object-cover" data-alt="Professional doctor in a white coat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyESqDNvGIfc_o-23MGAr5E27Mub0OrAF-df-3jOOIfQxqorKxVFxBRT7wuG5v6eyI7gWihy6WWUwLpmpuJelEHe65OAv9npbcKcJIZE_IBsOPMX7u_kDT31kf-D5HuKDCVZjJXi2jCQkraz-qAyM3FG3DijQJBU5GRfndp3Blg1lqEque4Dbu4s88JkIEZiuS6XOe6M8B-RtF6AQgFBXVCuKOljJRs9156qW9kY_L_3D5j3zB0GInaoRu1FYjU6C6wJqo9fpabWEp"/>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-slate-900 dark:text-white">Dr. Smith</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Cardiologist Specialist</p>
+</div>
+<div class="text-right">
+<div class="bg-primary/10 text-primary font-bold px-3 py-1 rounded-full text-xs mb-1">
+                        10:00 AM
+                    </div>
+<p class="text-[10px] text-slate-400 font-medium">Tomorrow</p>
+</div>
+</div>
+</section>
+<!-- Health Stats Grid -->
+<section class="px-6 mb-8">
+<h2 class="text-lg font-bold mb-4">Health Stats</h2>
+<div class="grid grid-cols-2 gap-4">
+<!-- Heart Rate -->
+<div class="bg-white dark:bg-slate-900/50 p-5 rounded-lg border border-slate-100 dark:border-slate-800 flex flex-col justify-between h-36">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
+<span class="material-icons text-red-500 text-xl">favorite</span>
+</div>
+<span class="text-xs font-bold text-red-500">+2%</span>
+</div>
+<div>
+<p class="text-2xl font-extrabold">72 <span class="text-xs font-medium text-slate-400">BPM</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Heart Rate</p>
+</div>
+</div>
+<!-- SpO2 -->
+<div class="bg-white dark:bg-slate-900/50 p-5 rounded-lg border border-slate-100 dark:border-slate-800 flex flex-col justify-between h-36">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
+<span class="material-icons text-blue-500 text-xl">air</span>
+</div>
+<span class="text-xs font-bold text-blue-500">Normal</span>
+</div>
+<div>
+<p class="text-2xl font-extrabold">98 <span class="text-xs font-medium text-slate-400">%</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">SpO2 Level</p>
+</div>
+</div>
+<!-- Steps -->
+<div class="bg-white dark:bg-slate-900/50 p-5 rounded-lg border border-slate-100 dark:border-slate-800 flex flex-col justify-between h-36">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
+<span class="material-icons text-primary text-xl">directions_walk</span>
+</div>
+<div class="w-8 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mt-4">
+<div class="w-2/3 h-full bg-primary"></div>
+</div>
+</div>
+<div>
+<p class="text-2xl font-extrabold">4.5k <span class="text-xs font-medium text-slate-400">Steps</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Daily Target</p>
+</div>
+</div>
+<!-- Sleep -->
+<div class="bg-white dark:bg-slate-900/50 p-5 rounded-lg border border-slate-100 dark:border-slate-800 flex flex-col justify-between h-36">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center">
+<span class="material-icons text-indigo-500 text-xl">nights_stay</span>
+</div>
+</div>
+<div>
+<p class="text-2xl font-extrabold">7h <span class="text-xs font-medium text-slate-400">12m</span></p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sleep Quality</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity -->
+<section class="px-6 pb-4">
+<h2 class="text-lg font-bold mb-4">Recent Activity</h2>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+<span class="material-icons text-slate-500">medication</span>
+</div>
+<div class="flex-1 border-b border-slate-100 dark:border-slate-800 pb-4">
+<div class="flex justify-between">
+<h4 class="font-bold text-slate-900 dark:text-slate-100">Medicine Taken</h4>
+<span class="text-xs text-slate-400">8:30 AM</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Vitamin D3 - 1000 IU</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+<span class="material-icons text-slate-500">water_drop</span>
+</div>
+<div class="flex-1 border-b border-slate-100 dark:border-slate-800 pb-4">
+<div class="flex justify-between">
+<h4 class="font-bold text-slate-900 dark:text-slate-100">Hydration Log</h4>
+<span class="text-xs text-slate-400">7:45 AM</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">500ml Water intake</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating Stadium Navigation Bar -->
+<nav class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-sm h-20 bg-white dark:bg-slate-900 rounded-full nav-shadow flex items-center justify-between px-4 z-50">
+<!-- Left Side Icons -->
+<div class="flex flex-1 justify-around items-center pr-8">
+<a class="flex flex-col items-center gap-0.5 text-primary" href="#">
+<span class="material-icons text-2xl">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-icons text-2xl">bar_chart</span>
+<span class="text-[10px] font-bold">Stats</span>
+</a>
+</div>
+<!-- Central Floating Action Button -->
+<div class="absolute left-1/2 -translate-x-1/2 -top-6">
+<button class="w-16 h-16 bg-primary rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-icons text-3xl">add</span>
+</button>
+</div>
+<!-- Right Side Icons -->
+<div class="flex flex-1 justify-around items-center pl-8">
+<a class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-icons text-2xl">chat_bubble_outline</span>
+<span class="text-[10px] font-bold">Chat</span>
+</a>
+<a class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-icons text-2xl">person_outline</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</div>
+</nav>
+<!-- Bottom Safe Area Spacer -->
+<div class="h-8"></div>
+</div>
+</body></html>

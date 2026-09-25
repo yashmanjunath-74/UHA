@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Doctor Roster Management - UHA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13eca4",
+                        "primary-dark": "#0fb37c",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#10221c",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Hide scrollbar for clean horizontal scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-100 min-h-screen pb-24">
+<!-- Top Status Bar Simulation (iOS safe area) -->
+<div class="h-12 w-full bg-background-light dark:bg-background-dark/95 backdrop-blur-md sticky top-0 z-50 flex items-center px-4 justify-between border-b border-gray-200 dark:border-gray-800">
+<div class="text-sm font-semibold">9:41</div>
+<div class="flex gap-2 text-xs">
+<span class="material-icons-round text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-sm">wifi</span>
+<span class="material-icons-round text-sm">battery_full</span>
+</div>
+</div>
+<!-- Main Header -->
+<header class="px-5 py-4 bg-background-light dark:bg-background-dark">
+<div class="flex justify-between items-center mb-4">
+<div>
+<h1 class="text-2xl font-bold tracking-tight">Roster Management</h1>
+<p class="text-sm text-gray-500 dark:text-gray-400">Manage shifts &amp; staff</p>
+</div>
+<button class="p-2 rounded-full bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+<span class="material-icons-round text-gray-600 dark:text-gray-300">filter_list</span>
+</button>
+</div>
+<!-- Month Selector -->
+<div class="flex items-center justify-between mb-4">
+<button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+<span class="material-icons-round text-gray-400">chevron_left</span>
+</button>
+<h2 class="font-semibold text-lg">October 2023</h2>
+<button class="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+<span class="material-icons-round text-gray-600 dark:text-white">chevron_right</span>
+</button>
+</div>
+<!-- Calendar Strip -->
+<div class="flex overflow-x-auto gap-3 no-scrollbar pb-2 -mx-5 px-5">
+<!-- Past Date -->
+<div class="flex-shrink-0 w-14 h-20 rounded-2xl flex flex-col items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 opacity-60">
+<span class="text-xs text-gray-500 font-medium mb-1">Mon</span>
+<span class="text-lg font-bold text-gray-800 dark:text-gray-200">12</span>
+</div>
+<!-- Past Date -->
+<div class="flex-shrink-0 w-14 h-20 rounded-2xl flex flex-col items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 opacity-80">
+<span class="text-xs text-gray-500 font-medium mb-1">Tue</span>
+<span class="text-lg font-bold text-gray-800 dark:text-gray-200">13</span>
+</div>
+<!-- Active Date -->
+<div class="flex-shrink-0 w-14 h-20 rounded-2xl flex flex-col items-center justify-center bg-primary text-background-dark shadow-lg shadow-primary/20 transform scale-105 transition-transform">
+<span class="text-xs font-semibold mb-1 opacity-80">Wed</span>
+<span class="text-lg font-bold">14</span>
+<div class="w-1.5 h-1.5 rounded-full bg-white mt-1"></div>
+</div>
+<!-- Future Date -->
+<div class="flex-shrink-0 w-14 h-20 rounded-2xl flex flex-col items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+<span class="text-xs text-gray-500 font-medium mb-1">Thu</span>
+<span class="text-lg font-bold text-gray-800 dark:text-gray-200">15</span>
+</div>
+<!-- Future Date -->
+<div class="flex-shrink-0 w-14 h-20 rounded-2xl flex flex-col items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+<span class="text-xs text-gray-500 font-medium mb-1">Fri</span>
+<span class="text-lg font-bold text-gray-800 dark:text-gray-200">16</span>
+</div>
+<!-- Future Date -->
+<div class="flex-shrink-0 w-14 h-20 rounded-2xl flex flex-col items-center justify-center bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+<span class="text-xs text-gray-500 font-medium mb-1">Sat</span>
+<span class="text-lg font-bold text-gray-800 dark:text-gray-200">17</span>
+</div>
+</div>
+</header>
+<!-- Legend -->
+<div class="px-5 py-2 flex gap-4 text-xs font-medium text-gray-600 dark:text-gray-400 overflow-x-auto no-scrollbar">
+<div class="flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-primary"></span> On Duty
+        </div>
+<div class="flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-orange-500"></span> In Surgery
+        </div>
+<div class="flex items-center gap-1.5 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-gray-400"></span> On Leave
+        </div>
+</div>
+<!-- Shifts Container -->
+<main class="px-5 mt-2 space-y-6">
+<!-- Morning Shift -->
+<section>
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-2">
+<span class="material-icons-round text-yellow-500 bg-yellow-100 dark:bg-yellow-900/30 p-1.5 rounded-lg text-sm">wb_sunny</span>
+<div>
+<h3 class="font-bold text-slate-800 dark:text-white leading-tight">Morning Shift</h3>
+<span class="text-xs text-gray-500">08:00 - 16:00</span>
+</div>
+</div>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition">
+<span class="material-icons-round">add</span>
+</button>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 space-y-3">
+<!-- Doctor Card: On Duty -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200/50 dark:border-gray-700/50">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" data-alt="Portrait of a male doctor in a white coat smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCglMcg-rb51TQmHcGilZx4CxlqZ7l3UwpIx2Chmm6Ma-vn1vW6OROGEl6oZjOE4EpeO3mbZQtAlBoCV_vn2c6L0Oau1SBazWt9GS1Qmy_ACI7s6sGPICYNUMVbR_DOinIIbuvUueP0t9mYht6RI1TjnV_WLpKDsMdgx8ZYgwRTPXcRWJ4Z_SOOtn8PXDJaGAA1qmBQaJmUxJv_0ZxM6Su8GnpdxXarRjUCdbESRJRcj7Uzr30HyjE85MhOq7MTbsVNMmRE-XPKqH2l"/>
+<div>
+<h4 class="font-semibold text-sm">Dr. Alan Grant</h4>
+<p class="text-xs text-gray-500">Cardiology</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded-md bg-primary/20 text-green-700 dark:text-primary text-[10px] font-bold uppercase tracking-wide">On Duty</span>
+<button class="text-gray-400"><span class="material-icons-round text-lg">more_vert</span></button>
+</div>
+</div>
+<!-- Doctor Card: In Surgery -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200/50 dark:border-gray-700/50 relative overflow-hidden">
+<!-- Status indicator strip -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
+<div class="flex items-center gap-3 pl-2">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" data-alt="Portrait of a female doctor wearing scrubs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjXPB5T7vizrgGLtfcs1Zawqv05MD3zJgxIT9pe_JWBMYyJBCGL00Xn6I0tDozJ1NfrpDVZn6m0_ddzoChgr-mPZM9BaOUWKAuY_JiOjEEG7RG3rfkzZpqUJJ_RIJNHioMninxSlUqGlhO3ZltMvu3yxoUVfjKB5EZ9cpLd6-hFgxLruRK6Yp6h-hyFjp6H6Y9ijqwAVCDgAGuHRJi9D6QZAtk3SwfCaZ6OeYjLiiyJl8-uO9ybnXHgijtSYQi10-n0vscZFn-sz-U"/>
+<div>
+<h4 class="font-semibold text-sm">Dr. Ellie Sattler</h4>
+<p class="text-xs text-gray-500">Pediatrics</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded-md bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-[10px] font-bold uppercase tracking-wide">Surgery</span>
+<button class="text-gray-400"><span class="material-icons-round text-lg">more_vert</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Evening Shift -->
+<section>
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-2">
+<span class="material-icons-round text-indigo-500 bg-indigo-100 dark:bg-indigo-900/30 p-1.5 rounded-lg text-sm">nights_stay</span>
+<div>
+<h3 class="font-bold text-slate-800 dark:text-white leading-tight">Evening Shift</h3>
+<span class="text-xs text-gray-500">16:00 - 00:00</span>
+</div>
+</div>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition">
+<span class="material-icons-round">add</span>
+</button>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 space-y-3">
+<!-- Doctor Card: On Duty -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-background-light dark:bg-background-dark border border-gray-200/50 dark:border-gray-700/50">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" data-alt="Portrait of a male doctor with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS5wEmJv0VuGhflNr7hAK8ujc41_cWvZCMLwnv3nM3gZfDV7IBQA7HNRCBJBLWd092jW0BU_sNcJ0_QvSkRwkQRbdUs8IKyadVbg9O4Vx1-e4kCwXEGAb3qH8HVzdbzQvE07k86U2QMieB7JX9QxjTnNClQqJeBVVPrfNZnEGmtdyH82Pv-2Y2vmmZmdAn_JkLQ93FGQ5QS6WBdjP7xr5Z4EfV-a_SUCHWANx6raVnYGXjM3h2jCAznC24iLyIUmqtx2FhxffwupRm"/>
+<div>
+<h4 class="font-semibold text-sm">Dr. Ian Malcolm</h4>
+<p class="text-xs text-gray-500">Neurology</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded-md bg-primary/20 text-green-700 dark:text-primary text-[10px] font-bold uppercase tracking-wide">On Duty</span>
+<button class="text-gray-400"><span class="material-icons-round text-lg">more_vert</span></button>
+</div>
+</div>
+<!-- Empty State Placeholder -->
+<div class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+<span class="text-xs text-gray-400 mb-1">Needs one more staff</span>
+<button class="text-xs font-semibold text-primary">Assign Doctor</button>
+</div>
+</div>
+</section>
+<!-- Night Shift -->
+<section>
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-2">
+<span class="material-icons-round text-purple-500 bg-purple-100 dark:bg-purple-900/30 p-1.5 rounded-lg text-sm">bedtime</span>
+<div>
+<h3 class="font-bold text-slate-800 dark:text-white leading-tight">Night Shift</h3>
+<span class="text-xs text-gray-500">00:00 - 08:00</span>
+</div>
+</div>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition">
+<span class="material-icons-round">add</span>
+</button>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 space-y-3 opacity-60">
+<!-- Collapsed / Condensed View for Future Shift -->
+<div class="flex items-center justify-between p-2">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800" data-alt="Small thumbnail of a female doctor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRQn2L4WbseQEF9qhB4cR2c4j5TrFcYh-cETbJsKACJGa2NHROGZeWQE6duiv2PUFcu-RfXzsUvOGpgzsjw1LAxEiubZNITwkuQddzktE1SG7nyYXdCPxPWi_egv_-RKXBv3FGBEt__MibK355DAog7ystSN6_buxzb4QztozgUsdlz4qJWTCGxADnZoSTpATyE4RCuD-hFPXtVqE1g3v9cofp12J0JP_Wl1RzhAkIJZy347Kz0bu2kGutItnP-y8d44Q-7eZoGO3i"/>
+<div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 border-2 border-white dark:border-gray-800 flex items-center justify-center text-[10px] font-bold text-gray-500">+2</div>
+</div>
+<span class="text-xs text-gray-500">3 Staff assigned</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-background-dark/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 pb-5 pt-2 px-6 z-40">
+<div class="flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 w-12 group">
+<span class="material-icons-round text-gray-400 group-hover:text-primary transition text-2xl">grid_view</span>
+<span class="text-[10px] font-medium text-gray-400 group-hover:text-primary">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-12 group">
+<span class="material-icons-round text-primary text-2xl">calendar_today</span>
+<span class="text-[10px] font-medium text-primary">Roster</span>
+</button>
+<!-- Floating Action Button for Quick Add -->
+<div class="-mt-8">
+<button class="w-14 h-14 rounded-full bg-primary text-background-dark shadow-lg shadow-primary/40 flex items-center justify-center transform transition active:scale-95">
+<span class="material-icons-round text-3xl">add</span>
+</button>
+</div>
+<button class="flex flex-col items-center gap-1 w-12 group">
+<span class="material-icons-round text-gray-400 group-hover:text-primary transition text-2xl">people</span>
+<span class="text-[10px] font-medium text-gray-400 group-hover:text-primary">Staff</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-12 group">
+<span class="material-icons-round text-gray-400 group-hover:text-primary transition text-2xl">settings</span>
+<span class="text-[10px] font-medium text-gray-400 group-hover:text-primary">Settings</span>
+</button>
+</div>
+</div>
+</body></html>
