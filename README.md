@@ -72,52 +72,20 @@ Unified Health Alliance (UHA)
 
 *The entryway into the UHA ecosystem establishes trust through a refined medical visual language, biometric security, and dedicated role onboarding gateways.*
 
-#### Screen 01: UHA Splash Screen & Brand Identity
-*Minimalist emerald emblem with smooth entrance transitions introducing the core promise of unified healthcare.*
-![UHA Splash Screen](assets/uha_splash_screen/screen.png)
-*Fig 1: UHA splash screen introducing brand visual identity and secure startup orchestration.*
+| **01. Brand Splash Screen** | **02. Brand Design Tokens** | **03. Universal Login Portal** |
+| :---: | :---: | :---: |
+| <img src="assets/uha_splash_screen/screen.png" width="240" alt="UHA Splash Screen"/> | <img src="assets/uha_brand_color_palette/screen.png" width="240" alt="Brand Color Palette"/> | <img src="assets/universal_login_screen/screen.png" width="240" alt="Universal Login Screen"/> |
+| *Minimalist emerald medical emblem & animated gateway entrance* | *Design system token catalog & semantic color tokens* | *Role-based login with biometric Face ID support* |
 
----
+| **04. Role Selection Gateway** | **05. Unified Role Selector** | **06. Verification Under Review** |
+| :---: | :---: | :---: |
+| <img src="assets/role_selection_gateway/screen.png" width="240" alt="Role Selection Gateway"/> | <img src="assets/unified_role_selection_gateway/screen.png" width="240" alt="Unified Role Selection"/> | <img src="assets/verification_under_review_status/screen.png" width="240" alt="Verification Under Review"/> |
+| *5-stakeholder role selection gateway routing users* | *Interactive selector optimizing cross-functional access* | *Regulatory review status with live audit tracker* |
 
-#### Screen 02: Brand Design System & Color Palette
-*A cohesive visual design foundation featuring primary Emerald Green (`#009468`), Deep Teal (`#008B8B`), Dark Jade Slate (`#0F231D`), and high-legibility Inter and Poppins typography.*
-![UHA Brand Color Palette](assets/uha_brand_color_palette/screen.png)
-*Fig 2: Master design system token catalog defining typography hierarchy, semantic alerts, and surface tones.*
-
----
-
-#### Screen 03: Universal Multi-Role Authentication Screen
-*A single, secure login gateway supporting email/password, biometric Face ID, Google Single Sign-On, and credential caching.*
-![Universal Login Screen](assets/universal_login_screen/screen.png)
-*Fig 3: Universal login portal with encrypted credentials input and instant role validation.*
-
----
-
-#### Screen 04: Role Selection Gateway
-*An intuitive role selection gateway allowing new users to identify as a Patient, Doctor, Retail Pharmacy, Hospital Administrator, or Diagnostic Lab.*
-![Role Selection Gateway](assets/role_selection_gateway/screen.png)
-*Fig 4: Multi-stakeholder gateway routing users to their specialized onboarding pipeline.*
-
----
-
-#### Screen 05: Unified Role Selection Hub
-*Interactive card selector optimizing quick role switching for cross-functional institutional users.*
-![Unified Role Selection Gateway](assets/unified_role_selection_gateway/screen.png)
-*Fig 5: Streamlined role selection interface with responsive layout and distinct stakeholder iconography.*
-
----
-
-#### Screen 06: Regulatory Verification Under Review
-*A transparent compliance status screen alerting institutional applicants that their medical licenses and credentials are being verified by authorities.*
-![Verification Under Review](assets/verification_under_review_status/screen.png)
-*Fig 6: Regulatory audit screen displaying pending verification checkpoints and estimated processing timelines.*
-
----
-
-#### Screen 07: Registration Success Celebration
-*Emerald-themed celebratory screen confirming account provisioning and issuing an encrypted biometric security pass.*
-![Registration Success](assets/registration_success_emerald_theme/screen.png)
-*Fig 7: Success confirmation with dynamic routing directly to the user's customized role dashboard.*
+| **07. Registration Success** | | |
+| :---: | :---: | :---: |
+| <img src="assets/registration_success_emerald_theme/screen.png" width="240" alt="Registration Success"/> | | |
+| *Emerald celebratory screen issuing digital biometric pass* | | |
 
 ---
 
@@ -125,73 +93,25 @@ Unified Health Alliance (UHA)
 
 *A patient-centric command center combining proactive health monitoring, AI-assisted symptom triage, electronic medical records, and physician booking.*
 
-#### Screen 08: Patient Registration — Basic Demographic Information
-*First stage of patient onboarding collecting essential demographic details, date of birth, blood group, and emergency contact numbers.*
-![Patient Registration Basic Info](assets/patient_registration_basic_info/screen.png)
-*Fig 8: Patient demographic profile setup with data validation.*
+| **08. Patient Demographics** | **09. Biometric Security Setup** | **10. Identity & Insurance** |
+| :---: | :---: | :---: |
+| <img src="assets/patient_registration_basic_info/screen.png" width="240" alt="Patient Registration Basic Info"/> | <img src="assets/patient_registration_security/screen.png" width="240" alt="Patient Registration Security"/> | <img src="assets/patient_registration_verification/screen.png" width="240" alt="Patient Registration Verification"/> |
+| *Patient demographic profile setup & data validation* | *Biometric Face ID & 6-digit PIN configuration* | *2FA mobile OTP & insurance policy binding* |
 
----
+| **11. Patient Daily Home Hub** | **12. Health & Vitals Dashboard** | **13. Conversational AI Triage** |
+| :---: | :---: | :---: |
+| <img src="assets/patient_home_hub/screen.png" width="240" alt="Patient Home Hub"/> | <img src="assets/premium_health_dashboard/screen.png" width="240" alt="Premium Health Dashboard"/> | <img src="assets/ai_symptom_triage_chat/screen.png" width="240" alt="AI Symptom Triage Chat"/> |
+| *Daily overview hub with emergency SOS trigger* | *Holistic biometric telemetry & health index score* | *AI clinical triage with specialist routing* |
 
-#### Screen 09: Patient Registration — Security & Biometrics
-*Configuring biometric Face ID/Touch ID authentication and 6-digit cryptographic PIN for sensitive health record access.*
-![Patient Registration Security](assets/patient_registration_security/screen.png)
-*Fig 9: Security setup screen ensuring patient privacy and on-device credential protection.*
+| **14. 360° Digital Health Record** | **15. Chronological Health Journey** | **16. Specialist Search & Discovery** |
+| :---: | :---: | :---: |
+| <img src="assets/patient_digital_file_360_view/screen.png" width="240" alt="Patient Digital File 360"/> | <img src="assets/medical_health_timeline/screen.png" width="240" alt="Medical Health Timeline"/> | <img src="assets/doctor_search_results/screen.png" width="240" alt="Doctor Search Results"/> |
+| *Consolidated longitudinal EHR accessible by doctors* | *Interactive visual timeline charting medical milestones* | *Physician directory filtered by specialty & proximity* |
 
----
-
-#### Screen 10: Patient Registration — Identity & Insurance Verification
-*Two-factor mobile OTP validation and health insurance policy binding for automated cashless claim processing.*
-![Patient Registration Verification](assets/patient_registration_verification/screen.png)
-*Fig 10: Mobile verification and insurance policy linkage interface.*
-
----
-
-#### Screen 11: Patient Home Hub
-*The central patient home screen displaying upcoming appointments, active medicine countdowns, quick action tiles, and an instant Emergency SOS trigger.*
-![Patient Home Hub](assets/patient_home_hub/screen.png)
-*Fig 11: Patient daily overview hub featuring personalized greetings, search, and health telemetry shortcuts.*
-
----
-
-#### Screen 12: Premium Health & Vitals Dashboard
-*Holistic wellness dashboard displaying live biometric telemetry (blood pressure, resting heart rate, sleep duration, and BMI).*
-![Premium Health Dashboard](assets/premium_health_dashboard/screen.png)
-*Fig 12: Visual analytics dashboard rendering health index score and weekly physiological trend lines.*
-
----
-
-#### Screen 13: Conversational AI Symptom Triage Chat
-*An interactive AI-guided clinical chat that evaluates user symptoms (e.g., high fever, chills), generates preliminary diagnostic insight, and recommends the appropriate medical specialist.*
-![AI Symptom Triage Chat](assets/ai_symptom_triage_chat/screen.png)
-*Fig 13: Intelligent AI clinical triage conversation with instant specialist appointment booking action.*
-
----
-
-#### Screen 14: 360° Patient Digital File (Electronic Health Record)
-*A consolidated 360-degree electronic health summary displaying chronic conditions, allergies, surgical history, and emergency contacts.*
-![Patient Digital File 360 View](assets/patient_digital_file_360_view/screen.png)
-*Fig 14: Longitudinal clinical dossier accessible to authorized healthcare providers.*
-
----
-
-#### Screen 15: Chronological Medical Health Journey Timeline
-*An interactive visual timeline charting consultations, past prescriptions, diagnostic lab tests, and hospital discharge summaries chronologically.*
-![Medical Health Timeline](assets/medical_health_timeline/screen.png)
-*Fig 15: Visual timeline mapping patient illness history and treatment recovery milestones.*
-
----
-
-#### Screen 16: Doctor Discovery & Specialist Search
-*Physician directory allowing patients to filter doctors by medical specialty, geographic proximity, consultation fee, availability, and verified patient ratings.*
-![Doctor Search Results](assets/doctor_search_results/screen.png)
-*Fig 16: Specialist search results displaying doctor experience badges, clinic locations, and booking buttons.*
-
----
-
-#### Screen 17: Appointment Scheduling & Payment Checkout
-*Frictionless checkout screen confirming appointment date, consultation slot, clinic address, fee breakdown, and secure payment processing.*
-![Booking Payment Confirm](assets/booking_payment_confirm/screen.png)
-*Fig 17: Booking checkout modal with breakdown of consultation charges and multi-channel payment integration.*
+| **17. Appointment Booking & Checkout** | | |
+| :---: | :---: | :---: |
+| <img src="assets/booking_payment_confirm/screen.png" width="240" alt="Booking Payment Confirm"/> | | |
+| *Consultation fee breakdown & multi-channel payment* | | |
 
 ---
 
@@ -199,45 +119,15 @@ Unified Health Alliance (UHA)
 
 *A comprehensive workspace empowering medical practitioners to manage patient appointments, hospital shift rosters, and issue verifiable digital prescriptions with built-in safety alerts.*
 
-#### Screen 18: Doctor Registration — Professional Credentials
-*Physician onboarding step capturing medical council registration number, primary specialty, qualifications, and clinical experience.*
-![Doctor Registration Professional Info](assets/doctor_registration_prof._info/screen.png)
-*Fig 18: Doctor profile configuration capturing clinical background and council accreditations.*
+| **18. Professional Profile** | **19. Council License Upload** | **20. Clinical Security Setup** |
+| :---: | :---: | :---: |
+| <img src="assets/doctor_registration_prof._info/screen.png" width="240" alt="Doctor Registration Prof Info"/> | <img src="assets/doctor_registration_credentials/screen.png" width="240" alt="Doctor Registration Credentials"/> | <img src="assets/doctor_registration_security/screen.png" width="240" alt="Doctor Registration Security"/> |
+| *Medical council registration & clinical specialization* | *Medical degree certificate upload & verification* | *Physician session encryption & 2FA security* |
 
----
-
-#### Screen 19: Doctor Registration — Document Upload & Degrees
-*Uploading medical degree certifications, state medical council licenses, and government identity cards for background compliance.*
-![Doctor Registration Credentials](assets/doctor_registration_credentials/screen.png)
-*Fig 19: Clinical credential file upload supporting PDF verification and document security inspection.*
-
----
-
-#### Screen 20: Doctor Registration — Clinical Session Security
-*Setting up two-factor authorization and digital electronic signature authentication for prescription authorization.*
-![Doctor Registration Security](assets/doctor_registration_security/screen.png)
-*Fig 20: Physician security configuration protecting clinical consultation sessions.*
-
----
-
-#### Screen 21: Doctor's Schedule & Appointment Command Center
-*The physician's daily planner organizing in-person consultations, teleconsultations, patient queue status, and daily revenue metrics.*
-![Doctor's Schedule Dashboard](assets/doctor_s_schedule_dashboard/screen.png)
-*Fig 21: Daily appointment planner with real-time patient queue badges and one-tap consultation initiation.*
-
----
-
-#### Screen 22: Clinical Roster & Shift Management
-*Multi-facility schedule coordinator allowing doctors to organize on-call duties, emergency shifts, and OPD visiting hours across different hospitals.*
-![Doctor Roster Management](assets/doctor_roster_management/screen.png)
-*Fig 22: Clinical shift management screen facilitating cross-hospital schedule planning and availability toggles.*
-
----
-
-#### Screen 23: Interactive E-Prescription Pad View
-*Digital prescription generator with integrated diagnosis notes, voice-to-text dictation, drug formulary search, dosage instructions, and active Penicillin allergy contraindication warnings.*
-![E-Prescription Pad View](assets/e_prescription_pad_view/screen.png)
-*Fig 23: E-Prescription creator featuring critical allergy banners, medication dosages, and direct pharmacy network dispatch.*
+| **21. Daily Consultation Schedule** | **22. Multi-Hospital Shift Roster** | **23. E-Rx Pad & Allergy Alerts** |
+| :---: | :---: | :---: |
+| <img src="assets/doctor_s_schedule_dashboard/screen.png" width="240" alt="Doctor Schedule Dashboard"/> | <img src="assets/doctor_roster_management/screen.png" width="240" alt="Doctor Roster Management"/> | <img src="assets/e_prescription_pad_view/screen.png" width="240" alt="E-Prescription Pad View"/> |
+| *Daily patient queue planner & consultation triggers* | *Cross-hospital on-call scheduling & availability* | *Prescription generator with Penicillin allergy alert* |
 
 ---
 
@@ -245,66 +135,20 @@ Unified Health Alliance (UHA)
 
 *A digital pharmacy management suite enabling drug inventory monitoring, incoming prescription queue handling, patient allergy verification, and settlement payouts.*
 
-#### Screen 24: Pharmacy Registration — Commercial Details
-*Retail and hospital pharmacy registration capturing drug license numbers, GST identification, store address, and operating hours.*
-![Pharmacy Registration Business Details](assets/pharmacy_reg_business_details/screen.png)
-*Fig 24: Pharmacy commercial entity profile and operating license registration.*
+| **24. Retail Pharmacy Profile** | **25. Drug License Upload** | **26. Bank & Payout Setup** |
+| :---: | :---: | :---: |
+| <img src="assets/pharmacy_reg_business_details/screen.png" width="240" alt="Pharmacy Registration Business"/> | <img src="assets/pharmacy_reg_document_upload/screen.png" width="240" alt="Pharmacy Registration Upload"/> | <img src="assets/pharmacy_reg_payout_setup/screen.png" width="240" alt="Pharmacy Registration Payout"/> |
+| *Commercial registration & operating hours setup* | *Pharmacist certification & retail permit validation* | *Commercial bank account linkage for payouts* |
 
----
+| **27. Regulatory Compliance Status** | **28. Live Prescription Queue** | **29. Fulfillment & Allergy Safety** |
+| :---: | :---: | :---: |
+| <img src="assets/pharmacy_verification_status/screen.png" width="240" alt="Pharmacy Verification Status"/> | <img src="assets/pharmacy_order_queue/screen.png" width="240" alt="Pharmacy Order Queue"/> | <img src="assets/pharmacy_order_fulfillment/screen.png" width="240" alt="Pharmacy Order Fulfillment"/> |
+| *State pharmaceutical board license audit status* | *Incoming e-prescription queue prioritized by urgency* | *Pick & pack console with severe allergy warnings* |
 
-#### Screen 25: Pharmacy Registration — Regulatory Documents
-*Document upload portal for registered pharmacist certifications and state drug control authority retail permits.*
-![Pharmacy Registration Document Upload](assets/pharmacy_reg_document_upload/screen.png)
-*Fig 25: Regulatory license documentation upload and pharmacist credential submission.*
-
----
-
-#### Screen 26: Pharmacy Registration — Banking & Payout Setup
-*Configuring commercial bank details, IFSC codes, and automated payout preferences for daily prescription fulfillment settlements.*
-![Pharmacy Registration Payout Setup](assets/pharmacy_reg_payout_setup/screen.png)
-*Fig 26: Financial settlement and merchant bank account linkage.*
-
----
-
-#### Screen 27: Pharmacy Verification & License Audit
-*Real-time compliance audit tracker notifying pharmacy owners of their document review status with state pharmaceutical boards.*
-![Pharmacy Verification Status](assets/pharmacy_verification_status/screen.png)
-*Fig 27: Verification status tracker highlighting verified compliance milestones.*
-
----
-
-#### Screen 28: Live Pharmacy Order Queue
-*Real-time incoming prescription feed categorizing patient orders by emergency priority, fulfillment status, and pickup/delivery timelines.*
-![Pharmacy Order Queue](assets/pharmacy_order_queue/screen.png)
-*Fig 28: Order queue console displaying patient name, prescription ID, items count, and priority badge.*
-
----
-
-#### Screen 29: Step-by-Step Order Fulfillment & Allergy Safety Check
-*A picking and packaging console that displays the original e-prescription, quantity to pack, dosage directions, and alerts the pharmacist of critical patient allergies (e.g., Severe Penicillin Allergy).*
-![Pharmacy Order Fulfillment](assets/pharmacy_order_fulfillment/screen.png)
-*Fig 29: Order fulfillment console with patient photo verification, critical allergy alert, and medication verification.*
-
----
-
-#### Screen 30: Pharmacy Inventory Management Dashboard
-*Real-time stock monitoring displaying total SKU counts, low-stock warnings, upcoming medicine batch expiry alerts, and restock triggers.*
-![Inventory Management Dashboard](assets/inventory_management_dashboard/screen.png)
-*Fig 30: Inventory control center tracking batch expiries, critical stock thresholds, and reorder requests.*
-
----
-
-#### Screen 31: Pharmacy Unified Search & Analytics
-*Business performance overview tracking order fulfillment speed, daily sales volume, customer retention, and medicine categories.*
-![Pharmacy Earnings & Payouts 1](assets/pharmacy_earnings_payouts_1/screen.png)
-*Fig 31: Pharmacy operations analytics tracking fulfillment metrics and sales performance.*
-
----
-
-#### Screen 32: Pharmacy Earnings & Settlement Ledger
-*Financial dashboard detailing total revenue, platform fees, pending escrow balances, and transaction-by-transaction bank settlement deposits.*
-![Pharmacy Earnings & Payouts 2](assets/pharmacy_earnings_payouts_2/screen.png)
-*Fig 32: Financial payouts ledger showing daily gross revenue, net payouts, and direct bank settlement records.*
+| **30. Smart Drug Inventory Control** | **31. Sales Performance & Volume** | **32. Daily Settlements & Escrow** |
+| :---: | :---: | :---: |
+| <img src="assets/inventory_management_dashboard/screen.png" width="240" alt="Inventory Management Dashboard"/> | <img src="assets/pharmacy_earnings_payouts_1/screen.png" width="240" alt="Pharmacy Earnings 1"/> | <img src="assets/pharmacy_earnings_payouts_2/screen.png" width="240" alt="Pharmacy Earnings 2"/> |
+| *Stock monitoring, batch expiries & low-stock triggers* | *Fulfillment metrics, sales volume & category analytics* | *Gross revenue, net margins & bank settlements* |
 
 ---
 
@@ -312,45 +156,15 @@ Unified Health Alliance (UHA)
 
 *A specialized diagnostic diagnostic workflow connecting test requisitions from doctors with phlebotomy sample tracking, test verification, and automated patient report delivery.*
 
-#### Screen 33: Diagnostic Lab Registration — Facility Profile
-*Laboratory setup capturing diagnostic specialties (Hematology, Biochemistry, Radiology), facility area, and test menu capabilities.*
-![Lab Registration Facility Details](assets/lab_reg_facility_details/screen.png)
-*Fig 33: Pathology lab profile registration with specialized diagnostic capabilities.*
+| **33. Diagnostic Facility Profile** | **34. NABL & ISO Certifications** | **35. Institutional Billing Setup** |
+| :---: | :---: | :---: |
+| <img src="assets/lab_reg_facility_details/screen.png" width="240" alt="Lab Registration Facility"/> | <img src="assets/lab_reg_certifications/screen.png" width="240" alt="Lab Registration Certifications"/> | <img src="assets/lab_reg_admin_bank_setup/screen.png" width="240" alt="Lab Registration Bank Setup"/> |
+| *Pathology specialty profile & test menu catalog* | *NABL accreditations & ISO 15189 compliance* | *Institutional payment gateway & merchant setup* |
 
----
-
-#### Screen 34: Diagnostic Lab Registration — Certifications & ISO Accreditations
-*Uploading NABL accreditations, ISO 15189 compliance documents, and Chief Pathologist medical degrees.*
-![Lab Registration Certifications](assets/lab_reg_certifications/screen.png)
-*Fig 34: Lab certification upload and accreditation documentation validation.*
-
----
-
-#### Screen 35: Diagnostic Lab Registration — Banking & Billing Infrastructure
-*Configuring institutional merchant settlement accounts for diagnostic test processing and insurance co-pay remittances.*
-![Lab Registration Admin Bank Setup](assets/lab_reg_admin_bank_setup/screen.png)
-*Fig 35: Diagnostic laboratory bank account configuration and billing settings.*
-
----
-
-#### Screen 36: Diagnostic Lab Verification Status
-*Compliance dashboard tracking clinical laboratory inspection approval, quality control verification, and accreditation status.*
-![Lab Verification Status](assets/lab_verification_status/screen.png)
-*Fig 36: Clinical laboratory regulatory status tracking portal.*
-
----
-
-#### Screen 37: Lab Test Request Queue
-*A centralized sample processing dashboard listing incoming doctor diagnostic requisitions, sample collection status, and urgent pathology orders.*
-![Lab Test Request Queue](assets/lab_test_request_queue/screen.png)
-*Fig 37: Incoming diagnostic test requisition queue with sample tracking IDs and priority markers.*
-
----
-
-#### Screen 38: Diagnostic Result Upload & Report Publishing
-*Specialist pathology reporting console allowing technicians to input measured physiological parameters, verify standard biological reference ranges, and dispatch verified PDF reports.*
-![Lab Result Upload Screen](assets/lab_result_upload_screen/screen.png)
-*Fig 38: Pathology report generator updating patient digital records and physician dashboards immediately.*
+| **36. Clinical Laboratory Approval** | **37. Test Requisition Queue** | **38. Verified Result Upload Console** |
+| :---: | :---: | :---: |
+| <img src="assets/lab_verification_status/screen.png" width="240" alt="Lab Verification Status"/> | <img src="assets/lab_test_request_queue/screen.png" width="240" alt="Lab Test Request Queue"/> | <img src="assets/lab_result_upload_screen/screen.png" width="240" alt="Lab Result Upload Screen"/> |
+| *Clinical inspection approval & compliance tracking* | *Incoming diagnostic test orders with sample IDs* | *Pathology report generator with instant patient sync* |
 
 ---
 
@@ -358,38 +172,15 @@ Unified Health Alliance (UHA)
 
 *High-level institutional administration providing multi-department oversight, bed occupancy metrics, staff rosters, and clinical governance.*
 
-#### Screen 39: Hospital Registration — Institutional Profile
-*Hospital onboarding capturing hospital name, ownership type (Private/Government), emergency trauma capabilities, and licensed bed capacity.*
-![Hospital Registration Institution Profile](assets/hospital_reg_institution_profile/screen.png)
-*Fig 39: Healthcare institution profile setup and institutional classification.*
+| **39. Institutional Profile** | **40. ICU & Ward Infrastructure** | **41. Administrative Governance** |
+| :---: | :---: | :---: |
+| <img src="assets/hospital_reg_institution_profile/screen.png" width="240" alt="Hospital Registration Profile"/> | <img src="assets/hospital_reg_infrastructure/screen.png" width="240" alt="Hospital Infrastructure"/> | <img src="assets/hospital_reg_admin_setup/screen.png" width="240" alt="Hospital Admin Setup"/> |
+| *Healthcare institution setup & trauma capabilities* | *ICU beds, emergency bays & specialized wards* | *Chief Medical Officer & department head roles* |
 
----
-
-#### Screen 40: Hospital Registration — Infrastructure & Wards
-*Configuring ICU bed counts, emergency trauma bays, operational theaters, neonatal care units, and outpatient wings.*
-![Hospital Registration Infrastructure](assets/hospital_reg_infrastructure/screen.png)
-*Fig 40: Hospital infrastructure mapping defining clinical bed capacities and specialized department wards.*
-
----
-
-#### Screen 41: Hospital Registration — Administrative Governance
-*Assigning Chief Medical Officers, Hospital Superintendents, and department head administrative access roles.*
-![Hospital Registration Admin Setup](assets/hospital_reg_admin_setup/screen.png)
-*Fig 41: Enterprise administrative governance setup and medical director authorization.*
-
----
-
-#### Screen 42: Hospital Accreditation & Verification
-*Institutional compliance status confirming health department registration, fire safety clearances, and biomedical waste accreditations.*
-![Hospital Verification Status](assets/hospital_verification_status/screen.png)
-*Fig 42: Institutional regulatory accreditation audit tracker.*
-
----
-
-#### Screen 43: Hospital Master Administration Overview
-*The executive command center displaying live hospital bed occupancy percentages, emergency department intake load, active physician roster count, and department-level revenue performance.*
-![Hospital Admin Overview](assets/hospital_admin_overview/screen.png)
-*Fig 43: Master hospital operations dashboard delivering institutional intelligence and clinical capacity metrics.*
+| **42. Hospital Accreditation Tracker** | **43. Master Operations Overview** | |
+| :---: | :---: | :---: |
+| <img src="assets/hospital_verification_status/screen.png" width="240" alt="Hospital Verification Status"/> | <img src="assets/hospital_admin_overview/screen.png" width="240" alt="Hospital Admin Overview"/> | |
+| *Health department registration & audit clearance* | *Live bed occupancy, emergency intake & roster KPIs* | |
 
 ---
 
