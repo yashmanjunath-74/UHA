@@ -77,15 +77,12 @@ Unified Health Alliance (UHA)
 | <img src="assets/uha_splash_screen/screen.png" width="240" alt="UHA Splash Screen"/> | <img src="assets/uha_brand_color_palette/screen.png" width="240" alt="Brand Color Palette"/> | <img src="assets/universal_login_screen/screen.png" width="240" alt="Universal Login Screen"/> |
 | *Minimalist emerald medical emblem & animated gateway entrance* | *Design system token catalog & semantic color tokens* | *Role-based login with biometric Face ID support* |
 
-| **04. Role Selection Gateway** | **05. Unified Role Selector** | **06. Verification Under Review** |
+| **04. Unified Role Selector** | **05. Verification Under Review** | **06. Registration Success**|
 | :---: | :---: | :---: |
-| <img src="assets/role_selection_gateway/screen.png" width="240" alt="Role Selection Gateway"/> | <img src="assets/unified_role_selection_gateway/screen.png" width="240" alt="Unified Role Selection"/> | <img src="assets/verification_under_review_status/screen.png" width="240" alt="Verification Under Review"/> |
+| <img src="assets/unified_role_selection_gateway/screen.png" width="240" alt="Unified Role Selection"/> | <img src="assets/verification_under_review_status/screen.png" width="240" alt="Verification Under Review"/> || <img src="assets/registration_success_emerald_theme/screen.png" width="240" alt="Registration Success"/> |
 | *5-stakeholder role selection gateway routing users* | *Interactive selector optimizing cross-functional access* | *Regulatory review status with live audit tracker* |
 
-| **07. Registration Success** | | |
-| :---: | :---: | :---: |
-| <img src="assets/registration_success_emerald_theme/screen.png" width="240" alt="Registration Success"/> | | |
-| *Emerald celebratory screen issuing digital biometric pass* | | |
+
 
 ---
 
